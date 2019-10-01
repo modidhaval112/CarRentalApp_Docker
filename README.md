@@ -35,3 +35,7 @@ Since this repository is using JAVA, the following guide line must be followed:
 2. Run the car rental application
 3. Open your browser to http://localhost:8080/login
 
+### How to use the project
+1. Open your browser to http://localhost:8080/login
+2. Enter the credentials are username(javainuse) password(javainuse)
+
