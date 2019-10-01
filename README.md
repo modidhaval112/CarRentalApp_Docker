@@ -27,5 +27,4 @@
 ### Code Style Convention
 Since this repository is using JAVA, the following guide line must be followed:
 
-* Code Conventions for the Java Programming Language (http://www.oracle.com/
-technetwork/java/javase/documentation/codeconventions-135099.html).
+* Code Conventions for the Java Programming Language (http://www.oracle.com/technetwork/java/javase/documentation/codeconventions-135099.html).
