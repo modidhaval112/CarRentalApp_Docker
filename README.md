@@ -28,3 +28,10 @@
 Since this repository is using JAVA, the following guide line must be followed:
 
 * Code Conventions for the Java Programming Language (http://www.oracle.com/technetwork/java/javase/documentation/codeconventions-135099.html).
+
+### How to build the project using IntelliJ
+
+1. Run the Maven life cycle install
+2. Run the car rental application
+3. Open your browser to http://localhost:8080
+
