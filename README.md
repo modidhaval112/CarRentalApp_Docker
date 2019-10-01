@@ -33,5 +33,5 @@ Since this repository is using JAVA, the following guide line must be followed:
 
 1. Run the Maven life cycle install
 2. Run the car rental application
-3. Open your browser to http://localhost:8080
+3. Open your browser to http://localhost:8080/login
 
