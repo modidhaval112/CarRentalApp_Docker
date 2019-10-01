@@ -18,6 +18,14 @@
 | Iteration | lead |
 | --- | --- |
 |1 | Martin Morin |
-|2 |  |
+|2 | Martin Morin |
 |3 |  |
 |4 |  |
+
+## How to work on this project
+
+### Code Style Convention
+Since this repository is using JAVA, the following guide line must be followed:
+
+* Code Conventions for the Java Programming Language (http://www.oracle.com/
+technetwork/java/javase/documentation/codeconventions-135099.html).
