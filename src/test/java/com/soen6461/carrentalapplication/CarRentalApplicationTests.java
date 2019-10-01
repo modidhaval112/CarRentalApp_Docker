@@ -1,4 +1,4 @@
-package com.soen6461.CarRentalApplication;
+package com.soen6461.carrentalapplication;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
