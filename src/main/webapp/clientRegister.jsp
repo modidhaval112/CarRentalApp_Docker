@@ -1,0 +1,178 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<html>
+<head>
+		<%@ page
+				language="java"
+				contentType="text/html; charset=ISO-8859-1"
+				pageEncoding="ISO-8859-1"
+				import="java.util.*"%>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="css/main.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" />
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+	rossorigin="anonymous" />
+
+<script>
+                $(function(){
+                        $("#header").load("header.html");
+                });
+        </script>
+</head>
+<body>
+<div class="header"></div>
+	<nav
+		class="navbar navbar-fixed-top navbar-light bg-light navbar-expand-lg">
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarTogglerDemo01"
+			aria-controls="navbarTogglerDemo01" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+			<a class="navbar-brand" href="#">Car Rental</a>
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item active"><a class="nav-link"
+					href="vehicle-catalog">Vehicle Catalog<span class="sr-only"></span></a>
+				</li>
+				<li class="nav-item active"><a class="nav-link"
+					href="client-register">Client Register<span class="sr-only">(current)</span></a>
+				</li>
+			</ul>
+			<button
+				class=" form-inline my-2 my-lg-0 btn btn-outline-success my-2 my-sm-0"
+				id="logout" type="submit"
+				onclick="document.forms['logoutForm'].submit()">Logout</button>
+			<form id="logoutForm" method="POST" action="${contextPath}/logout">
+			</form>
+		</div>
+	</nav>
+
+	<br />
+	<br />
+
+	<div class="container">
+		<!-- Search box-->
+		<div class="input-group mb-3">
+
+			<input type="text"  class="form-control" id="searchTerm" aria-describedby="button-addon2" onkeyup="myFunction()" placeholder="Find client" title="Type in a name">
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" type="button"
+					id="button-addon2">Search</button>
+			</div>
+		</div>
+		<br />
+
+		<!-- Table for the clients-->
+
+		<div id="ClientTable">
+			<div class="row">
+				<div class="col">
+					<table class="table table-striped" id="ct">
+						<thead>
+							<tr>
+								<th scope="col">id</th>
+								<th scope="col">Client Name</th>
+								<th scope="col">information</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="listValue" items="${clients}">
+								<tr>
+									<th scope="row">1</th>
+									<td>${listValue.firstName}${listValue.lastName}</td>
+									<td>
+										<div class="row">
+											<div class="col-md-auto">
+												<p>Phone Number</p>
+											</div>
+											<div class="col-md-auto">
+												<div>${listValue.phoneNumber}</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-auto">
+												<p>Drivers license</p>
+											</div>
+											<div class="col-md-auto">
+												<div>${listValue.driversLicenseNumber}</div>
+											</div>
+											<div class="col-md-auto">
+												<p>Expiration Date</p>
+											</div>
+											<div class="col-md-auto">
+												<div class="dropdown">
+													<div>${listValue.expirationDate}</div>
+													<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+														<button class="dropdown-item" type="button">Action</button>
+														<button class="dropdown-item" type="button">Another
+															action</button>
+														<button class="dropdown-item" type="button">Something
+															else here</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="row">
+											
+										</div>
+										<div class="row">
+											<div class="col-md-auto">
+												<a
+													href="${pageContext.request.contextPath}/${listValue.driversLicenseNumber}"
+													class="btn btn-outline-success">Edit</a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-auto">
+												<a
+													href="${pageContext.request.contextPath}/delete-client-record/${listValue.driversLicenseNumber}"
+													onclick="return confirm('Are you sure?')"
+													class="btn btn-outline-danger">Delete</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+
+					<a class="btn btn-primary" href="client-sign-up">Add Client</a>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchTerm");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("clientTable");
+      tr = table.getElementsByTagName('tr');
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    </script>
+</body>
+</html>
