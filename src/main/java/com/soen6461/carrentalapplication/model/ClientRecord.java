@@ -1,5 +1,6 @@
 package com.soen6461.carrentalapplication.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,7 +12,6 @@ public class ClientRecord {
     private String lastName;
     private String phoneNumber;
     private Date expirationDate;
-    private String assignedVehicle;
 
     /**
      * ClientRecord class parameterised constructor
@@ -20,100 +20,104 @@ public class ClientRecord {
      * @param firstName the clients first name.
      * @param lastName the clients last name.
      * @param phoneNumber the clients phone number.
-     * @param expiration the clients drivers license expiration date.
+     * @param expirationDate the clients drivers license expiration date.
      */
 
-    public ClientRecord(String driversLicenseNumber, String firstName, String lastName, String phoneNumber, Date expiration) {
-        this.driversLicenseNumber = driversLicenseNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.expirationDate = expiration;
+    public ClientRecord(String driversLicenseNumber, String firstName, String lastName, String phoneNumber, String expirationDate) {
+
+        // The usage properties allows to add some validation in the properties to validate the entries.
+        this.setDriversLicenseNumber(driversLicenseNumber);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setPhoneNumber(phoneNumber);
+        try {
+            this.setExpirationDate(new SimpleDateFormat("yyyy-MM-dd").parse(expirationDate));
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Gets the drivers license.
-     * @return
+     * @return The drivers license.
      */
-    public String getDriversLicense() {
+    public String getDriversLicenseNumber() {
         return this.driversLicenseNumber;
     }
 
     /**
-     * Sets the drivers license.
-     * @param driversLicenseNumber
-     */
-    public void setDriversLicense(String driversLicenseNumber) {
-        // TODO: Validate the driverse license number formatt.
-        this.driversLicenseNumber = driversLicenseNumber;
-    }
-
-    /**
      * Gets the clients fist name.
-     * @return the first name.
+     * @return The first name.
      */
     public String getFirstName() {
         return this.firstName;
     }
 
     /**
-     * Sets the clients first name.
-     * @param firstName first name of the client.
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    /**
      * Gets the clients last name.
-     * @return the clients last name.
+     * @return The clients last name.
      */
     public String getLastName() {
         return this.lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     /**
      * Gets the clients phone number.
-     * @return the phone number.
+     * @return The phone number.
      */
     public String getPhoneNumber() {
+        // TODO: Add validation for phone numbers.
         return this.phoneNumber;
     }
 
     /**
-     * Sets the clients phone number.
-     * @param phoneNumber the phone number.
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    /**
      * Gets the drivers license expiration date.
-     * @return the expiration date of the drivers license.
+     * @return The expiration date of the drivers license.
      */
     public Date getExpirationDate() {
         return this.expirationDate;
     }
 
     /**
-     * Sets the drivers license expiration date.
-     * @param expirationDate the expiration date of the drivers license.
+     * Sets the clients phone number.
+     * @param phoneNumber The phone number.
      */
-    public void setExpiration(Date expirationDate) {
+    private void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Sets the drivers license expiration date.
+     * @param expirationDate The expiration date of the drivers license.
+     */
+    private void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public String getAssignedVehicle() {
-        return assignedVehicle;
+    /**
+     * Sets the clients last name.
+     * @param lastName The clients last name.
+     */
+    private void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setAssignedVehicle(String assignedVehicle) {
-        this.assignedVehicle = assignedVehicle;
+    /**
+     * Sets the clients first name.
+     * @param firstName The first name of the client.
+     */
+    private void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Sets the drivers license.
+     * @param driversLicenseNumber The drivers license number.
+     */
+    private void setDriversLicenseNumber(String driversLicenseNumber) {
+        // TODO: Validate the drivers license number format.
+        this.driversLicenseNumber = driversLicenseNumber;
     }
 }
 
