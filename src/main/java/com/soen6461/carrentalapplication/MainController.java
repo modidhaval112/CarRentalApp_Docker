@@ -155,6 +155,32 @@ public class MainController {
     private void AddingHardCodedValues() throws Exception {
 
         // Adding some hard coded vehicles to populate the views.
-       
+		 VehicleRecord v1 = new VehicleRecord("A12_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
+	        this.vehicleCatalog.addVehicleRecord(v1);
+
+	        this.vehicleCatalog.addVehicleRecord(new VehicleRecord("U12_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
+
+	        VehicleRecord v2 = new VehicleRecord("X12_646", "Sedan", "Audi", "A8", 2011, "Red");
+	        this.vehicleCatalog.addVehicleRecord(v2);
+
+	        this.vehicleCatalog.addVehicleRecord(new VehicleRecord("Z12_996", "Sedan", "Audi", "Q7", 2014, "Black"));
+
+	        // Adding some hard coded clients to populate the views.
+	        ClientRecord c1 = new ClientRecord("A-1234-123456-12", "Dominick", "Cobb", "(438) 566-9999", "2019-10-1");
+	        this.clientController.addClientRecord(c1);
+
+	        this.clientController.addClientRecord(new ClientRecord("A-1234-123456-13", "Robert", "Fischer", "(438) 566-9999", "2019-11-1"));
+	        this.clientController.addClientRecord(new ClientRecord("A-1234-123456-14", "Mal", "Cobb", "(438) 566-9999", "2020-12-1"));
+
+	        ClientRecord c2 = new ClientRecord("A-1234-123456-15", "Stephen", "Miles", "(438) 566-9999", "2020-1-1");
+	        this.clientController.addClientRecord(c2);
+	        this.clientController.addClientRecord(new ClientRecord("A-1234-123456-16", "Ariadne", "Fischer", "(438) 566-9999", "2020-2-1"));
+
+	        // Adding some hard coded transactions to populate the views.
+			v1.addTransaction(new Transaction(c1, v1, "2019-08-1", "2019-09-15", Transaction.Status.Rented));
+			v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-09-19", Transaction.Status.Rented));
+
+			v2.addTransaction(new Transaction(c2, v2, "2020-07-1", "2019-07-15", Transaction.Status.Rented));
+			v2.addTransaction(new Transaction(c1, v2, "2020-09-1", "2019-09-15", Transaction.Status.Rented));
     }
 }
