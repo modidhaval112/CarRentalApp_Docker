@@ -37,5 +37,5 @@ Since this repository is using JAVA, the following guide line must be followed:
 
 ### How to use the project
 1. Open your browser to http://localhost:8080/login
-2. Enter the credentials are username(javainuse) password(javainuse)
+2. Enter the credentials are username(clerk) password(clerk)
 
