@@ -156,8 +156,7 @@ public class MainController {
 
     @RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
     public String updateClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord, @PathVariable("id") String driverslicense) {
-    	System.out.println("Client Name : " + clientRecord.getFirstName());
-    	
+
         clientController.updateClientRecord(clientRecord, driverslicense);
         return "redirect:/client-register";
     }

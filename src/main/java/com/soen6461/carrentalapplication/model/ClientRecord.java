@@ -35,8 +35,8 @@ public class ClientRecord {
         } catch(Exception e)
         {
             try{
-            this.setExpirationDate(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(expirationDate));
-            e.printStackTrace();
+                this.setExpirationDate(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(expirationDate));
+
             }
             catch(Exception e2) {
                 e2.printStackTrace();
