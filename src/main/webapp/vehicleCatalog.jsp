@@ -119,6 +119,8 @@
 						<option value="model">Model</option>
 						<option value="color">Color</option>
 						<option value="available">Availability</option>
+						<option value="greater">Greater</option>
+						<option value="lesser">Lesser</option>
 					</select> <br>
 				</div>
 				<input type="text" class="form-control"
