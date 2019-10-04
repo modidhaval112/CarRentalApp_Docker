@@ -2,11 +2,8 @@
 
 <html>
 <head>
-		<%@ page
-				language="java"
-				contentType="text/html; charset=ISO-8859-1"
-				pageEncoding="ISO-8859-1"
-				import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1" import="java.util.*"%>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -28,7 +25,7 @@
         </script>
 </head>
 <body>
-<div class="header"></div>
+	<div class="header"></div>
 	<nav
 		class="navbar navbar-fixed-top navbar-light bg-light navbar-expand-lg">
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -60,15 +57,6 @@
 	<br />
 
 	<div class="container">
-		<!-- Search box-->
-		<div class="input-group mb-3">
-
-			<input type="text"  class="form-control" id="searchTerm" aria-describedby="button-addon2" onkeyup="myFunction()" placeholder="Find client" title="Type in a name">
-			<div class="input-group-append">
-				<button class="btn btn-outline-secondary" type="button"
-					id="button-addon2">Search</button>
-			</div>
-		</div>
 		<br />
 
 		<!-- Table for the clients-->
@@ -124,9 +112,7 @@
 										</div>
 									</td>
 									<td>
-										<div class="row">
-											
-										</div>
+										<div class="row"></div>
 										<div class="row">
 											<div class="col-md-auto">
 												<a
@@ -155,24 +141,7 @@
 		</div>
 	</div>
 	<script>
-    function myFunction() {
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("searchTerm");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("clientTable");
-      tr = table.getElementsByTagName('tr');
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName('td')[0];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
+
     </script>
 </body>
 </html>
