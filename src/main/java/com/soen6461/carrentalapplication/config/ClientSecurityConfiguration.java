@@ -35,7 +35,7 @@ public class ClientSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/resources/**");
 	}
 
-	
+
 	/*
 	 * @Override protected void configure(HttpSecurity http) throws Exception {
 	 * http.authorizeRequests().antMatchers("/").permitAll().antMatchers(
@@ -45,11 +45,11 @@ public class ClientSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	 * ).and().formLogin()
 	 * .loginPage("/login").permitAll().and().logout().permitAll().and() // added
 	 * .httpBasic(); ;
-	 * 
+	 *
 	 * http.formLogin().defaultSuccessUrl("/vehicle-catalog", true);
 	 * http.csrf().disable(); }
 	 */
-	 
+
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
