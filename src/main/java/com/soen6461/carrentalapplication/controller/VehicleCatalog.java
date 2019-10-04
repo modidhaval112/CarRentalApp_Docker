@@ -1,16 +1,20 @@
 package com.soen6461.carrentalapplication.controller;
 
+import com.soen6461.carrentalapplication.model.ClientRecord;
+import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.VehicleRecord;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.util.*;
 
 @RestController
 public class VehicleCatalog {
-
+    @Autowired
+    ClientController clientController;
     private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
     private static VehicleCatalog instance = null;
 
@@ -49,16 +53,16 @@ public class VehicleCatalog {
     public List<VehicleRecord> getResultSet(String filter, String value) {
 
         List<VehicleRecord> temp = new ArrayList<>();
-        if (filter.equals("make"))  {
+        if (filter.equals("make")) {
             for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getMake().equals(value)) {
+                if (vehicleRecordList.get(i).getMake().equalsIgnoreCase(value)) {
                     temp.add(vehicleRecordList.get(i));
                 }
             }
 
         } else if (filter.equals("model")) {
             for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getModel().equals(value)) {
+                if (vehicleRecordList.get(i).getModel().equalsIgnoreCase(value)) {
                     temp.add(vehicleRecordList.get(i));
                 }
 
@@ -71,7 +75,7 @@ public class VehicleCatalog {
             }
         } else if (filter.equals("color")) {
             for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getColor().equals(value)) {
+                if (vehicleRecordList.get(i).getColor().equalsIgnoreCase(value)) {
                     temp.add(vehicleRecordList.get(i));
                 }
 
@@ -82,12 +86,12 @@ public class VehicleCatalog {
 
     /**
      * Gets a vehicle that has the give license plate number.
+     *
      * @param licensePlateNumber The license plate number.
      */
-    public VehicleRecord getVehicleRecord(String licensePlateNumber)
-    {
+    public VehicleRecord getVehicleRecord(String licensePlateNumber) {
         for (int i = 0; i < vehicleRecordList.size(); i++) {
-            if (vehicleRecordList.get(i).getLpr() == licensePlateNumber) {
+            if (vehicleRecordList.get(i).getLpr().equals(licensePlateNumber)) {
                 return vehicleRecordList.get(i);
             }
         }
@@ -98,10 +102,29 @@ public class VehicleCatalog {
     /**
      * Add vehicle records to the catalog
      * //TODO: Protect this method against unauthorised access from clerk.
+     *
      * @param vehicleRecord
      */
-    public void addVehicleRecord(VehicleRecord vehicleRecord)
-    {
+    public void addVehicleRecord(VehicleRecord vehicleRecord) {
         this.vehicleRecordList.add(vehicleRecord);
+    }
+
+    public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate, String status) throws ParseException {
+
+        ClientRecord forClient= clientController.searchClient(driversLicense);
+        VehicleRecord seletctedVehicle= this.getVehicleRecord(licensePlateRecord);
+
+        if(status.equals("Rented")){
+            Transaction newTransaction= new Transaction (forClient,seletctedVehicle,startDate,endDate,Transaction.Status.Rented);
+            seletctedVehicle.addTransaction(newTransaction);
+        }
+        else if(status.equals("Reserved")){
+            Transaction newTransaction= new Transaction(forClient,seletctedVehicle,startDate,endDate,Transaction.Status.Reserved);
+            seletctedVehicle.addTransaction(newTransaction);
+        }
+        else{
+            Transaction newTransaction= new Transaction(forClient,seletctedVehicle,startDate,endDate,Transaction.Status.Available);
+            seletctedVehicle.addTransaction(newTransaction);
+        }
     }
 }
