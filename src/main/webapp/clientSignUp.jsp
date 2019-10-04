@@ -69,8 +69,8 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-6">
-                <label for="phoneNumber">phoneNumber number:</label> <input type="text"
-                                                                class="form-control" id="phoneNumber" placeholder="phoneNumber number"
+                <label for="phoneNumber">phone number:</label> <input type="text"
+                                                                class="form-control" id="phoneNumber" placeholder="Phone number"
                                                                 name="phoneNumber"  required>
             </div>
         </div>
