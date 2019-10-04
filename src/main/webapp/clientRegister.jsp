@@ -60,15 +60,6 @@
 	<br />
 
 	<div class="container">
-		<!-- Search box-->
-		<div class="input-group mb-3">
-
-			<input type="text"  class="form-control" id="searchTerm" aria-describedby="button-addon2" onkeyup="myFunction()" placeholder="Find client" title="Type in a name">
-			<div class="input-group-append">
-				<button class="btn btn-outline-secondary" type="button"
-					id="button-addon2">Search</button>
-			</div>
-		</div>
 		<br />
 
 		<!-- Table for the clients-->
