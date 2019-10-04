@@ -104,19 +104,10 @@ public class MainController {
 	@RequestMapping(value = "/cancel-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String cancelTransaction(@PathVariable("transactionId") String transactionId,
 			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
-		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
-		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
-		for (int i = 0; i < transactionList.size(); i++) {
-			if (transactionList.get(i).getStatus().toString().equals("Rented")) {
-				redirectAttributes.addFlashAttribute("warningMsg",
-						"  Transaction can not be cancelled as vehicle is already Rented.");
-			} else {
-				selectedVehicle.removeTransaction(transactionId);
-				redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
-			}
-		}
-		
-		
+
+		vehicleCatalog.cancelTransaction(licensePlateRecord,transactionId,redirectAttributes);
+
+
 
 		return "redirect:/vehicle-catalog";
 	}
@@ -124,8 +115,7 @@ public class MainController {
 	@RequestMapping(value = "/return-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String returnTransaction(@PathVariable("transactionId") String transactionId,
 			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
-		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
-		selectedVehicle.returnTransaction(transactionId);
+		vehicleCatalog.returnTransaction(transactionId,licensePlateRecord);
 		redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
 		return "redirect:/vehicle-catalog";
 	}

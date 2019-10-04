@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.VehicleRecord;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 public class VehicleCatalog {
@@ -150,5 +151,26 @@ public class VehicleCatalog {
 					Transaction.Status.Available);
 			seletctedVehicle.addTransaction(newTransaction);
 		}
+	}
+
+	public void returnTransaction(String transactionId,String licensePlateRecord){
+		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
+		selectedVehicle.returnTransaction(transactionId);
+	}
+
+	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes) {
+		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
+		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
+		for (int i = 0; i < transactionList.size(); i++) {
+			if (transactionList.get(i).getStatus().toString().equals("Rented")) {
+				redirectAttributes.addFlashAttribute("warningMsg",
+						"  Transaction can not be cancelled as vehicle is already Rented.");
+			} else {
+				selectedVehicle.removeTransaction(transactionId);
+				redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
+			}
+
+		}
+		return redirectAttributes;
 	}
 }
