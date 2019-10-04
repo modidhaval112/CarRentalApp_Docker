@@ -1,5 +1,6 @@
 package com.soen6461.carrentalapplication.controller;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -68,7 +69,7 @@ public class MainController {
         return model;
     }
     @RequestMapping(value="/assign-vehicle/{lpr}",method = RequestMethod.POST)
-    public String assignVehicle(@RequestParam("forClient") String driversLicense, @PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate, @RequestParam("toDate2") String endDate, @RequestParam("status2") String status){
+    public String assignVehicle(@RequestParam("forClient") String driversLicense, @PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate, @RequestParam("toDate2") String endDate, @RequestParam("status2") String status) throws ParseException {
 //        System.out.println("The transaction for client "+driversLicense+" for vehicle "+  " from"+ startDate+" "+ endDate);
         ClientRecord forClient= clientController.searchClient(driversLicense);
         VehicleRecord seletctedVehicle= vehicleCatalog.getVehicleRecord(licensePlateRecord);
