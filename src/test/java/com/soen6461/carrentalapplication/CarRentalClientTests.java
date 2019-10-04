@@ -25,24 +25,42 @@ public class CarRentalClientTests {
 	@Autowired
 	private ClientController clientController;
 
+	@Autowired
+	private  VehicleCatalog vehicleCatalog;
 
-
+	/**
+	 * Check for the class loading
+	 * @throws Exception Throw the junit fail error
+	 */
 	@Test
 	public void contextLoads() throws Exception {
 		assertThat(this.clientController).isNotNull();
 		assertThat(this.vehicleCatalog).isNotNull();
 	}
+	/**
+	 * Check for the Client size
+	 * @throws Exception Throw the junit fail error
+	 */
 	@Test
 	public void checkClientSize()  throws Exception{
 		Assert.assertTrue(clientController.getAllClientRecord().size() == 5);
 
 	}
+	/**
+	 * Check for adding new client
+	 * @throws Exception Throw the junit fail error
+	 */
 	@Test
 	public void addNewClient()  throws Exception{
 		ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
 		clientController.addClientRecord(clientRecord);
 		Assert.assertTrue(clientController.getAllClientRecord().size() == 6);
 	}
+	
+	/**
+	 * Check for the client record 
+	 * @throws Exception Throw the junit fail error
+	 */
 
 	@Test
 	public void clientRecordCheck()  throws Exception{
@@ -57,7 +75,10 @@ public class CarRentalClientTests {
 		System.out.println(clientRecord.getExpirationDate());
 		Assert.assertEquals("Fri Oct 31 00:00:00 EDT 2059", clientRecord.getExpirationDate().toString());
 	}
-
+	/**
+	 * Check for the deletion of the client record 
+	 * @throws Exception Throw the junit fail error
+	 */
 	@Test
 	public void deleteClient()  throws Exception{
 		ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
