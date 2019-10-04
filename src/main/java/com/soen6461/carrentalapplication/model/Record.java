@@ -28,14 +28,12 @@ public class Record extends Observable {
 	public void addTransaction(Transaction transaction) {
 		this.transactionList.add(transaction);
 		setObserver("Added",transaction);
-
-
 	}
 
 	/**
 	 * Removes a given transaction.
 	 * 
-	 * @param transaction The transaction to remove.
+	 * @param transactionId The transaction to remove.
 	 */
 	public void removeTransaction(String transactionId) {
 
@@ -57,7 +55,7 @@ public class Record extends Observable {
 	/**
 	 * Return transaction.
 	 * 
-	 * @param transaction The transaction to remove.
+	 * @param transactionId The transaction to remove.
 	 */
 	public void returnTransaction(String transactionId) {
 
