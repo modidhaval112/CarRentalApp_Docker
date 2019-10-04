@@ -1,4 +1,4 @@
-package com.soen6461.carrentalapplication.controller;
+package com.soen6461.carrentalapplication;
 
 import java.text.ParseException;
 import java.util.Calendar;

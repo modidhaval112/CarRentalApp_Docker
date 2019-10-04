@@ -62,8 +62,11 @@
 			<div class="row">
 				<div class="col-5"></div>
 				<div class="col-4">
-					<div class="form-group ${error != null ? 'has-error' : ''}">
+					<div class="form-group text-success font-weight-bold">
 						<span>${msg}</span>
+					</div>
+					<div class="form-group text-danger font-weight-bold">
+						<span>${errorMsg}</span>
 					</div>
 				</div>
 				<div class="col"></div>
