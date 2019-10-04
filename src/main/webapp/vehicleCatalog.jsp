@@ -201,10 +201,10 @@
 																<td>
 																	<div class="row">
 																		<div class="col-md-auto">
-																			<button type="button" class="btn btn-outline-info"
-																				data-toggle="modal"
-																				data-target="#myModal${transactionListValue.transactionId}">
-																				Edit</button>
+<%--																			<button type="button" class="btn btn-outline-info"--%>
+<%--																				data-toggle="modal"--%>
+<%--																				data-target="#myModal${transactionListValue.transactionId}">--%>
+<%--																				Edit</button>--%>
 																		</div>
 																		<div class="col-md-auto">
 																			<a
