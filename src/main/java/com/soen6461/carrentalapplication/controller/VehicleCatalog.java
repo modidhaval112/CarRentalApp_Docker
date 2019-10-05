@@ -89,7 +89,7 @@ public class VehicleCatalog {
 
 		} else if (filter.equals("greater")) {
 			for (int i = 0; i < vehicleRecordList.size(); i++) {
-				if ((YearMonth.now().getYear() - vehicleRecordList.get(i).getYear()) >= Integer.parseInt(value)) {
+				if (vehicleRecordList.get(i).getYear() >= Integer.parseInt(value)) {
 					temp.add(vehicleRecordList.get(i));
 				}
 
@@ -97,7 +97,7 @@ public class VehicleCatalog {
 
 		} else if (filter.equals("lesser")) {
 			for (int i = 0; i < vehicleRecordList.size(); i++) {
-				if ((YearMonth.now().getYear() - vehicleRecordList.get(i).getYear()) <= Integer.parseInt(value)) {
+				if (vehicleRecordList.get(i).getYear() <= Integer.parseInt(value)) {
 					temp.add(vehicleRecordList.get(i));
 				}
 
