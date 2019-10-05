@@ -118,9 +118,9 @@
 						<option value="make">Make</option>
 						<option value="model">Model</option>
 						<option value="color">Color</option>
-						<option value="available">Availability</option>
-						<option value="greater">Greater</option>
-						<option value="lesser">Lesser</option>
+<%--						<option value="available">Availability</option>--%>
+						<option value="greater">Greater than year</option>
+						<option value="lesser">Lesser than year</option>
 					</select> <br>
 				</div>
 				<input type="text" class="form-control"
