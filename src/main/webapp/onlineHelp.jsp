@@ -44,7 +44,49 @@
     </div>
 </nav>
 
+<div class="container">
+    <div class="row">
+        <div class="col">
 
+            <br/>
+            <br/>
+            <H1>Clerk Functionality</H1>
+            <br/>
+
+            <H2>Client Management</H2>
+            <p> From the client Register:</p>
+            <ul>
+                <li>
+                    <p>Navigate the registered clients</p>
+                </li>
+                <li>
+                    <p>The clerk can remove clients by clicking on the delete button.</p>
+                </li>
+                <li>
+                    <p>The clerk can Add clients by clicking on the Add Client button.</p>
+                </li>
+                <li>
+                    <p>Update the client details by clicking on the edit button.</p>
+                </li>
+            </ul>
+            <br/>
+
+            <H2>Vehicle Catalog</H2>
+            <H3>Navigating the vehicle catalog</H3>
+            <p>The displayed list of vehicle can be search by entering the a criteria and clicking on search.</p>
+            <p>The displayed list of vehicle can be be sorted by clicking on one of the table headers.</p>
+            <p>The View Detail button will present all the transactions associated to the vehicle.</p>
+            <H3>Managing rentals</H3>
+            <p>To add a transaction, simply click on the Add Transaction button and fill the form.</p>
+            <p>To return a transaction simply click on the Return button on the transaction displayed in the detailed view.</p>
+            <p>To cancel a transaction simply click on the Cancel button on the transaction displayed in the detailed view.</p>
+            <p>To edit a transaction simply cancel the transaction and add recreate it.</p>
+        </div>
+
+    </div>
+</div>
+<br/>
+<br/>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
