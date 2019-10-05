@@ -43,6 +43,8 @@
 				<li class="nav-item active"><a class="nav-link"
 					href="client-register">Client Register<span class="sr-only">(current)</span></a>
 				</li>
+				<li class="nav-item "><a class="nav-link" href="online-help">?<span class="sr-only"></span></a>
+				</li>
 			</ul>
 			<button
 				class=" form-inline my-2 my-lg-0 btn btn-outline-success my-2 my-sm-0"

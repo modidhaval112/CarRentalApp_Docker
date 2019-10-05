@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RestController
 public class VehicleCatalog {
 	@Autowired
-	ClientController clientController;
+	private ClientController clientController;
 	private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
 	private static VehicleCatalog instance = null;
 

@@ -37,13 +37,17 @@ public class MainController {
 //    }
 
 	@Autowired
-	ClientController clientController;
+	private ClientController clientController;
 	@Autowired
-	VehicleCatalog vehicleCatalog;
+	private VehicleCatalog vehicleCatalog;
 
 	@RequestMapping("/client-sign-up")
 	public String display() {
 		return "clientSignUp";
+	}
+	@RequestMapping("/online-help")
+	public String displayOnlineHelp() {
+		return "onlineHelp";
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
