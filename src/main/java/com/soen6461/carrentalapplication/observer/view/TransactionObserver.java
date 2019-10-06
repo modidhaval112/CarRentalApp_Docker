@@ -18,7 +18,7 @@ public class TransactionObserver   implements Observer {
 		Record r = (Record) o;
 		ZonedDateTime zonedDateTime = ZonedDateTime.now( ZoneId.of( "America/Montreal" ) );
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("Transaction Observer View :"+"Created at Timestamp: "+zonedDateTime+"--Status : "+  r.transactionType+ ", Transaction ID : "+r.trans.getTransactionId() +" ,Name : "+r.trans.getClientRecord().getFirstName() +" " + r.trans.getClientRecord().getLastName() +" ,License No : "+ r.trans.getClientRecord().getDriversLicenseNumber() +" ,Vehicle Type :  " +r.trans.getVehicleRecord().getCarType() +" ,Vehicle No : " +r.trans.getVehicleRecord().getLpr());
+		System.out.println("Transaction Observer View :"+"Created at Timestamp: "+zonedDateTime+"\n Transaction ID : "+r.trans.getTransactionId() +"\nClient Name : "+r.trans.getClientRecord().getFirstName() +" " + r.trans.getClientRecord().getLastName() +", License No : "+ r.trans.getClientRecord().getDriversLicenseNumber() +"\n Status: "+  r.transactionType+ "\n Vehicle Type :  " +r.trans.getVehicleRecord().getCarType() +" with Vehicle No : " +r.trans.getVehicleRecord().getLpr()+" Due Date : " +r.trans.getEndDate());
 
 		
 	}

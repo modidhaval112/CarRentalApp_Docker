@@ -27,7 +27,12 @@ public class Record extends Observable {
 	 */
 	public void addTransaction(Transaction transaction) {
 		this.transactionList.add(transaction);
-		setObserver("Added",transaction);
+		if (transaction.getStatus()==Transaction.Status.Rented){
+		setObserver("Rented",transaction);
+		}
+		else if (transaction.getStatus()==Transaction.Status.Reserved){
+			setObserver("Reserved",transaction);
+		}
 	}
 
 	/**
