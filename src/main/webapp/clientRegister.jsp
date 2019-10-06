@@ -57,8 +57,8 @@
 	</nav>
 
 	<br />
+	<div class="container">
 	<div class="row">
-	<div class="col-2"></div>
 		<div class="col-6">
 			<div class="text-danger font-weight-bold">
 				<span>${errorMsg}</span>
@@ -71,6 +71,7 @@
 			</div>
 		</div>
 		<div class="col"></div>
+	</div>
 	</div>
 	<br />
 
