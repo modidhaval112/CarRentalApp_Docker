@@ -30,11 +30,7 @@ import com.soen6461.carrentalapplication.model.VehicleRecord;
  */
 @Controller
 public class MainController {
-//    public enum Status {
-//        Available,
-//        Rented,
-//        Reserved
-//    }
+
 
 	@Autowired
 	private ClientController clientController;
