@@ -182,22 +182,32 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String editClientRecord(@PathVariable("id") String driverslicense, ModelMap model) {
+	public String editClientRecord(@PathVariable("id") String driverslicense, ModelMap model, RedirectAttributes redirectAttributes) {
 		model.put("clientRecord", clientController.searchClient(driverslicense));
+		
+
+		
 		return "clientUpdate";
 	}
 
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
 	public String updateClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
-			@PathVariable("id") String driverslicense) {
-
+			@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
+		
+		redirectAttributes.addFlashAttribute("successMsg",
+				"  Client Record has been updated successfully.");
+		
 		clientController.updateClientRecord(clientRecord, driverslicense);
 		return "redirect:/client-register";
 	}
 
 	@RequestMapping(value = "/delete-client-record/{id}", method = RequestMethod.GET)
-	public String deleteClientRecord(@PathVariable("id") String driverslicense) {
+	public String deleteClientRecord(@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
 		clientController.deleteClientRecord(driverslicense);
+		
+		redirectAttributes.addFlashAttribute("warningMsg",
+				"  Client Record has been deleted.");
+		
 		return "redirect:/client-register";
 	}
 

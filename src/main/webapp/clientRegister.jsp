@@ -43,8 +43,9 @@
 				<li class="nav-item active"><a class="nav-link"
 					href="client-register">Client Register<span class="sr-only">(current)</span></a>
 				</li>
-				<li class="nav-item "><a class="nav-link" href="online-help">Online Help<span class="sr-only"></span></a>
-				</li>
+				<li class="nav-item "><a class="nav-link" href="online-help">Online
+						Help<span class="sr-only"></span>
+				</a></li>
 			</ul>
 			<button
 				class=" form-inline my-2 my-lg-0 btn btn-outline-success my-2 my-sm-0"
@@ -56,6 +57,21 @@
 	</nav>
 
 	<br />
+	<div class="row">
+	<div class="col-2"></div>
+		<div class="col-6">
+			<div class="text-danger font-weight-bold">
+				<span>${errorMsg}</span>
+			</div>
+			<div class="text-success font-weight-bold">
+				<span>${successMsg}</span>
+			</div>
+			<div class="text-warning font-weight-bold">
+				<span>${warningMsg}</span>
+			</div>
+		</div>
+		<div class="col"></div>
+	</div>
 	<br />
 
 	<div class="container">
@@ -137,20 +153,7 @@
 					</table>
 
 					<a class="btn btn-primary" href="client-sign-up">Add Client</a>
-					<div class="row">
-						<div class="col-6">
-							<div class="text-danger font-weight-bold">
-								<span>${errorMsg}</span>
-							</div>
-							<div class="text-success font-weight-bold">
-								<span>${successMsg}</span>
-							</div>
-							<div class="text-warning font-weight-bold">
-								<span>${warningMsg}</span>
-							</div>
-						</div>
-						<div class="col"></div>
-					</div>
+
 				</div>
 			</div>
 		</div>
