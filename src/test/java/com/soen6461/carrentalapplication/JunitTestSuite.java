@@ -6,8 +6,9 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-        CarRentalClientTests.class,
-   FrontendActionTest.class
+	CarRentalClientTests.class,
+	FrontendActionTest.class,
+	VehicleTests.class
 })
 
 public class JunitTestSuite  {   
