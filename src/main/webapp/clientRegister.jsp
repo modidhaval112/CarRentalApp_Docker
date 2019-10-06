@@ -137,7 +137,20 @@
 					</table>
 
 					<a class="btn btn-primary" href="client-sign-up">Add Client</a>
-
+					<div class="row">
+						<div class="col-6">
+							<div class="text-danger font-weight-bold">
+								<span>${errorMsg}</span>
+							</div>
+							<div class="text-success font-weight-bold">
+								<span>${successMsg}</span>
+							</div>
+							<div class="text-warning font-weight-bold">
+								<span>${warningMsg}</span>
+							</div>
+						</div>
+						<div class="col"></div>
+					</div>
 				</div>
 			</div>
 		</div>
