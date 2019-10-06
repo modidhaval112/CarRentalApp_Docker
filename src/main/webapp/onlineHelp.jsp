@@ -75,6 +75,7 @@
             <H3>Navigating the vehicle catalog</H3>
             <p>The displayed list of vehicle can be search by entering the a criteria and clicking on search.</p>
             <p>The displayed list of vehicle can be be sorted by clicking on one of the table headers.</p>
+            <p>The Vehicles can be sorted based on year by entering only the year.</p>
             <p>The View Detail button will present all the transactions associated to the vehicle.</p>
             <H3>Managing rentals</H3>
             <p>To add a transaction, simply click on the Add Transaction button and fill the form.</p>
