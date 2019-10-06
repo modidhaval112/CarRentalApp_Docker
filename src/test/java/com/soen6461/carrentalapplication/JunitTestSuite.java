@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	CarRentalClientTests.class,
 	FrontendActionTest.class,
-	VehicleTests.class
+	 VehicleTests.class
 })
 
 public class JunitTestSuite  {   
