@@ -19,7 +19,7 @@
 | --- | --- |
 |1 | Martin Morin |
 |2 | Martin Morin |
-|3 |  |
+|3 | Martin Morin |
 |4 |  |
 
 ## How to work on this project
