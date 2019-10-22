@@ -1,9 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <html>
-<head>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1" import="java.util.*"%>
+<head><%@ page language="java"
+	contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -11,76 +10,52 @@
 <link rel="stylesheet" href="css/main.css">
 
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" />
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" />
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"
 	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-	rossorigin="anonymous" />
+	crossorigin="anonymous">
+    </script>
 
-<script>
-                $(function(){
-                        $("#header").load("header.html");
-                });
-        </script>
 </head>
 <body>
-	<div class="header"></div>
-	<nav
-		class="navbar navbar-fixed-top navbar-light bg-light navbar-expand-lg">
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarTogglerDemo01"
-			aria-controls="navbarTogglerDemo01" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-			<a class="navbar-brand" href="#">Car Rental</a>
-			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-				<li class="nav-item "><a class="nav-link"
-					href="vehicle-catalog">Vehicle Catalog<span class="sr-only"></span></a>
-				</li>
-				<li class="nav-item active"><a class="nav-link"
-					href="client-register">Client Register<span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item "><a class="nav-link" href="online-help">Online
-						Help<span class="sr-only"></span>
-				</a></li>
-			</ul>
-			<button
-				class=" form-inline my-2 my-lg-0 btn btn-outline-success my-2 my-sm-0"
-				id="logout" type="submit"
-				onclick="document.forms['logoutForm'].submit()">Logout</button>
-			<form id="logoutForm" method="POST" action="${contextPath}/logout">
-			</form>
-		</div>
-	</nav>
+	<jsp:include page="nav.jsp" />
+
 
 	<br />
 	<div class="container">
-	<div class="row">
-		<div class="col-6">
-			<div class="text-danger font-weight-bold">
-				<span>${errorMsg}</span>
+		<div class="row">
+			<div class="col-6">
+				<div class="text-danger font-weight-bold">
+					<span>${errorMsg}</span>
+				</div>
+				<div class="text-success font-weight-bold">
+					<span>${successMsg}</span>
+				</div>
+				<div class="text-warning font-weight-bold">
+					<span>${warningMsg}</span>
+				</div>
 			</div>
-			<div class="text-success font-weight-bold">
-				<span>${successMsg}</span>
-			</div>
-			<div class="text-warning font-weight-bold">
-				<span>${warningMsg}</span>
-			</div>
+			<div class="col"></div>
 		</div>
-		<div class="col"></div>
-	</div>
 	</div>
 	<br />
+	</div>
+	<div class="row">
+		<div class="col-1"></div>
+		<div class="col-8 md-auto">
 
+		<input type="text" class="form-control mb-3" id="client-search"
+		   placeholder="Type to search..." aria-label="clientName"
+		   aria-describedby="button-addon2" name="value" required>
+		</div>
+	</div>
 	<div class="container">
 		<br />
+			<!-- Table for the clients-->
 
-		<!-- Table for the clients-->
-
-		<div id="ClientTable">
+		<div >
 			<div class="row">
 				<div class="col">
 					<table class="table table-striped" id="ct">
@@ -92,7 +67,7 @@
 								<th></th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="ClientTable">
 							<c:forEach var="listValue" items="${clients}">
 								<tr>
 									<th scope="row">1</th>
@@ -160,7 +135,15 @@
 		</div>
 	</div>
 	<script>
-
-    </script>
+		$(document).ready(function(){
+			$("#client-search").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+				$("#ClientTable tr").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
 </body>
+
 </html>
