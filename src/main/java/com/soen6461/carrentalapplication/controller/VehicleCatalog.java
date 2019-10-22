@@ -22,10 +22,9 @@ public class VehicleCatalog {
 	private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
 	private static VehicleCatalog instance = null;
 
-	private VehicleCatalog() {
+	public VehicleCatalog() {
 	}
 
-	@PostMapping(value = "/get-all-vehicle-records")
 	public List getAllVehicleRecord() {
 		// To protect the main vehicle record list, only a copy is provided.
 		// this avoids someone other than this class from adding or removing vehicles.
@@ -38,21 +37,18 @@ public class VehicleCatalog {
 		return copy;
 	}
 
-	@PostMapping(value = "/get-filtered-vehicle-list")
 	public List getFilteredList(@RequestParam(name = "filter") String filter,
-			@RequestParam(name = "value") String value) {
+								@RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
-	@PostMapping(value = "/get-filtered-greater-vehicle-list")
 	public List getGreaterThanFilteredList(@RequestParam(name = "filter") String filter,
-			@RequestParam(name = "value") String value) {
+										   @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
-	@PostMapping(value = "/get-filtered-lesser-vehicle-list")
 	public List getLesserThanFilteredList(@RequestParam(name = "filter") String filter,
-			@RequestParam(name = "value") String value) {
+										  @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
@@ -133,7 +129,7 @@ public class VehicleCatalog {
 	}
 
 	public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate,
-			String status) throws ParseException {
+							  String status) throws ParseException {
 
 		ClientRecord forClient = clientController.searchClient(driversLicense);
 		VehicleRecord seletctedVehicle = this.getVehicleRecord(licensePlateRecord);
@@ -153,7 +149,7 @@ public class VehicleCatalog {
 		}
 	}
 
-	public void returnTransaction(String transactionId,String licensePlateRecord){
+	public void returnTransaction(String transactionId, String licensePlateRecord) {
 		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 		selectedVehicle.returnTransaction(transactionId);
 	}
@@ -171,6 +167,95 @@ public class VehicleCatalog {
 			}
 
 		}
+
 		return redirectAttributes;
+	}
+
+	public List getFilteredTransactionList(@RequestParam(name = "filter") String filter,
+										   @RequestParam(name = "value") String value) {
+		return this.getTransactionSet(filter, value);
+	}
+
+	public List<Transaction> getTransactionSet(String filter, String value) {
+
+		List<Transaction> temp = new ArrayList<>();
+		if (filter.equals("vehicle-make")) {
+			for (int i = 0; i < vehicleRecordList.size(); i++) {
+				if (vehicleRecordList.get(i).getMake().equalsIgnoreCase(value)) {
+					temp = (vehicleRecordList.get(i).getTransactionList());
+				}
+			}
+
+		} else if (filter.equals("vehicle-model")) {
+			for (int i = 0; i < vehicleRecordList.size(); i++) {
+				if (vehicleRecordList.get(i).getModel().equalsIgnoreCase(value)) {
+					temp = (vehicleRecordList.get(i).getTransactionList());
+				}
+
+			}
+		} else if (filter.equals("car-type")) {
+			for (int i = 0; i < vehicleRecordList.size(); i++) {
+				if (vehicleRecordList.get(i).getCarType().equalsIgnoreCase(value)) {
+					temp = (vehicleRecordList.get(i).getTransactionList());
+				}
+			}
+		} else if (filter.equals("car-color")) {
+			for (int i = 0; i < vehicleRecordList.size(); i++) {
+				if (vehicleRecordList.get(i).getColor().equalsIgnoreCase(value)) {
+					temp = (vehicleRecordList.get(i).getTransactionList());
+				}
+			}
+
+		} else if (filter.equals("client")) {
+
+
+			for (int i = 0; i < vehicleRecordList.size(); i++) {
+				List<Transaction> transList = new ArrayList<>();
+				transList = vehicleRecordList.get(i).getTransactionList();
+				for (Transaction t : transList) {
+					String firstLast = t.getClientRecord().getFirstName().toLowerCase() + " " + t.getClientRecord().getLastName().toLowerCase();
+					if (t.getClientRecord().getFirstName().toLowerCase().contains(value) || t.getClientRecord().getLastName().toLowerCase().contains(value) || firstLast.contains(value)) {
+						temp.add(t);
+					}
+				}
+			}
+		}
+
+		return temp;
+	}
+
+	public List<Transaction> getAllTransactions() {
+		List<Transaction> transList = new ArrayList<>();
+		for (VehicleRecord v : vehicleRecordList) {
+			transList.addAll(v.getTransactionList());
+		}
+		return transList;
+	}
+
+	public VehicleRecord searchVehicle(String lpr) {
+		VehicleRecord vehicle = null;
+		for (VehicleRecord v : vehicleRecordList) {
+			if (v.getLpr().equalsIgnoreCase(lpr)) {
+				vehicle = v;
+			}
+
+		}
+		return vehicle;
+	}
+
+	public void deleteVehicleRecord(String lpr) {
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
+				vehicleRecordList.remove(vehicleRecordList.get(i));
+			}
+		}
+	}
+
+	public void updateVehicleRecord(VehicleRecord vehicleRecord, String lpr) {
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
+				vehicleRecordList.set(i,vehicleRecord);
+			}
+		}
 	}
 }
