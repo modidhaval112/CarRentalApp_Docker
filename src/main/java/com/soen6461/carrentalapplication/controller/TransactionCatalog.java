@@ -25,3 +25,56 @@ public class TransactionCatalog {
 			String value) {
 		return this.getTransactionSet(filter, value);
 	}
+	
+	public List<TransactionHistory> getTransactionSet(String filter, String value) {
+
+		List<TransactionHistory> temp = new ArrayList<>();
+		System.out.println(filter+" "+value);
+		if (filter.equals("vehicle-model")) {
+			for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
+				if (record.getAllTransactionHistory().get(i).getTransaction().getVehicleRecord().getMake().equalsIgnoreCase(value)) {
+					temp.add(record.getAllTransactionHistory().get(i));
+				}
+			}
+
+		}
+		else if (filter.equals("car-type")) {
+			for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
+				if (record.getAllTransactionHistory().get(i).getTransaction().getVehicleRecord().getCarType().equals(value)) {
+					temp.add(record.getAllTransactionHistory().get(i));
+				}
+			}
+		} else if (filter.equals("car-color")) {
+			for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
+				if (record.getAllTransactionHistory().get(i).getTransaction().getVehicleRecord().getColor().equalsIgnoreCase(value)) {
+					temp.add(record.getAllTransactionHistory().get(i));
+				}
+			}
+
+		}else if (filter.equals("client")) {
+
+			for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
+
+					for (TransactionHistory t:record.getAllTransactionHistory())
+					{
+						String firstLast= t.getTransaction().getClientRecord().getFirstName().toLowerCase()+" "+ t.getTransaction().getClientRecord().getLastName().toLowerCase();
+						if(t.getTransaction().getClientRecord().getFirstName().toLowerCase().contains(value) ||  t.getTransaction().getClientRecord().getLastName().toLowerCase().contains(value) || firstLast.contains(value))
+						{
+							temp.add(t);
+						}
+					}
+				}
+
+			}
+		return temp;
+	}
+
+	public List<TransactionHistory> getAllTransactionHistory() {
+		List<TransactionHistory> temp = new ArrayList<>();
+		for(TransactionHistory t: record.getAllTransactionHistory())
+		{
+				temp.add(t);
+		}
+		return temp;
+	}
+}
