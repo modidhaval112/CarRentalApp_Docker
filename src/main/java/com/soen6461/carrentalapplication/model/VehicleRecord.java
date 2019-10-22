@@ -3,7 +3,7 @@ package com.soen6461.carrentalapplication.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehicleRecord extends Record{
+public class VehicleRecord extends Record {
 
     private String carType;
     private String make;
@@ -16,12 +16,13 @@ public class VehicleRecord extends Record{
 
     /**
      * The vehicle record constructor
-     * @param lpr The license plate registration number.
+     *
+     * @param lpr     The license plate registration number.
      * @param carType The car type.
-     * @param make The vehicle make.
-     * @param model The vehicle model
-     * @param year The vehicle year.
-     * @param color The vehicle color.
+     * @param make    The vehicle make.
+     * @param model   The vehicle model
+     * @param year    The vehicle year.
+     * @param color   The vehicle color.
      */
     public VehicleRecord(String lpr, String carType, String make, String model, int year, String color) {
 
@@ -39,15 +40,16 @@ public class VehicleRecord extends Record{
 
     /**
      * Gets a copy of the vehicle transaction list.
+     *
      * @return A copy of the vehicle transaction list.
      */
-    public List<Transaction> getVehicleTransactionList()
-    {
+    public List<Transaction> getVehicleTransactionList() {
         return super.getTransactionList();
     }
 
     /**
      * Gets the car type.
+     *
      * @return The car type.
      */
     public String getCarType() {
@@ -56,6 +58,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Gets the vehicle make.
+     *
      * @return The vehicle make.
      */
     public String getMake() {
@@ -64,6 +67,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Gets the vehicle model.
+     *
      * @return The vehicle model.
      */
     public String getModel() {
@@ -72,6 +76,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Gets the vehicle year.
+     *
      * @return The year.
      */
     public int getYear() {
@@ -80,6 +85,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Gets the vehicle color.
+     *
      * @return The vehicle color.
      */
     public String getColor() {
@@ -88,6 +94,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Gets the license plate registration number.
+     *
      * @return The license plate registration number
      */
     public String getLpr() {
@@ -96,6 +103,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Sets the car type.
+     *
      * @param carType The car type.
      */
     private void setCarType(String carType) {
@@ -104,6 +112,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Sets the make.
+     *
      * @param make The make.
      */
     private void setMake(String make) {
@@ -112,6 +121,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Sets the model.
+     *
      * @param model The model.
      */
     private void setModel(String model) {
@@ -120,6 +130,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Sets the year.
+     *
      * @param year the year.
      */
     private void setYear(int year) {
@@ -128,6 +139,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Sets the color.
+     *
      * @param color The color.
      */
     private void setColor(String color) {
@@ -136,6 +148,7 @@ public class VehicleRecord extends Record{
 
     /**
      * Sets the license plate registration number.
+     *
      * @param lpr The license plate registration number.
      */
     private void setLpr(String lpr) {
@@ -145,4 +158,18 @@ public class VehicleRecord extends Record{
     /*
      * Methods section.
      */
+
+    /**
+     * Override the toString method with vehicle relevant information.
+     * @return Vehicle record information.
+     */
+    public String ToString() {
+        return "vehicleRecord:{ licensePlateNumber:" + this.getLpr() +
+                                " carType:" + this.getCarType() +
+                                " make:" + this.getMake() +
+                                " model:" + this.getModel() +
+                                " year:" + this.getYear() +
+                                " color:" + this.getColor() +
+                "}";
+    }
 }
