@@ -221,6 +221,24 @@ public class MainController {
 		model.addObject("clients", clients);
 		return model;
 	}
+		@RequestMapping("/trans-list")
+	public ModelAndView displayAllTransactions() {
+		List<TransactionHistory> transactionsList = transactionCatalog.getAllTransactionHistory();
+		ModelAndView model = new ModelAndView("transactions");
+		model.addObject("transactionsList", transactionsList);
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		}
+		else {
+			model.addObject("disableButton", 1);
+		}
+		
+		return model;
+	}
+
 
 	/**
 	 * Method used to populate the views with hard coded values. TODO: Remove this
