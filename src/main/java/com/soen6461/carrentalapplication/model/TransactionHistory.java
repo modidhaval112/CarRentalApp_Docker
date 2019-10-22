@@ -4,13 +4,24 @@ import java.time.ZonedDateTime;
 
 public class TransactionHistory {
 
-    private Transaction transaction;
-    private ZonedDateTime timeStamp;
-    String status;
+	private Transaction transaction;
+	private ZonedDateTime timeStamp;
+	String status;
 
-    public TransactionHistory(Transaction transaction, ZonedDateTime timeStamp, String status) {
-        this.transaction = transaction;
-        this.timeStamp = timeStamp;
-        this.status = status;
-    }
+	public TransactionHistory(Transaction transaction, ZonedDateTime timeStamp, String status) {
+		this.transaction = transaction;
+		this.timeStamp = timeStamp;
+		this.status = status;
+	}
+	public Transaction getTransaction() {
+		return transaction;
+	}
+
+	public ZonedDateTime getTimeStamp() {
+		return timeStamp;
+	}
+
+	public String getStatus() {
+		return status;
+	}
 }
