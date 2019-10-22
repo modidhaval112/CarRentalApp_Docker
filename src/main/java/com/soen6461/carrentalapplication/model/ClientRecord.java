@@ -126,6 +126,24 @@ public class ClientRecord {
         // TODO: Validate the drivers license number format.
         this.driversLicenseNumber = driversLicenseNumber;
     }
+
+    /*
+     * Methods section.
+     */
+
+    /**
+     * Override the toString method with client relevant information.
+     * @return Client record information.
+     */
+    public String toString()
+    {
+        return "clientRecord:{ firstName:" + this.getFirstName() +
+                " lastName:" + this.getLastName() +
+                " phoneNumber:" + this.getPhoneNumber() +
+                " driversLicenseNumber:" + this.getDriversLicenseNumber() +
+                " expirationDate:" + this.getExpirationDate() +
+                "}";
+    }
 }
 
 
