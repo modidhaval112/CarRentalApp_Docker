@@ -20,8 +20,10 @@ public class ClientController {
 
     private List<ClientRecord> clientRecordList = new ArrayList<ClientRecord>();
 
-
-    private ClientController() throws Exception {
+    /**
+     *  ClientRecord class constructor.
+     */
+    private ClientController() {
     }
 
     @PostMapping(value = "/search")
@@ -36,8 +38,7 @@ public class ClientController {
      * @throws Exception Throws an exception if the record already exists.
      */
 
-    public void addClientRecord(ClientRecord clientRecord)
-            {
+    public void addClientRecord(ClientRecord clientRecord) {
         clientRecordList.add(clientRecord);
     }
 
