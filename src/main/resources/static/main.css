@@ -1,4 +1,6 @@
-
+.hide{
+  display:none;  
+}
 
 h2 {
     margin-top: 20px;
