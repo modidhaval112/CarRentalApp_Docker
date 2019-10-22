@@ -10,20 +10,16 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<link rel="stylesheet" href="css/main.css">
+	crossorigin="anonymous"></link>
+<link rel="stylesheet" href="css/main.css"></link>
 
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" />
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" />
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script
 	src="~/node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
-<script>
-	$(function() {
-		$("#header").load("header.html");
-	});
-</script>
+
 <script type="text/javascript">
 	function submitform() {
 		document.myform.submit();
@@ -57,7 +53,7 @@
 
 	function validateForm(id) {
 		var x = new Date(document.forms[id]["fromDate2"].value);
-		var y = new Date(document.forms[id]["toDate2"].value)	;
+		var y = new Date(document.forms[id]["toDate2"].value);
 
 		if ((x - y) > 0) {
 			alert("FormDate should not be before ToDate");
@@ -68,42 +64,7 @@
 </script>
 </head>
 <body>
-	<nav
-		class="navbar navbar-fixed-top navbar-light bg-light navbar-expand-lg">
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarTogglerDemo01"
-			aria-controls="navbarTogglerDemo01" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-			<a class="navbar-brand" href="#">Car Rental</a>
-			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-				<li class="nav-item active"><a class="nav-link"
-					href="vehicle-catalog">Vehicle Catalog<span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item "><a class="nav-link"
-					href="client-register">Client Register<span class="sr-only"></span></a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="online-help">Online Help<span class="sr-only"></span></a>
-				</li>
-			</ul>
-
-			<button
-				class=" form-inline my-2 my-lg-0 btn btn-outline-light my-2 my-sm-0"
-				id="help" type="submit">?</button>
-
-			<button
-				class=" form-inline my-2 my-lg-0 btn btn-outline-success my-2 my-sm-0"
-				id="logout" type="submit"
-				onclick="document.forms['logoutForm'].submit()">Logout</button>
-
-			<form id="logoutForm" method="POST" action="${contextPath}/logout">
-			</form>
-
-		</div>
-	</nav>
-
+	<jsp:include page="nav.jsp" />
 	<br />
 	<br />
 
@@ -120,7 +81,7 @@
 						<option value="make">Make</option>
 						<option value="model">Model</option>
 						<option value="color">Color</option>
-<%--						<option value="available">Availability</option>--%>
+						<%--						<option value="available">Availability</option>--%>
 						<option value="greater">Greater than year</option>
 						<option value="lesser">Lesser than year</option>
 					</select> <br>
@@ -180,7 +141,13 @@
 														<td>From</td>
 														<td>To</td>
 														<td>State</td>
-														<td>Actions</td>
+
+														<c:set var="inputDisplay" value="${disableButton}" />
+														<c:choose>
+															<c:when test="${inputDisplay == 1}">
+																<td>Actions</td>
+															</c:when>
+														</c:choose>
 													</tr>
 												</thead>
 												<tbody>
@@ -204,24 +171,24 @@
 
 																<td>
 																	<div class="row">
-																		<div class="col-md-auto">
-<%--																			<button type="button" class="btn btn-outline-info"--%>
-<%--																				data-toggle="modal"--%>
-<%--																				data-target="#myModal${transactionListValue.transactionId}">--%>
-<%--																				Edit</button>--%>
-																		</div>
-																		<div class="col-md-auto">
-																			<a
-																				href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
-																				onclick="return confirm('Are you sure?')"
-																				class="btn btn-outline-info">Return</a>
-																		</div>
-																		<div class="col-md-auto">
-																			<a
-																				href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
-																				onclick="return confirm('Are you sure?')"
-																				class="btn btn-outline-danger">Cancel</a>
-																		</div>
+																		<c:set var="inputDisplay" value="${disableButton}" />
+																		<c:choose>
+																			<c:when test="${inputDisplay == 1}">
+																				<div class="col-md-auto">
+																					<a
+																						href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																						onclick="return confirm('Are you sure?')"
+																						class="btn btn-outline-info">Return</a>
+																				</div>
+																				<div class="col-md-auto">
+																					<a
+																						href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																						onclick="return confirm('Are you sure?')"
+																						class="btn btn-outline-danger">Cancel</a>
+																				</div>
+																			</c:when>
+																		</c:choose>
+
 																	</div>
 																</td>
 															</tr>
@@ -300,9 +267,20 @@
 
 												</tbody>
 											</Table>
-											<button type="button" class="btn btn-outline-primary"
-												data-toggle="modal" data-target="#myModal2${listValue.lpr}">
-												Add Transaction</button>
+
+
+											<c:set var="inputDisplay" value="${disableButton}" />
+											<c:choose>
+												<c:when test="${inputDisplay == 1}">
+													<button type="button" class="btn btn-outline-primary"
+														data-toggle="modal"
+														data-target="#myModal2${listValue.lpr}">Add
+														Transaction</button>
+												</c:when>
+											</c:choose>
+
+
+
 											<!-- Start modal2 -->
 											<div class="modal" id="myModal2${listValue.lpr}"
 												tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -396,80 +374,85 @@
 	</div>
 
 	<script>
-	// Sorting of table comes from: https://www.w3schools.com/howto/howto_js_sort_table.asp
-	function sortTable(n) {
-	var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-	table = document.getElementById("VehicleCatalogTable");
-	switching = true;
+		// Sorting of table comes from: https://www.w3schools.com/howto/howto_js_sort_table.asp
+		function sortTable(n) {
+			var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+			table = document.getElementById("VehicleCatalogTable");
+			switching = true;
 
-	// Set the sorting direction to ascending:
-	dir = "asc";
+			// Set the sorting direction to ascending:
+			dir = "asc";
 
-	/* Make a loop that will continue until no switching has been done: */
-	while (switching) {
-	// Start by saying: no switching is done:
-	switching = false;
-	rows = table.rows;
+			/* Make a loop that will continue until no switching has been done: */
+			while (switching) {
+				// Start by saying: no switching is done:
+				switching = false;
+				rows = table.rows;
 
-	// Loop through all table rows (except the first, which contains table headers):
-	for (i = 1; i < (rows.length - 1); i++) {
+				// Loop through all table rows (except the first, which contains table headers):
+				for (i = 1; i < (rows.length - 1); i++) {
 
-	// Start by saying there should be no switching:
-	shouldSwitch = false;
+					// Start by saying there should be no switching:
+					shouldSwitch = false;
 
-	// Get the two elements you want to compare, one from current row and one from the next:
-	x = rows[i].getElementsByTagName("TD")[n];
-	y = rows[i + 1].getElementsByTagName("TD")[n];
+					// Get the two elements you want to compare, one from current row and one from the next:
+					x = rows[i].getElementsByTagName("TD")[n];
+					y = rows[i + 1].getElementsByTagName("TD")[n];
 
-	// Check if the two rows should switch place, based on the direction, asc or desc:
-	if (dir == "asc") {
-	if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+					// Check if the two rows should switch place, based on the direction, asc or desc:
+					if (dir == "asc") {
+						if (x.innerHTML.toLowerCase() > y.innerHTML
+								.toLowerCase()) {
 
-	// If so, mark as a switch and break the loop:
-	shouldSwitch = true;
-	break;
-	}
-	} else if (dir == "desc") {
-	if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+							// If so, mark as a switch and break the loop:
+							shouldSwitch = true;
+							break;
+						}
+					} else if (dir == "desc") {
+						if (x.innerHTML.toLowerCase() < y.innerHTML
+								.toLowerCase()) {
 
-	// If so, mark as a switch and break the loop:
-	shouldSwitch = true;
-	break;
-	}
-	}
-	}
+							// If so, mark as a switch and break the loop:
+							shouldSwitch = true;
+							break;
+						}
+					}
+				}
 
-	if (shouldSwitch) {
-	// If a switch has been marked, make the switch and mark that a switch has been done:
-	rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-	switching = true;
+				if (shouldSwitch) {
+					// If a switch has been marked, make the switch and mark that a switch has been done:
+					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+					switching = true;
 
-	// Each time a switch is done, increase this count by 1:
-	switchcount ++;
-	} else {
+					// Each time a switch is done, increase this count by 1:
+					switchcount++;
+				} else {
 
-	// If no switching has been done AND the direction is "asc", set the direction to "desc" and run the while loop again.
-	if (switchcount == 0 && dir == "asc") {
-	dir = "desc";
-	switching = true;
-	}
-	}
-	}
-	}
+					// If no switching has been done AND the direction is "asc", set the direction to "desc" and run the while loop again.
+					if (switchcount == 0 && dir == "asc") {
+						dir = "desc";
+						switching = true;
+					}
+				}
+			}
+		}
 	</script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous">
+		
 	</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
 		crossorigin="anonymous">
+		
 	</script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous">
+		
 	</script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

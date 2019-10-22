@@ -7,13 +7,13 @@ import java.util.Date;
 
 public class Transaction {
 
-    ClientRecord clientRecord;
-    VehicleRecord vehicleRecord;
-    Date startDate;
-    Date endDate;
-    String transactionId;
+    private ClientRecord clientRecord;
+    private VehicleRecord vehicleRecord;
+    private Date startDate;
+    private Date endDate;
+    private String transactionId;
 
-    private Status status;
+    Status status;
 
 
     /**
@@ -33,7 +33,7 @@ public class Transaction {
      * @param startDate     Start date of the transaction.
      * @param endDate       End date of the transaction.
      * @param vehicleStatus Status of the transaction.
-     * @throws ParseException 
+     * @throws ParseException
      */
     public Transaction(ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) throws ParseException {
 
@@ -42,19 +42,20 @@ public class Transaction {
         try {
             this.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
             this.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.setStatus(vehicleStatus);
-        this.setTransactionId(clientRecord.getDriversLicenseNumber()+"_"+vehicleRecord.getLpr()+"_"+ (new SimpleDateFormat("yyyy-MM-dd").parse(startDate)));
+        this.setTransactionId(clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr() + "_" + (new SimpleDateFormat("yyyy-MM-dd").parse(startDate)));
     }
 
     /*
      * Properties section.
      */
- 
+
     /**
      * Gets the transaction id.
+     *
      * @return The transaction id.
      */
     public String getTransactionId() {
@@ -63,6 +64,7 @@ public class Transaction {
 
     /**
      * Gets the vehicle status.
+     *
      * @return The vehicle status.
      */
     public Status getStatus() {
@@ -71,38 +73,43 @@ public class Transaction {
 
     /**
      * Gets the client record.
+     *
      * @return The client record.
      */
     public ClientRecord getClientRecord() {
-      return   this.clientRecord;
+        return this.clientRecord;
     }
 
     /**
      * Gets the vehicle status.
+     *
      * @return The vehicle record.
      */
     public VehicleRecord getVehicleRecord() {
-        return this.vehicleRecord ;
+        return this.vehicleRecord;
     }
 
     /**
      * Gets the vehicle status.
+     *
      * @return The start date.
      */
     public Date getStartDate() {
-        return this.startDate ;
+        return this.startDate;
     }
 
     /**
      * Gets the transaction end date.
+     *
      * @return The end date.
      */
     public Date getEndDate() {
-        return  this.endDate ;
+        return this.endDate;
     }
 
     /**
      * Sets the vehicle status.
+     *
      * @param status The vehicle status.
      */
     public void setStatus(Status status) {
@@ -111,6 +118,7 @@ public class Transaction {
 
     /**
      * Sets the client record.
+     *
      * @param clientRecord The client record.
      */
     private void setClientRecord(ClientRecord clientRecord) {
@@ -119,6 +127,7 @@ public class Transaction {
 
     /**
      * Sets the vehicle record.
+     *
      * @param vehicleRecord The vehicle record.
      */
     private void setVehicleRecord(VehicleRecord vehicleRecord) {
@@ -127,6 +136,7 @@ public class Transaction {
 
     /**
      * Sets the start date of the transaction.
+     *
      * @param startDate The start date.
      */
     private void setStartDate(Date startDate) {
@@ -135,6 +145,7 @@ public class Transaction {
 
     /**
      * Sets the end date of the transaction.
+     *
      * @param endDate The end date.
      */
     private void setEndDate(Date endDate) {
@@ -143,6 +154,7 @@ public class Transaction {
 
     /**
      * Sets the transaction id.
+     *
      * @param transactionId The transaction id.
      */
     private void setTransactionId(String transactionId) {
@@ -158,5 +170,19 @@ public class Transaction {
      */
     public void removeTransaction() {
         vehicleRecord.removeTransaction(this.transactionId);
+    }
+
+    /**
+     * Override the toString method with transaction relevant information.
+     * @return Transaction information.
+     */
+    public String toString()
+    {
+        return "transaction:{ VehicleKey:" + this.vehicleRecord.getLpr() +
+                " clientKey:" + this.clientRecord.getDriversLicenseNumber() +
+                " startDate:" + this.getStartDate() +
+                " endDate:" + this.getEndDate() +
+                " transactionId:" + this.getTransactionId() +
+                "}";
     }
 }
