@@ -46,7 +46,7 @@ public class ClientTests {
 		clientController.addClientRecord(clientRecord);
 		Assert.assertTrue(clientController.getAllClientRecord().size() == 6);
 	}
-	
+
 	/**
 	 * Check for the client record
 	 */
