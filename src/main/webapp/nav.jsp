@@ -10,7 +10,18 @@
 
 	<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 		<a class="navbar-brand" href="#">Car Rental</a>
+
 		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+			<c:set var="inputDisplay" value="${disableButton}" />
+			<c:choose>
+				<c:when test="${inputDisplay == 0}">
+					<li class="nav-item active"><a class="nav-link"
+						href="trans-list">Transactions History<span class="sr-only"></span>
+					</a></li>
+				</c:when>
+			</c:choose>
+
 			<li class="nav-item active"><a class="nav-link"
 				href="vehicle-catalog">Vehicle Catalog<span class="sr-only"></span>
 			</a></li>
@@ -25,14 +36,7 @@
 			</c:choose>
 
 
-			<c:set var="inputDisplay" value="${disableButton}" />
-			<c:choose>
-				<c:when test="${inputDisplay == 0}">
-					<li class="nav-item active"><a class="nav-link"
-						href="trans-list">Transactions List<span class="sr-only"></span>
-					</a></li>
-				</c:when>
-			</c:choose>
+
 
 
 			<c:set var="inputDisplay" value="${disableButton}" />

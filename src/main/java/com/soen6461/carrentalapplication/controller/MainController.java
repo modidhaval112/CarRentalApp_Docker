@@ -78,7 +78,7 @@ public class MainController {
     public String RedirectToDisplayVehicleCatalog() {
 		if(isAdministratorRole())
 		{
-			return "redirect:vehicle-register";
+			return "redirect:trans-list";
 		}
 		else
 		{
