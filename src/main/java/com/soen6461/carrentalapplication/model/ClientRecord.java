@@ -93,7 +93,13 @@ public class ClientRecord {
      * @param phoneNumber The phone number.
      */
     private void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        phoneNumber = phoneNumber.trim();
+
+        if (DataValidationHelper.isPhoneNumberFormatValid(phoneNumber)) {
+            this.phoneNumber = phoneNumber;
+        } else {
+            throw new InvalidParameterException("Phone number format not valid: " + phoneNumber);
+        }
     }
 
     /**
