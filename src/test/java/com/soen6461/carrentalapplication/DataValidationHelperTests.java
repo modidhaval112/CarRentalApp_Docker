@@ -29,4 +29,13 @@ public class DataValidationHelperTests {
         Assert.assertFalse(DataValidationHelper.isDateFormatValid("Fake number"));
         Assert.assertTrue(DataValidationHelper.isDateFormatValid("2013-10-05"));
     }
+
+    /**
+     * Test the format of the date expected for this application.
+     */
+    @Test
+    public void DriversLicenseNumberFormatValidation() {
+        Assert.assertFalse(DataValidationHelper.isDriversLicenseNumber("Fake number"));
+        Assert.assertTrue(DataValidationHelper.isDriversLicenseNumber("A-1234-123456-12"));
+    }
 }
