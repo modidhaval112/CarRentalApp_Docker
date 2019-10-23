@@ -135,8 +135,13 @@ public class ClientRecord {
      * @param driversLicenseNumber The drivers license number.
      */
     private void setDriversLicenseNumber(String driversLicenseNumber) {
-        // TODO: Validate the drivers license number format.
-        this.driversLicenseNumber = driversLicenseNumber;
+        driversLicenseNumber = driversLicenseNumber.trim();
+
+        if (DataValidationHelper.isPhoneNumberFormatValid(driversLicenseNumber)) {
+            this.driversLicenseNumber = driversLicenseNumber;
+        } else {
+            throw new InvalidParameterException("drivers license number format not valid: " + driversLicenseNumber);
+        }
     }
 
     /*
