@@ -1,17 +1,13 @@
 package com.soen6461.carrentalapplication.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
+import com.soen6461.carrentalapplication.config.Administrator;
 import com.soen6461.carrentalapplication.config.Clerk;
 import com.soen6461.carrentalapplication.config.User;
 import com.soen6461.carrentalapplication.config.UserRegister;
-import com.soen6461.carrentalapplication.config.Administrator;
+import com.soen6461.carrentalapplication.model.ClientRecord;
+import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.TransactionHistory;
+import com.soen6461.carrentalapplication.model.VehicleRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,17 +15,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.soen6461.carrentalapplication.model.ClientRecord;
-import com.soen6461.carrentalapplication.model.Transaction;
-import com.soen6461.carrentalapplication.model.VehicleRecord;
+import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class controls the UI of the application
@@ -55,18 +49,8 @@ public class MainController {
 	}
 
 	@RequestMapping("/vehicle-add")
-	public ModelAndView vehicleDisplay() {
-		ModelAndView model = new ModelAndView("vehicleAdd");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
-			model.addObject("disableButton", 0);
-		}
-		else {
-			model.addObject("disableButton", 1);
-		}
-		
-		return model;
+	public String vehicleDisplay() {
+		return "vehicleAdd";
 	}
 
 	@RequestMapping("/online-help")
@@ -75,33 +59,27 @@ public class MainController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+		if (auth.getAuthorities().iterator().next().toString().equals("ROLE_ADMIN")) {
 			model.addObject("disableButton", 0);
-		}
-		else {
+		} else {
 			model.addObject("disableButton", 1);
 		}
 		return model;
 	}
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String RedirectToDisplayVehicleCatalog() {
-		if(isAdministratorRole())
-		{
-			return "redirect:trans-list";
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String RedirectToDisplayVehicleCatalog() {
+		if (isAdministratorRole()) {
+			return "redirect:/vehicle-register";
+		} else {
+			return "redirect:/vehicle-catalog";
 		}
-		else
-		{
-			return "redirect:vehicle-catalog";
-		}
-    }
+	}
 
-    private boolean isAdministratorRole()
-	{
+	private boolean isAdministratorRole() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		for (GrantedAuthority authority: authentication.getAuthorities()) {
-			if(authority.toString().equalsIgnoreCase("ROLE_" + User.RoleType.Administrator))
-			{
+		for (GrantedAuthority authority : authentication.getAuthorities()) {
+			if (authority.toString().equals("ROLE_" + User.RoleType.Administrator)) {
 				return true;
 			}
 		}
@@ -125,15 +103,12 @@ public class MainController {
 
 		ModelAndView model = new ModelAndView("vehicleCatalog");
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+		if (this.isAdministratorRole()) {
 			model.addObject("disableButton", 0);
-		}
-		else {
+		} else {
 			model.addObject("disableButton", 1);
 		}
-		
+
 		model.addObject("vehicles", vehicles);
 		model.addObject("clients", clients);
 		return model;
@@ -141,9 +116,9 @@ public class MainController {
 
 	@RequestMapping(value = "/assign-vehicle/{lpr}", method = RequestMethod.POST)
 	public String assignVehicle(@RequestParam("forClient") String driversLicense,
-			@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
-			@RequestParam("toDate2") String endDate, @RequestParam("status2") String status,
-			RedirectAttributes redirectAttributes) throws ParseException {
+								@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
+								@RequestParam("toDate2") String endDate, @RequestParam("status2") String status,
+								RedirectAttributes redirectAttributes) throws ParseException {
 
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
@@ -172,7 +147,7 @@ public class MainController {
 
 	@RequestMapping(value = "/cancel-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String cancelTransaction(@PathVariable("transactionId") String transactionId,
-			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
+									@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
 
 		vehicleCatalog.cancelTransaction(licensePlateRecord, transactionId, redirectAttributes);
 
@@ -181,7 +156,7 @@ public class MainController {
 
 	@RequestMapping(value = "/return-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String returnTransaction(@PathVariable("transactionId") String transactionId,
-			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
+									@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
 		vehicleCatalog.returnTransaction(transactionId, licensePlateRecord);
 		redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
 		return "redirect:/vehicle-catalog";
@@ -189,8 +164,8 @@ public class MainController {
 
 	@RequestMapping(value = "/edit-transaction/{clientDriversLicense}", method = RequestMethod.POST)
 	public String editTransaction(@PathVariable("clientDriversLicense") String driversLicenseNumber,
-			@RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
-			@RequestParam("toDate") String endDate, @RequestParam("status") String status) throws ParseException {
+								  @RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
+								  @RequestParam("toDate") String endDate, @RequestParam("status") String status) throws ParseException {
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		ClientRecord selectedClient = clientController.searchClient(driversLicenseNumber);
 		List<Transaction> buffer = selectedVehicle.getVehicleTransactionList();
@@ -220,15 +195,12 @@ public class MainController {
 		ModelAndView model = new ModelAndView("clientRegister");
 		model.addObject("clients", clients);
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+		if (this.isAdministratorRole()) {
 			model.addObject("disableButton", 0);
-		}
-		else {
+		} else {
 			model.addObject("disableButton", 1);
-		}	
-		
+		}
+
 		return model;
 	}
 
@@ -238,26 +210,23 @@ public class MainController {
 		ModelAndView model = new ModelAndView("vehicleDisplay");
 		model.addObject("vehicles", vehicles);
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+		if (this.isAdministratorRole()) {
 			model.addObject("disableButton", 0);
-		}
-		else {
+		} else {
 			model.addObject("disableButton", 1);
 		}
-		
+
 		return model;
 	}
 
 	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
 	public String addClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
-			RedirectAttributes redirectAttributes) {
+								  RedirectAttributes redirectAttributes) {
 
 		List<ClientRecord> clientRecordList = clientController.getAllClientRecord();
 		boolean recordExists = false;
 		for (int i = 0; i < clientRecordList.size(); i++) {
-			if (clientRecordList.get(i).getDriversLicenseNumber().equalsIgnoreCase(clientRecord.getDriversLicenseNumber())) {
+			if (clientRecordList.get(i).getDriversLicenseNumber().equals(clientRecord.getDriversLicenseNumber())) {
 				recordExists = true;
 				break;
 			}
@@ -277,7 +246,7 @@ public class MainController {
 
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
 	public String addVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
-			RedirectAttributes redirectAttributes) {
+								   RedirectAttributes redirectAttributes) {
 
 		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
 		boolean recordExists = false;
@@ -302,22 +271,43 @@ public class MainController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String editClientRecord(@PathVariable("id") String driverslicense, ModelMap model,
-			RedirectAttributes redirectAttributes) {
+								   RedirectAttributes redirectAttributes) {
 		model.put("clientRecord", clientController.searchClient(driverslicense));
-
-		return "/clientUpdate";
+		return "clientUpdate";
 	}
 
+	/**
+	 * This Url is used when the edit button is pressed in the vehicle register page
+	 * @param lpr
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequestMapping(value = "/edit-vehicle/{id}", method = RequestMethod.GET)
 	public String vehicleEdit(@PathVariable("id") String lpr, ModelMap model, RedirectAttributes redirectAttributes) {
-		model.put("vehiceleRecord", vehicleCatalog.searchVehicle(lpr));
-
+		model.put("vehicleRecord", vehicleCatalog.searchVehicle(lpr));
 		return "/vehicleEdit";
+	}
+
+	/**
+	 * This Url is used when the update button is pressed in the Vehicle update page
+	 * @param vehicleRecord
+	 * @param lpr
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequestMapping(value = "/update-vehicle/{id}", method = RequestMethod.POST)
+	public String updateVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
+									  @PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
+
+		redirectAttributes.addFlashAttribute("successMsg", "  Vehicle Record has been updated successfully.");
+		vehicleCatalog.updateVehicleRecord(vehicleRecord, lpr);
+		return "redirect:/vehicle-register";
 	}
 
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
 	public String updateClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
-			@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
+									 @PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
 
 		redirectAttributes.addFlashAttribute("successMsg", "  Client Record has been updated successfully.");
 
@@ -334,44 +324,51 @@ public class MainController {
 		return "redirect:/client-register";
 	}
 
+	@RequestMapping(value = "/delete-vehicle-record/{id}", method = RequestMethod.GET)
+	public String deleteVehicleRecord(@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
+		vehicleCatalog.deleteVehicleRecord(lpr);
+
+		redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
+
+		return "redirect:/vehicle-register";
+	}
+
 	@RequestMapping(value = "/vehicle-catalog-filter", method = RequestMethod.GET)
 	public ModelAndView getFilteredVehicleList(@RequestParam("filter") String filter,
-			@RequestParam("value") String value) {
+											   @RequestParam("value") String value) {
 		List<VehicleRecord> vehicles = vehicleCatalog.getFilteredList(filter, value);
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 		ModelAndView model = new ModelAndView("vehicleCatalog");
 		model.addObject("vehicles", vehicles);
 		model.addObject("clients", clients);
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+		if (auth.getAuthorities().iterator().next().toString().equals("ROLE_ADMIN")) {
 			model.addObject("disableButton", 0);
-		}
-		else {
+		} else {
 			model.addObject("disableButton", 1);
 		}
-		
+
 		return model;
 	}
 
 	@RequestMapping(value = "/translist-filter", method = RequestMethod.GET)
 	public ModelAndView getFilteredTransactionHistory(@RequestParam("filter") String filter,
-			@RequestParam("value") String value) {
+													  @RequestParam("value") String value) {
 		System.out.println(filter + " " + value);
 		List<TransactionHistory> transactionsList = transactionCatalog.getFilteredTransactionHistory(filter, value);
 		ModelAndView model = new ModelAndView("transactions");
 		model.addObject("transactionsList", transactionsList);
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+		if (auth.getAuthorities().iterator().next().toString().equals("ROLE_ADMIN")) {
 			model.addObject("disableButton", 0);
-		}
-		else {
+		} else {
 			model.addObject("disableButton", 1);
 		}
-		
+
 		return model;
 	}
 
@@ -380,16 +377,15 @@ public class MainController {
 		List<TransactionHistory> transactionsList = transactionCatalog.getAllTransactionHistory();
 		ModelAndView model = new ModelAndView("transactions");
 		model.addObject("transactionsList", transactionsList);
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+		if (auth.getAuthorities().iterator().next().toString().equals("ROLE_ADMIN")) {
 			model.addObject("disableButton", 0);
-		}
-		else {
+		} else {
 			model.addObject("disableButton", 1);
 		}
-		
+
 		return model;
 	}
 
@@ -403,14 +399,14 @@ public class MainController {
 	@PostConstruct
 	private void AddingHardCodedValues() throws Exception {
 
-        // Create some users.
-        userRegister.addUser(new Administrator("admin", "admin"));
-        userRegister.addUser(new Clerk("clerk", "clerk"));
+		// Create some users.
+		userRegister.addUser(new Administrator("admin", "admin"));
+		userRegister.addUser(new Clerk("clerk", "clerk"));
 		userRegister.addUser(new Clerk("super_clerk", "clerk"));
 
-        // Adding some hard coded vehicles to populate the views.
-        VehicleRecord v1 = new VehicleRecord("A12_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
-        this.vehicleCatalog.addVehicleRecord(v1);
+		// Adding some hard coded vehicles to populate the views.
+		VehicleRecord v1 = new VehicleRecord("A12_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
+		this.vehicleCatalog.addVehicleRecord(v1);
 
 		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("U12_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
 
