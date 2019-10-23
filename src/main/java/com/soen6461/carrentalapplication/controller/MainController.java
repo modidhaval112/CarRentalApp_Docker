@@ -115,7 +115,7 @@ public class MainController {
 			model.addAttribute("errorMsg", "Your username and password are invalid.");
 		if (logout != null)
 			model.addAttribute("msg", "You have been logged out successfully.");
-		return "login";
+		return "/login";
 	}
 
 	@RequestMapping("/vehicle-catalog")
@@ -305,14 +305,14 @@ public class MainController {
 			RedirectAttributes redirectAttributes) {
 		model.put("clientRecord", clientController.searchClient(driverslicense));
 
-		return "clientUpdate";
+		return "/clientUpdate";
 	}
 
-	@RequestMapping(value = "edit-vehicle/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit-vehicle/{id}", method = RequestMethod.GET)
 	public String vehicleEdit(@PathVariable("id") String lpr, ModelMap model, RedirectAttributes redirectAttributes) {
 		model.put("vehiceleRecord", vehicleCatalog.searchVehicle(lpr));
 
-		return "vehicleEdit";
+		return "/vehicleEdit";
 	}
 
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
