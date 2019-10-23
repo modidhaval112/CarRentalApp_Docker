@@ -17,10 +17,10 @@ public class ClientRecord {
      * ClientRecord class parameterised constructor
      *
      * @param driversLicenseNumber the clients drivers license number.
-     * @param firstName the clients first name.
-     * @param lastName the clients last name.
-     * @param phoneNumber the clients phone number.
-     * @param expirationDate the clients drivers license expiration date.
+     * @param firstName            the clients first name.
+     * @param lastName             the clients last name.
+     * @param phoneNumber          the clients phone number.
+     * @param expirationDate       the clients drivers license expiration date.
      */
 
     public ClientRecord(String driversLicenseNumber, String firstName, String lastName, String phoneNumber, String expirationDate) {
@@ -32,21 +32,19 @@ public class ClientRecord {
         this.setPhoneNumber(phoneNumber);
         try {
             this.setExpirationDate(new SimpleDateFormat("yyyy-MM-dd").parse(expirationDate));
-        } catch(Exception e)
-        {
-            try{
+        } catch (Exception e) {
+            try {
                 this.setExpirationDate(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(expirationDate));
 
-            }
-            catch(Exception e2) {
+            } catch (Exception e2) {
                 e2.printStackTrace();
             }
-
         }
     }
 
     /**
      * Gets the drivers license.
+     *
      * @return The drivers license.
      */
     public String getDriversLicenseNumber() {
@@ -55,6 +53,7 @@ public class ClientRecord {
 
     /**
      * Gets the clients fist name.
+     *
      * @return The first name.
      */
     public String getFirstName() {
@@ -63,6 +62,7 @@ public class ClientRecord {
 
     /**
      * Gets the clients last name.
+     *
      * @return The clients last name.
      */
     public String getLastName() {
@@ -71,15 +71,16 @@ public class ClientRecord {
 
     /**
      * Gets the clients phone number.
+     *
      * @return The phone number.
      */
     public String getPhoneNumber() {
-        // TODO: Add validation for phone numbers.
         return this.phoneNumber;
     }
 
     /**
      * Gets the drivers license expiration date.
+     *
      * @return The expiration date of the drivers license.
      */
     public Date getExpirationDate() {
@@ -88,6 +89,7 @@ public class ClientRecord {
 
     /**
      * Sets the clients phone number.
+     *
      * @param phoneNumber The phone number.
      */
     private void setPhoneNumber(String phoneNumber) {
@@ -96,6 +98,7 @@ public class ClientRecord {
 
     /**
      * Sets the drivers license expiration date.
+     *
      * @param expirationDate The expiration date of the drivers license.
      */
     private void setExpirationDate(Date expirationDate) {
@@ -104,6 +107,7 @@ public class ClientRecord {
 
     /**
      * Sets the clients last name.
+     *
      * @param lastName The clients last name.
      */
     private void setLastName(String lastName) {
@@ -112,6 +116,7 @@ public class ClientRecord {
 
     /**
      * Sets the clients first name.
+     *
      * @param firstName The first name of the client.
      */
     private void setFirstName(String firstName) {
@@ -120,6 +125,7 @@ public class ClientRecord {
 
     /**
      * Sets the drivers license.
+     *
      * @param driversLicenseNumber The drivers license number.
      */
     private void setDriversLicenseNumber(String driversLicenseNumber) {
@@ -133,10 +139,10 @@ public class ClientRecord {
 
     /**
      * Override the toString method with client relevant information.
+     *
      * @return Client record information.
      */
-    public String toString()
-    {
+    public String toString() {
         return "clientRecord:{ firstName:" + this.getFirstName() +
                 " lastName:" + this.getLastName() +
                 " phoneNumber:" + this.getPhoneNumber() +
