@@ -49,8 +49,18 @@ public class MainController {
 	}
 
 	@RequestMapping("/vehicle-add")
-	public String vehicleDisplay() {
-		return "vehicleAdd";
+	public ModelAndView vehicleDisplay() {
+		ModelAndView model = new ModelAndView("vehicleAdd");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		}
+		else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
 	}
 
 	@RequestMapping("/online-help")
