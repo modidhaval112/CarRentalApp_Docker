@@ -3,7 +3,6 @@ package com.soen6461.carrentalapplication;
 import com.soen6461.carrentalapplication.controller.ClientController;
 
 import static org.assertj.core.api.Assertions.*;
-
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import org.junit.Assert;
 import org.junit.Ignore;
