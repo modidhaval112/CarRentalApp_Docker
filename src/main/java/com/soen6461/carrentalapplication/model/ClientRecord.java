@@ -1,5 +1,8 @@
 package com.soen6461.carrentalapplication.model;
 
+import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
