@@ -154,16 +154,20 @@ public class VehicleCatalog {
 		selectedVehicle.returnTransaction(transactionId);
 	}
 
-	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes) {
+	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId,
+			RedirectAttributes redirectAttributes) {
 		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
 		for (int i = 0; i < transactionList.size(); i++) {
-			if (transactionList.get(i).getStatus().toString().equals("Rented")) {
-				redirectAttributes.addFlashAttribute("warningMsg",
-						"  Transaction can not be cancelled as vehicle is already Rented.");
-			} else {
-				selectedVehicle.removeTransaction(transactionId);
-				redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
+			if (transactionList.get(i).getTransactionId().equalsIgnoreCase(transactionId)) {
+				if (transactionList.get(i).getStatus().toString().equals("Rented")) {
+					redirectAttributes.addFlashAttribute("warningMsg",
+							"  Transaction can not be cancelled as vehicle is already Rented.");
+				} else {
+					selectedVehicle.removeTransaction(transactionId);
+					redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
+				}
+				break;
 			}
 
 		}
