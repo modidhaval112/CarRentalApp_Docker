@@ -88,33 +88,26 @@
 											<div class="col-md-auto">
 												<div>${listValue.driversLicenseNumber}</div>
 											</div>
+										</div>
+										<div class="row">
 											<div class="col-md-auto">
 												<p>Expiration Date</p>
 											</div>
 											<div class="col-md-auto">
 												<div class="dropdown">
 													<div>${listValue.expirationDate}</div>
-													<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-														<button class="dropdown-item" type="button">Action</button>
-														<button class="dropdown-item" type="button">Another
-															action</button>
-														<button class="dropdown-item" type="button">Something
-															else here</button>
-													</div>
 												</div>
 											</div>
 										</div>
 									</td>
 									<td>
-										<div class="row"></div>
+										
 										<div class="row">
 											<div class="col-md-auto">
 												<a
 													href="${pageContext.request.contextPath}/${listValue.driversLicenseNumber}"
 													class="btn btn-outline-success">Edit</a>
 											</div>
-										</div>
-										<div class="row">
 											<div class="col-md-auto">
 												<a
 													href="${pageContext.request.contextPath}/delete-client-record/${listValue.driversLicenseNumber}"
