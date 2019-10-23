@@ -59,24 +59,31 @@
 		</form>
 		<br />
 
-		<div class="btn-group btn-group-toggle" data-toggle="buttons">
-			<label class="btn btn-secondary active">
-				<input type="radio" name="Rented" id="RentedFilter" autocomplete="off"  value="Rented" > Rented
-			</label>
-			<label class="btn btn-secondary">
-				<input type="radio" name="options" id="ReservedFilter" autocomplete="off" value="Reserved" > Reserved
-			</label>
-			<label class="btn btn-secondary">
-				<input type="radio" name="options" id="ReturnedFilter" value="Returned"autocomplete="off"> Returned
-			</label><label class="btn btn-secondary">
-			<input type="radio" name="options" id="CancelledFilter" value="Cancelled" autocomplete="off"> Cancelled
-		</label>
-		</div>
+<%--		<div class="btn-group btn-group-toggle" data-toggle="buttons">--%>
+<%--			<label class="btn btn-secondary active">--%>
+<%--				<input type="radio" name="Rented" id="RentedFilter" autocomplete="off"  value="Rented" > Rented--%>
+<%--			</label>--%>
+<%--			<label class="btn btn-secondary">--%>
+<%--				<input type="radio" name="options" id="ReservedFilter" autocomplete="off" value="Reserved" > Reserved--%>
+<%--			</label>--%>
+<%--			<label class="btn btn-secondary">--%>
+<%--				<input type="radio" name="options" id="ReturnedFilter" value="Returned"autocomplete="off"> Returned--%>
+<%--			</label><label class="btn btn-secondary">--%>
+<%--			<input type="radio" name="options" id="CancelledFilter" value="Cancelled" autocomplete="off"> Cancelled--%>
+<%--		</label>--%>
+<%--		</div>--%>
+		<select id='mySelector' class="btn btn-info btn-sm dropdown-toggle">
+			<option value="">Filter based on Status</option>
+			<option value='Rented'>Rented</option>
+			<option value='Reserved'>Reserved</option>
+			<option value='Returned'>Returned</option>
+			<option value='Cancelled'>Cancelled</option>
+		</select>
 
 		<div id="TransactionCatalogTableSection">
 			<div class="row">
 				<div class="col">
-					<table class="table table-hover dataTable"
+					<table id="mainTable" class="table table-hover dataTable"
 						>
 						<thead>
 							<tr>
@@ -135,38 +142,51 @@
 						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 					});
 				});
+				$('#mySelector').change(function() {
+					// $('table').show();
+					var selection = $(this).val();
+					console.log(selection);
+					var dataset = $('#mainTable tbody').find('tr');
+					// show all rows first
+					dataset.show();
+					// filter the rows that should be hidden
+					dataset.filter(function(index, item) {
+						return $(item).find('td:last-child').text().indexOf(selection) === -1;
+					}).hide();
 
-			// $(document).ready(function() {
-			$("#RentedFilter").on("toggle",function () {
-					var value = $(this).val().toLowerCase();
-					$("#TransactionCatalogTable tr").filter(function () {
-						$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
-					});
 				});
-			// });
-			// $(document).ready(function() {
-				$("#ReturnedFilter").on("toggle",function () {
-					var value = $(this).val().toLowerCase();
-					$("#TransactionCatalogTable tr").filter(function () {
-						$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
-					});
-				});
-			// });
-			// $(document).ready(function() {
-				$("#ReservedFilter").on("toggle",function () {
-					var value = $(this).val().toLowerCase();
-					$("#TransactionCatalogTable tr").filter(function () {
-						$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
-					});
-				});
-			// });
-			// $(document).ready(function() {
-				$("#CancelledFilter").on("toggle",function () {
-					var value = $(this).val().toLowerCase();
-					$("#TransactionCatalogTable tr").filter(function () {
-						$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
-					});
-				});
+
+			// // $(document).ready(function() {
+			// $("#RentedFilter").on("toggle",function () {
+			// 		var value = $(this).val().toLowerCase();
+			// 		$("#TransactionCatalogTable tr").filter(function () {
+			// 			$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
+			// 		});
+			// 	});
+			// // });
+			// // $(document).ready(function() {
+			// 	$("#ReturnedFilter").on("toggle",function () {
+			// 		var value = $(this).val().toLowerCase();
+			// 		$("#TransactionCatalogTable tr").filter(function () {
+			// 			$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
+			// 		});
+			// 	});
+			// // });
+			// // $(document).ready(function() {
+			// 	$("#ReservedFilter").on("toggle",function () {
+			// 		var value = $(this).val().toLowerCase();
+			// 		$("#TransactionCatalogTable tr").filter(function () {
+			// 			$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
+			// 		});
+			// 	});
+			// // });
+			// // $(document).ready(function() {
+			// 	$("#CancelledFilter").on("toggle",function () {
+			// 		var value = $(this).val().toLowerCase();
+			// 		$("#TransactionCatalogTable tr").filter(function () {
+			// 			$(this).toggle($(this).val().toLowerCase().indexOf(value) > -1)
+			// 		});
+			// 	});
 			// });
 			});
 		</script>
