@@ -24,6 +24,10 @@
 
 ## How to work on this project
 
+Current state of the build and tests of the project:
+[![Test Status](https://github.com/martin-morin/SOEN6461-SoftwareDesignMethodologies/workflows/Java%20CI/badge.svg)](https://github.com/martin-morin/SOEN6461-SoftwareDesignMethodologies/actions)
+
+
 ### Code Style Convention
 Since this repository is using JAVA, the following guide line must be followed:
 
@@ -37,5 +41,6 @@ Since this repository is using JAVA, the following guide line must be followed:
 
 ### How to use the project
 1. Open your browser to http://localhost:8080/login
-2. Enter the credentials are username(clerk) password(clerk)
+2. For clerk access, enter the following credentials username(clerk) password(clerk)
+3. For Administrator access, enter the following credentials username(admin) and password(admin)
 
