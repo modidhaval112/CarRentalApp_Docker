@@ -69,26 +69,27 @@ public class TransactionCatalog {
         return temp;
     }
 
-    public List<TransactionHistory> getDueTodayTransactionHistory() {
+    public List<TransactionHistory> getOverDueTransactionHistory() {
         List<TransactionHistory> temp = new ArrayList<>();
         Date date = new Date();
         for (TransactionHistory t : record.getAllTransactionHistory()) {
-            if (t.getTransaction().getEndDate().equals(date.getDate())) {
+        	// check if end date is less than today and check if the status is rented or reserved
+            if (t.getTransaction().getEndDate().getTime() < date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
                 temp.add(t);
             }
         }
         return temp;
     }
 
-    public List<TransactionHistory> getOverDueTransactionHistory() {
-        List<TransactionHistory> temp = new ArrayList<>();
-        Date date = new Date();
-        for (TransactionHistory t : record.getAllTransactionHistory()) {
-        	// check if end date is less than today and check if the status is rented or reserved
-            if (t.getTransaction().getEndDate().getTime() <= date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
-                temp.add(t);
-            }
-        }
-        return temp;
-    }
+	public List<TransactionHistory> getDueTodayTransactionHistory() {
+		List<TransactionHistory> temp = new ArrayList<>();
+		Date date = new Date();
+		for (TransactionHistory t : record.getAllTransactionHistory()) {
+			// check if end date is equal to today and check if the status is rented or reserved
+			if (t.getTransaction().getEndDate().getTime() == date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
+				temp.add(t);
+			}
+		}
+		return temp;
+	}
 }

@@ -81,11 +81,11 @@
     </select>
     <%--		<div class="btn-toolbar" role="toolbar" aria-label="Basic example">--%>
     <div class="btn-group" role="group">
-        <a class="form-control btn btn-secondary btn-sm" href="${pageContext.request.contextPath }/trans-list"
-           style="display:block;width:200px">All</a>
-        <a class="form-control btn btn-secondary btn-sm" href="${pageContext.request.contextPath }/overdue-trans-list"
-           style="display:block;width:200px">Over Due</a>
-        <a class="form-control btn btn-secondary btn-sm" href="#" style="display:block;width:200px">Due Today</a>
+        <a class=" btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/trans-list"
+           style="width:200px" >All</a>
+        <a class="btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/overdue-trans-list"
+           style="width:200px">Over Due</a>
+        <a class="btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/due-today-trans-list" style="width:200px">Due Today</a>
     </div>
     <%--		</div>--%>
 
