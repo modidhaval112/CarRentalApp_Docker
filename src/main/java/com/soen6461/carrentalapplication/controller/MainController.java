@@ -80,7 +80,7 @@ public class MainController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String RedirectToDisplayVehicleCatalog() {
 		if (isAdministratorRole()) {
-			return "redirect:/vehicle-register";
+			return "redirect:/trans-list";
 		} else {
 			return "redirect:/vehicle-catalog";
 		}
@@ -284,10 +284,21 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String editClientRecord(@PathVariable("id") String driverslicense, ModelMap model,
-								   RedirectAttributes redirectAttributes) {
-		model.put("clientRecord", clientController.searchClient(driverslicense));
-		return "clientUpdate";
+	public ModelAndView editClientRecord(@PathVariable("id") String driverslicense, ModelAndView model,
+			RedirectAttributes redirectAttributes) {
+		model.setViewName("clientUpdate");
+
+		model.addObject("clientRecord", clientController.searchClient(driverslicense));
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		}
+		else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
 	}
 
 	/**
@@ -298,8 +309,9 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping(value = "/edit-vehicle/{id}", method = RequestMethod.GET)
-	public String vehicleEdit(@PathVariable("id") String lpr, ModelMap model, RedirectAttributes redirectAttributes) {
-		model.put("vehicleRecord", vehicleCatalog.searchVehicle(lpr));
+	public String vehicleEdit(@PathVariable("id") String lpr, ModelAndView model, RedirectAttributes redirectAttributes) {
+		
+		model.addObject("vehiceleRecord", vehicleCatalog.searchVehicle(lpr));
 		return "/vehicleEdit";
 	}
 
