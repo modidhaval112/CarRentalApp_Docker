@@ -25,48 +25,42 @@
 <div class="container">
     <h2>Vehicle Add</h2>
 
-    <s:form method="post" modelAttribute="vehicleRecord"
-            action="${contextPath}/create-vehicle">
+    <s:form method="post" modelAttribute="vehicleRecord" action="${contextPath}/create-vehicle">
         <div class="row">
             <div class="form-group col-sm-6">
-                <label for="carType">Car type:</label> <input type="text"
-                                                                  class="form-control" id="carType" placeholder="Car Type"
-                                                                  name="carType" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-6">
-                <label for="make">Make:</label><input type="text"
-                                                               class="form-control" id="make" placeholder="Car Make"
-                                                               name="make"  required>
+                <label for="carType">Car type:</label>
+                <input type="text" class="form-control" id="carType" placeholder="Car Type" name="carType" required>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6">
-                <label for="model">Model:</label> <input type="text"
-                                                                class="form-control" id="model" placeholder="Car Model"
-                                                                name="model"  required>
+                <label for="make">Make:</label>
+                <input type="text" class="form-control" id="make" placeholder="Car Make" name="make"  required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="model">Model:</label>
+                <input type="text" class="form-control" id="model" placeholder="Car Model" name="model"  required>
             </div>
         </div>
          <div class="row">
             <div class="form-group col-sm-6">
-                <label for="color">Color:</label> <input type="text"
-                                                                class="form-control" id="color" placeholder="Color"
-                                                                name="color"  required>
+                <label for="color">Color:</label>
+                <input type="text" class="form-control" id="color" placeholder="Color" name="color"  required>
             </div>
         </div>
          <div class="row">
             <div class="form-group col-sm-6">
-                <label for="year">Car Year:</label> <input type="int"
-                                                                class="form-control" id="year" placeholder="Car Make Year"
-                                                                name="year"  required>
+                <label for="year">Car Year:</label>
+                <input type="number" class="form-control" id="year" placeholder="Car Make Year" name="year" min="1500" max="2030"  required>
             </div>
         </div>
          <div class="row">
-            <div class="form-group col-sm-6">
-                <label for="lpr">LPR:</label> <input type="text"
-                                                                class="form-control" id="lpr" placeholder="lpr"
-                                                                name="lpr"  required>
+            <div class="form-group col-sm-6" data-toggle="validator">
+                <label for="lpr">License Plate Number:</label>
+                <input type="text" class="form-control" id="lpr" placeholder="A-1234-123456-23" name="lpr" pattern="[A-Za-z]-[0-9]{4}-[0-9]{6}-[0-9]{2}" required>
+
             </div>
         </div>
      
