@@ -1,6 +1,5 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags/form"%>
 
-
 <html>
 <head><%@ page language="java"
 			   contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
@@ -30,48 +29,39 @@
 			action="${pageContext.request.contextPath }/update-vehicle/${vehicleRecord.lpr}">
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="year">LicensePlateRecord</label> <input
-					type="text" class="form-control" id="lpr"
-					placeholder="yyyy" name="lpr"
-					value="${vehicleRecord.lpr}"  readonly="readonly">
+				<label for="year">LicensePlateRecord</label>
+				<input type="text" class="form-control" id="lpr" placeholder="A-1234-123456-23" name="lpr" value="${vehicleRecord.lpr}" pattern="[A-Za-z]-[0-9]{4}-[0-9]{6}-[0-9]{2}" readonly="readonly">
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="carType">Car type:</label> <input type="text"
-															  class="form-control" id="carType" placeholder="Car type"
-															  name="carType" value="${vehicleRecord.carType}" required>
+				<label for="carType">Car type:</label>
+				<input type="text" class="form-control" id="carType" placeholder="Car type" name="carType" value="${vehicleRecord.carType}" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="make">Make:</label> <input type="text"
-													   class="form-control" id="make" placeholder="car make"
-													   name="make" value="${vehicleRecord.make}" required>
+				<label for="make">Make:</label>
+				<input type="text" class="form-control" id="make" placeholder="car make" name="make" value="${vehicleRecord.make}" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="model">Model:</label> <input type="text"
-														 class="form-control" id="model" placeholder="make model"
-														 name="model" value="${vehicleRecord.model}" required>
+				<label for="model">Model:</label>
+				<input type="text" class="form-control" id="model" placeholder="make model" name="model" value="${vehicleRecord.model}" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="color">Car Color</label> <input
-					type="text" class="form-control" id="color"
-					placeholder="Color" name="color"
-					value="${vehicleRecord.color}">
+				<label for="color">Car Color</label>
+				<input type="text" class="form-control" id="color" placeholder="Color" name="color" value="${vehicleRecord.color}">
 				<p id="errDl" style="color: red"></p>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="year">Make year</label> <input
-					type="text" class="form-control" id="year"
-					placeholder="yyyy" name="year"
-					value="${vehicleRecord.year}" required>
+				<label for="year">Make year</label>
+				<input type="number" class="form-control" id="year" placeholder="yyyy" name="year" value="${vehicleRecord.year}" min="1500" max="2030" required>
 			</div>
 		</div>
 		<div class="row">
