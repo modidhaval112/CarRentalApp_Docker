@@ -415,6 +415,48 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * This Url is used to get the overdue transactions from the history
+	 * @return
+	 */
+	@RequestMapping("/overdue-trans-list")
+	public ModelAndView displayAllOverdueTransactions() {
+		List<TransactionHistory> transactionsList = transactionCatalog.getOverDueTransactionHistory();
+		ModelAndView model = new ModelAndView("transactions");
+		model.addObject("transactionsList", transactionsList);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
+
+	/**
+	 * Url used to fetch the transactions due today
+	 * @return
+	 */
+	@RequestMapping("/due-today-trans-list")
+	public ModelAndView displayAllDueTodayTransactions() {
+		List<TransactionHistory> transactionsList = transactionCatalog.getDueTodayTransactionHistory();
+		ModelAndView model = new ModelAndView("transactions");
+		model.addObject("transactionsList", transactionsList);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
+
 
 	/**
 	 * Method used to populate the views with hard coded values. TODO: Remove this
@@ -456,10 +498,12 @@ public class MainController {
 				new ClientRecord("A-1234-123456-16", "Ariadne", "Fischer", "(438) 566-9999", "2079-11-1"));
 
 		// Adding some hard coded transactions to populate the views.
-		v1.addTransaction(new Transaction(c1, v1, "2019-08-1", "2019-09-15", Transaction.Status.Rented));
-		v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-09-19", Transaction.Status.Rented));
+		v1.addTransaction(new Transaction(c1, v1, "2019-08-1", "2019-11-15", Transaction.Status.Reserved));
+		v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-9-25", Transaction.Status.Rented));
+		v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-10-22", Transaction.Status.Rented));
 
-		v2.addTransaction(new Transaction(c2, v2, "2020-07-1", "2019-07-15", Transaction.Status.Rented));
-		v2.addTransaction(new Transaction(c1, v2, "2020-09-1", "2019-09-15", Transaction.Status.Rented));
+		v2.addTransaction(new Transaction(c2, v2, "2020-07-1", "2020-01-15", Transaction.Status.Rented));
+		v2.addTransaction(new Transaction(c1, v2, "2020-09-1", "2019-10-23", Transaction.Status.Reserved));
+
 	}
 }
