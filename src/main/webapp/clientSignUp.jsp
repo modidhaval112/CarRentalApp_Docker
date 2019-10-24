@@ -31,38 +31,33 @@
 			action="${contextPath}/create-client">
 			<div class="row">
 				<div class="form-group col-sm-6">
-					<label for="firstname">First name:</label> <input type="text"
-						class="form-control" id="firstName" placeholder="first name"
-						name="firstName" required>
+					<label for="firstName">First name:</label>
+					<input type="text" class="form-control" id="firstName" placeholder="first name" name="firstName" required>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-sm-6">
-					<label for="lastName">Last name:</label><input type="text"
-						class="form-control" id="lastName" placeholder="last name"
-						name="lastName" required>
+					<label for="lastName">Last name:</label>
+					<input type="text" class="form-control" id="lastName" placeholder="last name" name="lastName" required>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-sm-6">
-					<label for="phoneNumber">phone number:</label> <input type="text"
-						class="form-control" id="phoneNumber" placeholder="Phone number"
-						name="phoneNumber" required>
+					<label for="phoneNumber">phone number:</label>
+					<input type="text" class="form-control" id="phoneNumber" placeholder="(###) ###-####" name="phoneNumber" pattern="(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}" required>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-sm-6">
-					<label for="driversLicenseNumber">Drivers license:</label> <input
-						type="text" class="form-control" id="driversLicenseNumber"
-						placeholder="license" name="driversLicenseNumber">
+					<label for="driversLicenseNumber">Drivers license:</label>
+					<input type="text" class="form-control" id="driversLicenseNumber" placeholder="A-1234-123456-12" pattern="[A-Za-z]-[0-9]{4}-[0-9]{6}-[0-9]{2}" name="driversLicenseNumber" required>
 					<p id="errDl" style="color: red"></p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-sm-6">
-					<label for="expirationDate">Expiration date:</label> <input
-						type="datetime" class="form-control" id="expirationDate"
-						placeholder="yyyy-mm-dd" name="expirationDate" required>
+					<label for="expirationDate">Expiration date:</label>
+					<input type="date" class="form-control" id="expirationDate" placeholder="yyyy-mm-dd" name="expirationDate" min="2019-10-1" required>
 				</div>
 			</div>
 			<div class="row">

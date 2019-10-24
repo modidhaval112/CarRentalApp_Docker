@@ -30,39 +30,40 @@
 			action="${pageContext.request.contextPath }/update-client/${clientRecord.driversLicenseNumber}">
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="firstName">First name:</label> <input type="text"
-																  class="form-control" id="firstName" placeholder="first name"
-																  name="firstName" value="${clientRecord.firstName}" required>
+				<label for="firstName">First name:</label>
+				<input type="text"
+					  class="form-control" id="firstName" placeholder="first name"
+					  name="firstName" value="${clientRecord.firstName}" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="lastName">Last name:</label> <input type="text"
-																class="form-control" id="lastName" placeholder="last name"
-																name="lastName" value="${clientRecord.lastName}" required>
+				<label for="lastName">Last name:</label>
+		<input type="text"
+				class="form-control" id="lastName" placeholder="last name"
+				name="lastName" value="${clientRecord.lastName}" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="phoneNumber">Phone number:</label> <input type="text"
-																	  class="form-control" id="phoneNumber" placeholder="phone number"
-																	  name="phoneNumber" value="${clientRecord.phoneNumber}" required>
+				<label for="phoneNumber">Phone number:</label>
+				<input type="text" class="form-control" id="phoneNumber" placeholder="(###) ###-####"  pattern="(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}"  name="phoneNumber" value="${clientRecord.phoneNumber}" required>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="driversLicenseNumber">Drivers license:</label> <input
 					type="text" class="form-control" id="driversLicenseNumber"
-					placeholder="license" name="driversLicenseNumber"
-					value="${clientRecord.driversLicenseNumber}" readonly="readonly">
+					placeholder="A-1234-123456-12" pattern="[A-Za-z]-[0-9]{4}-[0-9]{6}-[0-9]{2}" name="driversLicenseNumber"
+					value="${clientRecord.driversLicenseNumber}" readonly="readonly" required>
 				<p id="errDl" style="color: red"></p>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="expirationDate">Expiration date:</label> <input
-					type="text" class="form-control" id="expirationDate"
-					placeholder="yyyy-mm-dd" name="expirationDate"
+					type="date" class="form-control" id="expirationDate"
+					placeholder="yyyy-mm-dd" min="2019-10-1" name="expirationDate"
 					value="${clientRecord.expirationDate}" required>
 			</div>
 		</div>
