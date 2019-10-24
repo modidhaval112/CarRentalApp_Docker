@@ -30,7 +30,7 @@
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="year">LicensePlateRecord</label>
-				<input type="text" class="form-control" id="lpr" placeholder="A-1234-123456-23" name="lpr" value="${vehicleRecord.lpr}" pattern="[A-Za-z]-[0-9]{4}-[0-9]{6}-[0-9]{2}" readonly="readonly">
+				<input type="text" class="form-control" id="lpr" placeholder="ABC-123" name="lpr" value="${vehicleRecord.lpr}" pattern="[A-Za-z]{3}-[0-9]{3}" readonly="readonly">
 			</div>
 		</div>
 		<div class="row">
