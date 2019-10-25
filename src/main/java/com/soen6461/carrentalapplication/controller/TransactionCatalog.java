@@ -74,7 +74,7 @@ public class TransactionCatalog {
         Date date = new Date();
         for (TransactionHistory t : record.getAllTransactionHistory()) {
         	// check if end date is less than today and check if the status is rented or reserved
-            if (t.getTransaction().getEndDate().getTime() < date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
+            if (t.getTransaction().getEndDateObject().getTime() < date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
                 temp.add(t);
             }
         }
@@ -86,7 +86,7 @@ public class TransactionCatalog {
 		Date date = new Date();
 		for (TransactionHistory t : record.getAllTransactionHistory()) {
 			// check if end date is equal to today and check if the status is rented or reserved
-			if (t.getTransaction().getEndDate().getTime() == date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
+			if (t.getTransaction().getEndDateObject().getTime() == date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
 				temp.add(t);
 			}
 		}

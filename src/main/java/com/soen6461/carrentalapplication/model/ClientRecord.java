@@ -2,7 +2,6 @@ package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 
-import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -82,11 +81,20 @@ public class ClientRecord {
     }
 
     /**
+     * Gets the drivers license expiration date. (with format yyyy-mm-dd).
+     *
+     * @return The expiration date of the drivers license.
+     */
+    public String getExpirationDate() {
+        return DataValidationHelper.dateFormat.format(this.expirationDate);
+    }
+
+    /**
      * Gets the drivers license expiration date.
      *
      * @return The expiration date of the drivers license.
      */
-    public Date getExpirationDate() {
+    public Date getExpirationDateObject() {
         return this.expirationDate;
     }
 
