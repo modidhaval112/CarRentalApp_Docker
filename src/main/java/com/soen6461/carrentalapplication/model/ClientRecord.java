@@ -2,7 +2,6 @@ package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 
-import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,12 +34,7 @@ public class ClientRecord {
         try {
             this.setExpirationDate(new SimpleDateFormat("yyyy-MM-dd").parse(expirationDate));
         } catch (Exception e) {
-            try {
-                this.setExpirationDate(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(expirationDate));
-
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 
@@ -109,7 +103,7 @@ public class ClientRecord {
         if (DataValidationHelper.isPhoneNumberFormatValid(phoneNumber)) {
             this.phoneNumber = phoneNumber;
         } else {
-            throw new InvalidParameterException("Phone number format not valid: " + phoneNumber);
+            // throw new InvalidParameterException("Phone number format not valid: " + phoneNumber);
         }
     }
 
@@ -151,7 +145,7 @@ public class ClientRecord {
         if (DataValidationHelper.isDriversLicenseNumber(driversLicenseNumber)) {
             this.driversLicenseNumber = driversLicenseNumber;
         } else {
-            throw new InvalidParameterException("drivers license number format not valid: " + driversLicenseNumber);
+            // throw new InvalidParameterException("drivers license number format not valid: " + driversLicenseNumber);
         }
     }
 

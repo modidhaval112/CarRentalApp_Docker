@@ -1,9 +1,6 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
-
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleRecord extends Record {
@@ -157,8 +154,9 @@ public class VehicleRecord extends Record {
 
         if (DataValidationHelper.isLicenseRegistrationPlateValid(lpr)) {
             this.lpr = lpr;
-        } else {
-            throw new InvalidParameterException("Phone number format not valid: " + lpr);
+        }
+        else {
+            // throw new InvalidParameterException("Phone number format not valid: " + lpr);
         }
     }
 

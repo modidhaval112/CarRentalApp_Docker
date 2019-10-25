@@ -3,7 +3,6 @@ package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,9 +34,8 @@ public class Transaction {
      * @param startDate     Start date of the transaction.
      * @param endDate       End date of the transaction.
      * @param vehicleStatus Status of the transaction.
-     * @throws ParseException
      */
-    public Transaction(ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) throws ParseException {
+    public Transaction(ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) {
 
         this.setClientRecord(clientRecord);
         this.setVehicleRecord(vehicleRecord);

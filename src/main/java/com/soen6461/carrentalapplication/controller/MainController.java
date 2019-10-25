@@ -130,7 +130,7 @@ public class MainController {
 	public String assignVehicle(@RequestParam("forClient") String driversLicense,
 								@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
 								@RequestParam("toDate2") String endDate, @RequestParam("status2") String status,
-								RedirectAttributes redirectAttributes) throws ParseException {
+								RedirectAttributes redirectAttributes) throws Exception {
 
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
@@ -177,7 +177,7 @@ public class MainController {
 	@RequestMapping(value = "/edit-transaction/{clientDriversLicense}", method = RequestMethod.POST)
 	public String editTransaction(@PathVariable("clientDriversLicense") String driversLicenseNumber,
 								  @RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
-								  @RequestParam("toDate") String endDate, @RequestParam("status") String status) throws ParseException {
+								  @RequestParam("toDate") String endDate, @RequestParam("status") String status) throws Exception {
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		ClientRecord selectedClient = clientController.searchClient(driversLicenseNumber);
 		List<Transaction> buffer = selectedVehicle.getVehicleTransactionList();
@@ -235,7 +235,7 @@ public class MainController {
 
 	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
 	public String addClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
-								  RedirectAttributes redirectAttributes) {
+								  RedirectAttributes redirectAttributes) throws Exception {
 
 		List<ClientRecord> clientRecordList = clientController.getAllClientRecord();
 		boolean recordExists = false;
@@ -260,7 +260,7 @@ public class MainController {
 
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
 	public String addVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
-								   RedirectAttributes redirectAttributes) {
+								   RedirectAttributes redirectAttributes) throws Exception {
 
 		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
 		boolean recordExists = false;
@@ -285,7 +285,7 @@ public class MainController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView editClientRecord(@PathVariable("id") String driverslicense, ModelAndView model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws Exception {
 		model.setViewName("clientUpdate");
 
 		model.addObject("clientRecord", clientController.searchClient(driverslicense));

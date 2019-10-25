@@ -35,13 +35,13 @@ public class ClientController {
      * Add a new client record.
      * //TODO: Protect this method against unauthorised access from administrator.
      * @param clientRecord The client record to add.
-     * @throws Exception Throws an exception if the record already exists.
      */
     public void addClientRecord(ClientRecord clientRecord) {
 
         for (ClientRecord existingClientRecord: this.clientRecordList) {
             if(clientRecord.getDriversLicenseNumber() == existingClientRecord.getDriversLicenseNumber()) {
-                throw new Exception("There is already a client with drivers license: " + clientRecord.getDriversLicenseNumber() + " in the registry.");
+                // throw new Exception("There is already a client with drivers license: " + clientRecord.getDriversLicenseNumber() + " in the registry.");
+                return;
             }
         }
 
