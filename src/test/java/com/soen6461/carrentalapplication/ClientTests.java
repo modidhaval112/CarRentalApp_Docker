@@ -40,7 +40,7 @@ public class ClientTests {
 	 * Check for adding new client
 	 */
 	@Test
-	public void addNewClient() {
+	public void addNewClient() throws Exception {
 		ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
 		clientController.addClientRecord(clientRecord);
 		Assert.assertTrue(clientController.getAllClientRecord().size() == 6);
@@ -51,7 +51,7 @@ public class ClientTests {
 	 */
 	@Ignore("Test is ignored does not pass on server. Needs further investigation.")
 	@Test
-	public void clientRecordCheck() {
+	public void clientRecordCheck() throws Exception {
 		ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
 		clientController.addClientRecord(clientRecord);
 		clientRecord = clientController.searchClient("T-1234-123456-12");
@@ -68,7 +68,7 @@ public class ClientTests {
 	 * Check for the deletion of the client record
 	 */
 	@Test
-	public void deleteClient() {
+	public void deleteClient() throws Exception {
 		ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
 		clientController.addClientRecord(clientRecord);
 		Assert.assertTrue(clientController.getAllClientRecord().size() == 6);

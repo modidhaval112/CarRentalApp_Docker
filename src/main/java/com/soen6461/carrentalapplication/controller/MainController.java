@@ -14,13 +14,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -130,7 +128,7 @@ public class MainController {
 	public String assignVehicle(@RequestParam("forClient") String driversLicense,
 								@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
 								@RequestParam("toDate2") String endDate, @RequestParam("status2") String status,
-								RedirectAttributes redirectAttributes) throws ParseException {
+								RedirectAttributes redirectAttributes) throws Exception {
 
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
@@ -177,7 +175,7 @@ public class MainController {
 	@RequestMapping(value = "/edit-transaction/{clientDriversLicense}", method = RequestMethod.POST)
 	public String editTransaction(@PathVariable("clientDriversLicense") String driversLicenseNumber,
 								  @RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
-								  @RequestParam("toDate") String endDate, @RequestParam("status") String status) throws ParseException {
+								  @RequestParam("toDate") String endDate, @RequestParam("status") String status) throws Exception {
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		ClientRecord selectedClient = clientController.searchClient(driversLicenseNumber);
 		List<Transaction> buffer = selectedVehicle.getVehicleTransactionList();
@@ -235,7 +233,7 @@ public class MainController {
 
 	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
 	public String addClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
-								  RedirectAttributes redirectAttributes) {
+								  RedirectAttributes redirectAttributes) throws Exception {
 
 		List<ClientRecord> clientRecordList = clientController.getAllClientRecord();
 		boolean recordExists = false;
@@ -260,7 +258,7 @@ public class MainController {
 
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
 	public String addVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
-								   RedirectAttributes redirectAttributes) {
+								   RedirectAttributes redirectAttributes) throws Exception {
 
 		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
 		boolean recordExists = false;
@@ -285,7 +283,7 @@ public class MainController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView editClientRecord(@PathVariable("id") String driverslicense, ModelAndView model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws Exception {
 		model.setViewName("clientUpdate");
 
 		model.addObject("clientRecord", clientController.searchClient(driverslicense));
@@ -473,29 +471,26 @@ public class MainController {
 		userRegister.addUser(new Clerk("super_clerk", "clerk"));
 
 		// Adding some hard coded vehicles to populate the views.
-		VehicleRecord v1 = new VehicleRecord("A12_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
+		VehicleRecord v1 = new VehicleRecord("ABD_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
 		this.vehicleCatalog.addVehicleRecord(v1);
 
-		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("U12_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
+		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("UDF_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
 
-		VehicleRecord v2 = new VehicleRecord("X12_646", "Sedan", "Audi", "A8", 2011, "Red");
+		VehicleRecord v2 = new VehicleRecord("ABE_636", "Sedan", "Audi", "A8", 2011, "Red");
 		this.vehicleCatalog.addVehicleRecord(v2);
 
-		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("Z12_996", "Sedan", "Audi", "Q7", 2014, "Black"));
+		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("ABF_636", "Sedan", "Audi", "Q7", 2014, "Black"));
 
 		// Adding some hard coded clients to populate the views.
 		ClientRecord c1 = new ClientRecord("A-1234-123456-12", "Dominick", "Cobb", "(438) 566-9999", "2039-10-1");
 		this.clientController.addClientRecord(c1);
 
-		this.clientController.addClientRecord(
-				new ClientRecord("A-1234-123456-13", "Robert", "Fischer", "(438) 566-9999", "2029-11-1"));
-		this.clientController
-				.addClientRecord(new ClientRecord("A-1234-123456-14", "Mal", "Cobb", "(438) 566-9999", "2029-12-1"));
+		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-13", "Robert", "Fischer", "(438) 566-9999", "2029-11-1"));
+		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-14", "Mal", "Cobb", "(438) 566-9999", "2029-12-1"));
 
 		ClientRecord c2 = new ClientRecord("A-1234-123456-15", "Stephen", "Miles", "(438) 566-9999", "2059-11-1");
 		this.clientController.addClientRecord(c2);
-		this.clientController.addClientRecord(
-				new ClientRecord("A-1234-123456-16", "Ariadne", "Fischer", "(438) 566-9999", "2079-11-1"));
+		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-16", "Ariadne", "Fischer", "(438) 566-9999", "2079-11-1"));
 
 		// Adding some hard coded transactions to populate the views.
 		v1.addTransaction(new Transaction(c1, v1, "2019-08-1", "2019-11-15", Transaction.Status.Reserved));

@@ -1,12 +1,9 @@
 package com.soen6461.carrentalapplication.controller;
 
-import java.text.ParseException;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,18 +34,15 @@ public class VehicleCatalog {
 		return copy;
 	}
 
-	public List getFilteredList(@RequestParam(name = "filter") String filter,
-								@RequestParam(name = "value") String value) {
+	public List getFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
-	public List getGreaterThanFilteredList(@RequestParam(name = "filter") String filter,
-										   @RequestParam(name = "value") String value) {
+	public List getGreaterThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
-	public List getLesserThanFilteredList(@RequestParam(name = "filter") String filter,
-										  @RequestParam(name = "value") String value) {
+	public List getLesserThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
@@ -125,11 +119,19 @@ public class VehicleCatalog {
 	 * @param vehicleRecord
 	 */
 	public void addVehicleRecord(VehicleRecord vehicleRecord) {
+		for (VehicleRecord existingVehicleRecord: this.vehicleRecordList) {
+			if (vehicleRecord.getLpr() == existingVehicleRecord.getLpr())
+			{
+				// throw new Exception("There is already a vehicle with license registration plate: " + vehicleRecord.getLpr() + " in the catalog.");
+				return;
+			}
+		}
+
 		this.vehicleRecordList.add(vehicleRecord);
 	}
 
 	public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate,
-							  String status) throws ParseException {
+							  String status) {
 
 		ClientRecord forClient = clientController.searchClient(driversLicense);
 		VehicleRecord seletctedVehicle = this.getVehicleRecord(licensePlateRecord);
@@ -154,8 +156,7 @@ public class VehicleCatalog {
 		selectedVehicle.returnTransaction(transactionId);
 	}
 
-	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId,
-			RedirectAttributes redirectAttributes) {
+	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes) {
 		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
 		for (int i = 0; i < transactionList.size(); i++) {
