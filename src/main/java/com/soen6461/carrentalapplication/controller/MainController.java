@@ -140,8 +140,8 @@ public class MainController {
 
 		boolean overlap = false;
 		for (int i = 0; i < transactionList.size(); i++) {
-			overlap = (tempStartDate.getTime() <= transactionList.get(i).getEndDate().getTime())
-					&& (transactionList.get(i).getStartDate().getTime() <= tempEndDate.getTime());
+			overlap = (tempStartDate.getTime() <= transactionList.get(i).getEndDateObject().getTime())
+					&& (transactionList.get(i).getStartDateObject().getTime() <= tempEndDate.getTime());
 
 			if (overlap) {
 				redirectAttributes.addFlashAttribute("errorMsg",

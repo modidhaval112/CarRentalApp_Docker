@@ -92,8 +92,7 @@
     <div id="TransactionCatalogTableSection">
         <div class="row">
             <div class="col">
-                <table id="mainTable" class="table table-hover dataTable"
-                >
+                <table id="mainTable" class="table table-hover dataTable">
                     <thead>
                     <tr>
                         <th>Time Stamp</th>
@@ -101,9 +100,9 @@
                         <th>Vehicle Type</th>
                         <th>Model</th>
                         <th>License Plate Number</th>
-                        <th>ClientName</th>
-                        <th>ReservedDate</th>
-                        <th>ReturnDate</th>
+                        <th>Client Name</th>
+                        <th>Reserved Date</th>
+                        <th>Return Date</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -115,8 +114,7 @@
                             <td>${listValue.transaction.vehicleRecord.carType}</td>
                             <td>${listValue.transaction.vehicleRecord.model}</td>
                             <td>${listValue.transaction.vehicleRecord.lpr}</td>
-                            <td>${listValue.transaction.clientRecord.firstName}
-                                    ${listValue.transaction.clientRecord.lastName}</td>
+                            <td>${listValue.transaction.clientRecord.firstName}${listValue.transaction.clientRecord.lastName}</td>
                             <td>${listValue.transaction.startDate}</td>
                             <td>${listValue.transaction.endDate}</td>
                             <td>${listValue.status}</td>
@@ -162,9 +160,7 @@
                 dataset.filter(function (index, item) {
                     return $(item).find('td:last-child').text().indexOf(selection) === -1;
                 }).hide();
-
             });
-
         });
     </script>
 </body>

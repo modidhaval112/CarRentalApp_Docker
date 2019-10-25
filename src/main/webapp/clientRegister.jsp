@@ -61,7 +61,6 @@
 					<table class="table table-striped" id="ct">
 						<thead>
 							<tr>
-								<th scope="col">id</th>
 								<th scope="col">Client Name</th>
 								<th scope="col">information</th>
 								<th></th>
@@ -70,7 +69,6 @@
 						<tbody id="ClientTable">
 							<c:forEach var="listValue" items="${clients}">
 								<tr>
-									<th scope="row">1</th>
 									<td>${listValue.firstName}${listValue.lastName}</td>
 									<td>
 										<div class="row">
@@ -104,13 +102,11 @@
 										
 										<div class="row">
 											<div class="col-md-auto">
-												<a
-													href="${pageContext.request.contextPath}/${listValue.driversLicenseNumber}"
+												<a href="${pageContext.request.contextPath}/${listValue.driversLicenseNumber}"
 													class="btn btn-outline-success">Edit</a>
 											</div>
 											<div class="col-md-auto">
-												<a
-													href="${pageContext.request.contextPath}/delete-client-record/${listValue.driversLicenseNumber}"
+												<a  href="${pageContext.request.contextPath}/delete-client-record/${listValue.driversLicenseNumber}"
 													onclick="return confirm('Are you sure?')"
 													class="btn btn-outline-danger">Delete</a>
 											</div>

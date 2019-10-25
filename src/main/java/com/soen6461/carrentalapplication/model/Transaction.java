@@ -1,12 +1,14 @@
 package com.soen6461.carrentalapplication.model;
 
 
+import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
-
+    private static int Id = 0;
     private ClientRecord clientRecord;
     private VehicleRecord vehicleRecord;
     private Date startDate;
@@ -46,7 +48,7 @@ public class Transaction {
             e.printStackTrace();
         }
         this.setStatus(vehicleStatus);
-        this.setTransactionId(clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr() + "_" + (new SimpleDateFormat("yyyy-MM-dd").parse(startDate)));
+        this.setTransactionId(Id++ + "_" + clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr());
     }
 
     /*
@@ -90,12 +92,30 @@ public class Transaction {
     }
 
     /**
+     * Gets the vehicle status. (yyyy-mm-dd)
+     *
+     * @return The start date.
+     */
+    public String getStartDate () {
+        return DataValidationHelper.dateFormat.format(this.startDate);
+    }
+
+    /**
      * Gets the vehicle status.
      *
      * @return The start date.
      */
-    public Date getStartDate() {
+    public Date getStartDateObject () {
         return this.startDate;
+    }
+
+    /**
+     * Gets the transaction end date. (yyyy-mm-dd)
+     *
+     * @return The end date.
+     */
+    public String getEndDate() {
+        return DataValidationHelper.dateFormat.format(this.endDate);
     }
 
     /**
@@ -103,7 +123,7 @@ public class Transaction {
      *
      * @return The end date.
      */
-    public Date getEndDate() {
+    public Date getEndDateObject() {
         return this.endDate;
     }
 

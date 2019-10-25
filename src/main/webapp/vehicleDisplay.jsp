@@ -58,10 +58,6 @@
 								<th scope="col">Year</th>
 								<th scope="col">Color</th>
 								<th scope="col">License Plate Record</th>
-
-
-
-
 								<th></th>
 							</tr>
 						</thead>
@@ -74,9 +70,6 @@
 									<td>${listValue.year}</td>
 									<td>${listValue.color}</td>
 									<td>${listValue.lpr}</td>
-
-
-
 									<td>
 										<div class="row"></div>
 										<div class="row">
