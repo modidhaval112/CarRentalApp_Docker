@@ -1,6 +1,11 @@
 package com.soen6461.carrentalapplication.Helpers;
 
+import java.text.SimpleDateFormat;
+
 public class DataValidationHelper {
+
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
     /**
      * Validates the format of the phone number.
