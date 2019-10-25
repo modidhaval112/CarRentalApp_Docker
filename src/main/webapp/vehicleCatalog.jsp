@@ -315,13 +315,17 @@
 																	</select>
 																</div>
 																<div class="form-group">
-																	<label for="fromDate2">From</label> <input type="text"
-																		class="form-control" id="fromDate2${listValue.lpr}"
-																		name="fromDate2" placeholder="yyyy-mm-dd" required>
+																	<label for="fromDate2">From</label>
+																	<input type="date"
+																		class="form-control"
+																		id="fromDate2"
+																		name="fromDate2"
+																		placeholder="yyyy-mm-dd" required>
 																</div>
 
 																<div class="form-group">
-																	<label for="toDate2">To</label> <input type="text"
+																	<label for="toDate2">To</label>
+																<input type="date"
 																		class="form-control" id="toDate2" name="toDate2"
 																		placeholder="yyyy-mm-dd" required>
 																</div>
