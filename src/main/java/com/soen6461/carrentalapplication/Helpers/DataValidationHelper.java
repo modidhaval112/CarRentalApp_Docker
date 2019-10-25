@@ -66,11 +66,10 @@ public class DataValidationHelper {
      * @return True if the drivers license number is valid, false otherwise.
      */
     public static boolean isDriversLicenseNumber(String driversLicenseNumber) {
-        driversLicenseNumber = driversLicenseNumber.trim();
 
-        if (driversLicenseNumber.matches("\\p{Alpha}[-]\\d{4}[-]\\d{6}[-]\\d{2}")) {
-            return true;
-        }
+        // Accepted format: A-1234-123456-12
+        return driversLicenseNumber.trim().matches("\\p{Alpha}[-]\\d{4}[-]\\d{6}[-]\\d{2}");
+    }
 
         // No match found
         return false;
