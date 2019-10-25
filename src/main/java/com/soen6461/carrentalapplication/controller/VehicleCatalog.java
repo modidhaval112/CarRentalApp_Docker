@@ -124,7 +124,14 @@ public class VehicleCatalog {
 	 *
 	 * @param vehicleRecord
 	 */
-	public void addVehicleRecord(VehicleRecord vehicleRecord) {
+	public void addVehicleRecord(VehicleRecord vehicleRecord) throws Exception {
+		for (VehicleRecord existingVehicleRecord: this.vehicleRecordList) {
+			if (vehicleRecord.getLpr() == existingVehicleRecord.getLpr())
+			{
+				throw new Exception("There is already a vehicle with license registration plate: " + vehicleRecord.getLpr() + " in the catalog.");
+			}
+		}
+
 		this.vehicleRecordList.add(vehicleRecord);
 	}
 

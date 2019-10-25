@@ -38,6 +38,13 @@ public class ClientController {
      * @throws Exception Throws an exception if the record already exists.
      */
     public void addClientRecord(ClientRecord clientRecord) {
+
+        for (ClientRecord existingClientRecord: this.clientRecordList) {
+            if(clientRecord.getDriversLicenseNumber() == existingClientRecord.getDriversLicenseNumber()) {
+                throw new Exception("There is already a client with drivers license: " + clientRecord.getDriversLicenseNumber() + " in the registry.");
+            }
+        }
+
         clientRecordList.add(clientRecord);
     }
 
