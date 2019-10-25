@@ -32,7 +32,7 @@ public class DataValidationHelper {
                 return true;
             }
             //validating phone number where area code is in braces ()
-            else if (phoneNumber.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
+            else if (phoneNumber.matches("(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}")) {
                 return true;
             }
         } catch (Exception e){
