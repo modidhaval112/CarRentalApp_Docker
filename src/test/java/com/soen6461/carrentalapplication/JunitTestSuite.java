@@ -6,10 +6,11 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	ClientTests.class,
-	FrontendActionTest.class,
-	 VehicleTests.class,
-		UserTests.class
+		ClientTests.class,
+		FrontendActionTest.class,
+		VehicleTests.class,
+		UserTests.class,
+		DataValidationHelperTests.class
 })
 
 public class JunitTestSuite  {   
