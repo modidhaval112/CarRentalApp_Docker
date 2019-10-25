@@ -473,15 +473,15 @@ public class MainController {
 		userRegister.addUser(new Clerk("super_clerk", "clerk"));
 
 		// Adding some hard coded vehicles to populate the views.
-		VehicleRecord v1 = new VehicleRecord("A12_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
+		VehicleRecord v1 = new VehicleRecord("ABC_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
 		this.vehicleCatalog.addVehicleRecord(v1);
 
-		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("U12_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
+		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("UDF_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
 
-		VehicleRecord v2 = new VehicleRecord("X12_646", "Sedan", "Audi", "A8", 2011, "Red");
+		VehicleRecord v2 = new VehicleRecord("ABC_636", "Sedan", "Audi", "A8", 2011, "Red");
 		this.vehicleCatalog.addVehicleRecord(v2);
 
-		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("Z12_996", "Sedan", "Audi", "Q7", 2014, "Black"));
+		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("ABC_636", "Sedan", "Audi", "Q7", 2014, "Black"));
 
 		// Adding some hard coded clients to populate the views.
 		ClientRecord c1 = new ClientRecord("A-1234-123456-12", "Dominick", "Cobb", "(438) 566-9999", "2039-10-1");
