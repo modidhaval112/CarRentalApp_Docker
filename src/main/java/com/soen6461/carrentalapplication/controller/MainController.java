@@ -309,9 +309,21 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping(value = "/edit-vehicle/{id}", method = RequestMethod.GET)
-	public String vehicleEdit(@PathVariable("id") String lpr, ModelAndView model, RedirectAttributes redirectAttributes) {
+	public String vehicleEdit(@PathVariable("id") String lpr, ModelMap model, RedirectAttributes redirectAttributes) {
+//		model.setViewName("vehicleEdit");
+//
+//		model.addObject("vehcileRecord", vehicleCatalog.searchVehicle(lpr));
+		VehicleRecord vr= vehicleCatalog.searchVehicle(lpr);
+//		model.addAllObjects(modelMap)
+		model.addAttribute("lpr",vr.getLpr());
+		model.addAttribute("year",vr.getYear());
+		model.addAttribute("model",vr.getModel());
+		model.addAttribute("color",vr.getColor());
+		model.addAttribute("make",vr.getMake());
+		model.addAttribute("carType",vr.getCarType());
+
 		
-		model.addObject("vehiceleRecord", vehicleCatalog.searchVehicle(lpr));
+
 		return "/vehicleEdit";
 	}
 
