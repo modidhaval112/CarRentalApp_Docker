@@ -321,6 +321,15 @@ public class MainController {
 		model.addAttribute("color",vr.getColor());
 		model.addAttribute("make",vr.getMake());
 		model.addAttribute("carType",vr.getCarType());
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addAttribute("disableButton", 0);
+		}
+		else {
+			model.addAttribute("disableButton", 1);
+		}
 
 		
 
