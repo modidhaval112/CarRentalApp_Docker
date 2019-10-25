@@ -12,8 +12,6 @@ public class VehicleRecord extends Record {
     private String color;
     private String lpr;
 
-    private List<Transaction> transactionList = new ArrayList<Transaction>();
-
     /**
      * The vehicle record constructor
      *
@@ -161,15 +159,16 @@ public class VehicleRecord extends Record {
 
     /**
      * Override the toString method with vehicle relevant information.
+     *
      * @return Vehicle record information.
      */
     public String ToString() {
         return "vehicleRecord:{ licensePlateNumber:" + this.getLpr() +
-                                " carType:" + this.getCarType() +
-                                " make:" + this.getMake() +
-                                " model:" + this.getModel() +
-                                " year:" + this.getYear() +
-                                " color:" + this.getColor() +
+                " carType:" + this.getCarType() +
+                " make:" + this.getMake() +
+                " model:" + this.getModel() +
+                " year:" + this.getYear() +
+                " color:" + this.getColor() +
                 "}";
     }
 }

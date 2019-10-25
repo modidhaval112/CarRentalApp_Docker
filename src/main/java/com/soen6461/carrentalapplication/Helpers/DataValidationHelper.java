@@ -35,7 +35,7 @@ public class DataValidationHelper {
             else if (phoneNumber.matches("(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}")) {
                 return true;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             // There was an error and the matching failed.
         }
 
@@ -61,6 +61,7 @@ public class DataValidationHelper {
 
     /**
      * Validate the drivers license format number
+     *
      * @param driversLicenseNumber drivers license number
      * @return True if the drivers license number is valid, false otherwise.
      */

@@ -25,7 +25,6 @@ public class ClientRecord {
      * @param phoneNumber          the clients phone number.
      * @param expirationDate       the clients drivers license expiration date.
      */
-
     public ClientRecord(String driversLicenseNumber, String firstName, String lastName, String phoneNumber, String expirationDate) {
 
         // The usage properties allows to add some validation in the properties to validate the entries.
