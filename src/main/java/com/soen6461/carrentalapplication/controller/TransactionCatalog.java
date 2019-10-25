@@ -1,13 +1,17 @@
 package com.soen6461.carrentalapplication.controller;
 
-import com.soen6461.carrentalapplication.model.Record;
-import com.soen6461.carrentalapplication.model.Transaction;
-import com.soen6461.carrentalapplication.model.TransactionHistory;
-import org.springframework.web.bind.annotation.RestController;
-
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.soen6461.carrentalapplication.model.Record;
+import com.soen6461.carrentalapplication.model.Transaction;
+import com.soen6461.carrentalapplication.model.TransactionHistory;
 
 
 @RestController
@@ -85,10 +89,15 @@ public class TransactionCatalog {
 
 	public List<TransactionHistory> getDueTodayTransactionHistory() {
 		List<TransactionHistory> temp = new ArrayList<>();
+		
 		Date date = new Date();
+	    Instant inst = date.toInstant();
+	    LocalDate localDate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
+	    Instant dayInst = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+	    Date day = Date.from(dayInst);		
+		
 		for (TransactionHistory t : record.getAllTransactionHistory()) {
-			// check if end date is equal to today and check if the status is rented or reserved
-			if (t.getTransaction().getEndDateObject().getTime() == date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
+			if ((t.getTransaction().getEndDateObject().compareTo(day) == 0) && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
 				temp.add(t);
 			}
 		}
