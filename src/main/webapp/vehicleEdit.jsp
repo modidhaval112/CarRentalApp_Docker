@@ -26,7 +26,7 @@
 <div class="container">
 	<h2>Vehicle Update</h2>
 	<s:form method="post" modelAttribute="vehcileRecord"
-			action="${pageContext.request.contextPath }/update-vehicle/${vehicleRecord.lpr}">
+			action="${pageContext.request.contextPath }/update-vehicle/${lpr}">
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="year">LicensePlateRecord</label>
