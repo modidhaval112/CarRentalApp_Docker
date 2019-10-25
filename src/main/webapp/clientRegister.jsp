@@ -61,7 +61,6 @@
 					<table class="table table-striped" id="ct">
 						<thead>
 							<tr>
-								<th scope="col">id</th>
 								<th scope="col">Client Name</th>
 								<th scope="col">information</th>
 								<th></th>
@@ -70,7 +69,6 @@
 						<tbody id="ClientTable">
 							<c:forEach var="listValue" items="${clients}">
 								<tr>
-									<th scope="row">1</th>
 									<td>${listValue.firstName}${listValue.lastName}</td>
 									<td>
 										<div class="row">
