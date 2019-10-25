@@ -38,4 +38,14 @@ public class DataValidationHelperTests {
         Assert.assertFalse(DataValidationHelper.isDriversLicenseNumber("Fake number"));
         Assert.assertTrue(DataValidationHelper.isDriversLicenseNumber("A-1234-123456-12"));
     }
+
+    /**
+     * Test the format of the date expected for this application.
+     */
+    @Test
+    public void LicenseRegistrationPlateFormatValidationTest() {
+        Assert.assertFalse(DataValidationHelper.isLicenseRegistrationPlateValid("Fake number"));
+        Assert.assertTrue(DataValidationHelper.isLicenseRegistrationPlateValid("ABC_123"));
+        Assert.assertTrue(DataValidationHelper.isLicenseRegistrationPlateValid("ABC 123"));
+    }
 }
