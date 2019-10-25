@@ -56,8 +56,8 @@ public class TransactionCatalog {
                     }
                 }
             }
-
         }
+
         return temp;
     }
 
@@ -66,6 +66,7 @@ public class TransactionCatalog {
         for (TransactionHistory t : record.getAllTransactionHistory()) {
             temp.add(t);
         }
+
         return temp;
     }
 
@@ -78,6 +79,7 @@ public class TransactionCatalog {
                 temp.add(t);
             }
         }
+
         return temp;
     }
 
@@ -90,6 +92,7 @@ public class TransactionCatalog {
 				temp.add(t);
 			}
 		}
+
 		return temp;
 	}
 }

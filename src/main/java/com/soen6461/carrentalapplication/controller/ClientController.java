@@ -37,7 +37,6 @@ public class ClientController {
      * @param clientRecord The client record to add.
      * @throws Exception Throws an exception if the record already exists.
      */
-
     public void addClientRecord(ClientRecord clientRecord) {
         clientRecordList.add(clientRecord);
     }
@@ -65,9 +64,9 @@ public class ClientController {
      *
      * @param clientRecord the updated client record.
      */
-    public void updateClientRecord(ClientRecord clientRecord, String driverslicense) {
+    public void updateClientRecord(ClientRecord clientRecord, String driversLicense) {
         for (int i = 0; i < clientRecordList.size(); i++) {
-            if (clientRecordList.get(i).getDriversLicenseNumber().equals(driverslicense)) {
+            if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicense)) {
                 clientRecordList.set(i,clientRecord);
             }
         }
