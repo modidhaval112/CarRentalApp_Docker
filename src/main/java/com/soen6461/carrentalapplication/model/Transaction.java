@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
-
+    private static int Id = 0;
     private ClientRecord clientRecord;
     private VehicleRecord vehicleRecord;
     private Date startDate;
@@ -48,7 +48,7 @@ public class Transaction {
             e.printStackTrace();
         }
         this.setStatus(vehicleStatus);
-        this.setTransactionId(clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr() + "_" + (new SimpleDateFormat("yyyy-MM-dd").parse(startDate)));
+        this.setTransactionId(Id++ + "_" + clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr());
     }
 
     /*
