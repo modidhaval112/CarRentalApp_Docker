@@ -49,8 +49,8 @@ public class Record extends Observable {
 
             if (t.getTransactionId().equals(transactionId)) {
                 setObserver("Cancelled", t);
-
-                iterator.remove();
+                t.setStatus(Transaction.Status.Cancelled);
+                //iterator.remove();
             }
         }
     }
