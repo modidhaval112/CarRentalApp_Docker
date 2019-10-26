@@ -17,20 +17,20 @@
 			<c:choose>
 				<c:when test="${inputDisplay == 0}">
 					<li class="nav-item active"><a class="nav-link"
-						href="trans-list">Transactions History<span class="sr-only"></span>
+						href="/trans-list">Transactions History<span class="sr-only"></span>
 					</a></li>
 				</c:when>
 			</c:choose>
 
 			<li class="nav-item active"><a class="nav-link"
-				href="vehicle-catalog">Vehicle Catalog<span class="sr-only"></span>
+				href="/vehicle-catalog">Vehicle Catalog<span class="sr-only"></span>
 			</a></li>
 
 			<c:set var="inputDisplay" value="${disableButton}" />
 			<c:choose>
 				<c:when test="${inputDisplay == 1}">
 					<li class="nav-item active"><a class="nav-link"
-						href="client-register">Client Register<span class="sr-only"></span>
+						href="/client-register">Client Register<span class="sr-only"></span>
 					</a></li>
 				</c:when>
 			</c:choose>
@@ -43,14 +43,14 @@
 			<c:choose>
 				<c:when test="${inputDisplay == 0}">
 					<li class="nav-item active"><a class="nav-link"
-						href="vehicle-register">Vehicle Register<span class="sr-only"></span></a>
+						href="/vehicle-register">Vehicle Register<span class="sr-only"></span></a>
 					</li>
 				</c:when>
 			</c:choose>
 
 
 			<li class="nav-item active"><a class="nav-link"
-				href="online-help">Online Help<span class="sr-only"></span>
+				href="/online-help">Online Help<span class="sr-only"></span>
 			</a></li>
 		</ul>
 

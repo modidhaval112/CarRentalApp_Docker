@@ -1,13 +1,20 @@
 package com.soen6461.carrentalapplication.controller;
 
-import com.soen6461.carrentalapplication.model.Record;
-import com.soen6461.carrentalapplication.model.Transaction;
-import com.soen6461.carrentalapplication.model.TransactionHistory;
-import org.springframework.web.bind.annotation.RestController;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.soen6461.carrentalapplication.model.Record;
+import com.soen6461.carrentalapplication.model.Transaction;
+import com.soen6461.carrentalapplication.model.TransactionHistory;
+import com.soen6461.carrentalapplication.model.VehicleRecord;
 
 
 @RestController
@@ -70,18 +77,24 @@ public class TransactionCatalog {
         return temp;
     }
 
-    public List<TransactionHistory> getOverDueTransactionHistory() {
-        List<TransactionHistory> temp = new ArrayList<>();
-        Date date = new Date();
-        for (TransactionHistory t : record.getAllTransactionHistory()) {
-        	// check if end date is less than today and check if the status is rented or reserved
-            if (t.getTransaction().getEndDateObject().getTime() < date.getTime() && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
-                temp.add(t);
-            }
-        }
+        public List<TransactionHistory> getOverDueTransactionHistory() {
+		List<TransactionHistory> temp = new ArrayList<>();
+		Date date = new Date();
+		Instant inst = date.toInstant();
+		LocalDate localDate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
+		Instant dayInst = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		Date day = Date.from(dayInst);
 
-        return temp;
-    }
+		for (TransactionHistory t : record.getAllTransactionHistory()) {
+			if ((t.getTransaction().getEndDateObject().compareTo(day) == -1)
+					&& (t.getTransaction().getStatus().equals(Transaction.Status.Reserved)
+							|| t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
+				temp.add(t);
+			}
+		}
+
+		return temp;
+	}
 
 	public List<TransactionHistory> getDueTodayTransactionHistory() {
 		List<TransactionHistory> temp = new ArrayList<>();
@@ -94,5 +107,45 @@ public class TransactionCatalog {
 		}
 
 		return temp;
+	}
+	
+	public List<VehicleRecord> getDueParticularDay(String vehicledate) throws ParseException{
+		List<VehicleRecord> temp = new ArrayList<>();
+		Date  d1 = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        d1=sdf.parse(vehicledate);
+        
+        
+
+		for (Transaction t : record.getTransactionList()) {
+			// check if end date is equal to today and check if the status is rented or reserved
+			if (sdf.parse(t.getEndDate() ).compareTo(d1)==0 || t.getStatus().equals(Transaction.Status.Rented)) {
+				temp.add(t.getVehicleRecord());
+			}
+		}
+		
+		return temp;
+		
+	}
+	
+	public List<VehicleRecord> getOverDueParticularDay(String vehicledate) throws ParseException{
+		List<VehicleRecord> temp = new ArrayList<>();
+		Date  d1 = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        d1=sdf.parse(vehicledate);
+        
+        
+
+		for (TransactionHistory t : record.getAllTransactionHistory()) {
+			// check if end date is equal to today and check if the status is rented or reserved
+			if (sdf.parse(t.getTransaction().getEndDate() ).compareTo(d1)>0 || t.getTransaction().getStatus().equals(Transaction.Status.Rented)) {
+				temp.add(t.getTransaction().getVehicleRecord());
+			}
+		}
+		
+		return temp;
+		
 	}
 }

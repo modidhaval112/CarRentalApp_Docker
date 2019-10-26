@@ -62,6 +62,37 @@
 		return true;
 	};
 </script>
+<script>
+	function show(select_item) {
+		if (select_item.value == "overdue" || select_item.value == "due") {
+			OnlyDate.style.visibility = 'visible';
+			OnlyDate.style.display = 'block';
+			ToDate.style.visibility = 'hidden';
+			ToDate.style.display = 'none';
+			FromDate.style.visibility = 'hidden';
+			FromDate.style.display = 'block';
+			Form.fileURL.focus();
+		} else {
+			OnlyDate.style.visibility = 'hidden';
+			OnlyDate.style.display = 'none';
+		}
+
+		if (select_item.value == "available") {
+			FromDate.style.visibility = 'visible';
+			FromDate.style.display = 'block';
+			ToDate.style.visibility = 'visible';
+			ToDate.style.display = 'block';
+			OnlyDate.style.visibility = 'hidden';
+			OnlyDate.style.display = 'none';
+			Form.fileURL.focus();
+		} else {
+			ToDate.style.visibility = 'hidden';
+			ToDate.style.display = 'none';
+			FromDate.style.visibility = 'hidden';
+			FromDate.style.display = 'block';
+		}
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="nav.jsp" />
@@ -77,13 +108,35 @@
 				<div class="input-group-prepend">
 
 					<select name="filter" class="form-control" placeholder="filter"
-						name="filter" id="filterType">
+						name="filter" id="filterType" onchange="show(this)">
 						<option value="make">Make</option>
 						<option value="model">Model</option>
 						<option value="color">Color</option>
 						<%--						<option value="available">Availability</option>--%>
 						<option value="greater">Greater than year</option>
 						<option value="lesser">Lesser than year</option>
+						<c:set var="inputDisplay" value="${disableButton}" />
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="overdue">OverDue</option>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="available">Available</option>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="due">Due</option>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="currentlyout">Currently Out vehicles</option>
+							</c:when>
+						</c:choose>
+						
 					</select> <br>
 				</div>
 				<input type="text" class="form-control"
@@ -93,6 +146,19 @@
 					<button class="btn btn-outline-secondary" type="submit"
 						id="button-addon2">Search</button>
 				</div>
+				<div id="FromDate" style="display: none">
+					<label>From Date</label> <input type="date" id="selectfromdate"
+						name="selectfromdate" min="2018-01-01" max="2025-12-31" >
+				</div>
+				<div id='ToDate' style="display: none">
+					<label>To Date</label> <input type="date" id="selecttodate"
+						name="selecttodate" min="2018-01-01" max="2025-12-31" >
+				</div>
+				<div id="OnlyDate" style="display: none">
+					<label>Date</label> <input type="date" id="Only_Date"
+						name="Only_Date" min="2018-01-01" max="2025-12-31" >
+				</div>
+			
 			</div>
 		</form>
 		<br />
@@ -315,19 +381,20 @@
 																	</select>
 																</div>
 																<div class="form-group">
-																	<label for="fromDate2">From</label>
-																	<input type="date"
-																		class="form-control"
-																		id="fromDate2"
-																		name="fromDate2"
-																		placeholder="yyyy-mm-dd" required>
+																	<label for="fromDate2">From</label> <input type="text"
+																		class="form-control" id="fromDate2${listValue.lpr}"
+																		name="fromDate2" placeholder="yyyy-mm-dd"
+																		pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
+																		required>
 																</div>
 
 																<div class="form-group">
 																	<label for="toDate2">To</label>
 																<input type="date"
 																		class="form-control" id="toDate2" name="toDate2"
-																		placeholder="yyyy-mm-dd" required>
+																		placeholder="yyyy-mm-dd"
+																		pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
+																		required>
 																</div>
 
 																<div class="form-group">
