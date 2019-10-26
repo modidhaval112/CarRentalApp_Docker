@@ -42,19 +42,20 @@
 	</div>
 	<br />
 	</div>
-	<div class="row">
-		<div class="col-1"></div>
-		<div class="col-8 md-auto">
 
-		<input type="text" class="form-control mb-3" id="client-search"
-		   placeholder="Type to search..." aria-label="clientName"
-		   aria-describedby="button-addon2" name="value" required>
-		</div>
-	</div>
 	<div class="container">
 		<br />
-			<!-- Table for the clients-->
+		<!-- Client search -->
+		<div class="row">
+			<div class="col">
 
+				<input type="text" class="form-control mb-3" id="client-search"
+				placeholder="Type client name to search..." aria-label="clientName"
+				aria-describedby="button-addon2" name="value" required>
+			</div>
+		</div>
+
+		<!-- Table for the clients-->
 		<div >
 			<div class="row">
 				<div class="col">
@@ -69,7 +70,7 @@
 						<tbody id="ClientTable">
 							<c:forEach var="listValue" items="${clients}">
 								<tr>
-									<td>${listValue.firstName}${listValue.lastName}</td>
+									<td>${listValue.firstName} ${listValue.lastName}</td>
 									<td>
 										<div class="row">
 											<div class="col-md-auto">
