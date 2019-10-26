@@ -64,6 +64,15 @@
 </script>
 <script>
 	function show(select_item) {
+		if (select_item.value == "overdue" || select_item.value == "due"
+				|| select_item.value == "available"
+				|| select_item.value == "currentlyout") {
+			document.getElementById("value").required = false;
+
+		} else {
+			document.getElementById("value").required = true;
+		}
+
 		if (select_item.value == "overdue" || select_item.value == "due") {
 			OnlyDate.style.visibility = 'visible';
 			OnlyDate.style.display = 'block';
@@ -141,7 +150,7 @@
 				</div>
 				<input type="text" class="form-control"
 					placeholder="Term to filter vehicles..." aria-label="clientName"
-					aria-describedby="button-addon2" name="value" id="value" required>
+					aria-describedby="button-addon2" name="value" id="value">
 				<div class="input-group-append">
 					<button class="btn btn-outline-secondary" type="submit"
 						id="button-addon2">Search</button>
