@@ -128,9 +128,9 @@ public class MainController {
 
 	@RequestMapping(value = "/assign-vehicle/{lpr}", method = RequestMethod.POST)
 	public String assignVehicle(@RequestParam("forClient") String driversLicense,
-								@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
-								@RequestParam("toDate2") String endDate, @RequestParam("status2") String status,
-								RedirectAttributes redirectAttributes) throws ParseException {
+			@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
+			@RequestParam("toDate2") String endDate, @RequestParam("status2") String status,
+			RedirectAttributes redirectAttributes) throws ParseException {
 
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
@@ -139,8 +139,8 @@ public class MainController {
 		Date tempEndDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
 
 		boolean overlap = false;
-				for (int i = 0; i < transactionList.size(); i++) {
-			
+		for (int i = 0; i < transactionList.size(); i++) {
+
 			if((transactionList.get(i).getStatus().equals(Transaction.Status.Reserved)) || (transactionList.get(i).getStatus().equals(Transaction.Status.Rented))) {
 				overlap = (tempStartDate.getTime() <= transactionList.get(i).getEndDateObject().getTime())
 						&& (transactionList.get(i).getStartDateObject().getTime() <= tempEndDate.getTime());
@@ -162,7 +162,7 @@ public class MainController {
 
 	@RequestMapping(value = "/cancel-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String cancelTransaction(@PathVariable("transactionId") String transactionId,
-									@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
+			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
 
 		vehicleCatalog.cancelTransaction(licensePlateRecord, transactionId, redirectAttributes);
 
@@ -171,7 +171,7 @@ public class MainController {
 
 	@RequestMapping(value = "/return-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String returnTransaction(@PathVariable("transactionId") String transactionId,
-									@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
+			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
 		vehicleCatalog.returnTransaction(transactionId, licensePlateRecord);
 		redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
 		return "redirect:/vehicle-catalog";
@@ -179,8 +179,8 @@ public class MainController {
 
 	@RequestMapping(value = "/edit-transaction/{clientDriversLicense}", method = RequestMethod.POST)
 	public String editTransaction(@PathVariable("clientDriversLicense") String driversLicenseNumber,
-								  @RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
-								  @RequestParam("toDate") String endDate, @RequestParam("status") String status) throws ParseException {
+			@RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
+			@RequestParam("toDate") String endDate, @RequestParam("status") String status) throws ParseException {
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
 		ClientRecord selectedClient = clientController.searchClient(driversLicenseNumber);
 		List<Transaction> buffer = selectedVehicle.getVehicleTransactionList();
@@ -238,7 +238,7 @@ public class MainController {
 
 	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
 	public String addClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
-								  RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 
 		List<ClientRecord> clientRecordList = clientController.getAllClientRecord();
 		boolean recordExists = false;
@@ -263,7 +263,7 @@ public class MainController {
 
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
 	public String addVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
-								   RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 
 		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
 		boolean recordExists = false;
@@ -313,18 +313,18 @@ public class MainController {
 	 */
 	@RequestMapping(value = "/edit-vehicle/{id}", method = RequestMethod.GET)
 	public String vehicleEdit(@PathVariable("id") String lpr, ModelMap model, RedirectAttributes redirectAttributes) {
-//		model.setViewName("vehicleEdit");
-//
-//		model.addObject("vehcileRecord", vehicleCatalog.searchVehicle(lpr));
+		//		model.setViewName("vehicleEdit");
+		//
+		//		model.addObject("vehcileRecord", vehicleCatalog.searchVehicle(lpr));
 		VehicleRecord vr= vehicleCatalog.searchVehicle(lpr);
-//		model.addAllObjects(modelMap)
+		//		model.addAllObjects(modelMap)
 		model.addAttribute("lpr",vr.getLpr());
 		model.addAttribute("year",vr.getYear());
 		model.addAttribute("model",vr.getModel());
 		model.addAttribute("color",vr.getColor());
 		model.addAttribute("make",vr.getMake());
 		model.addAttribute("carType",vr.getCarType());
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
@@ -334,7 +334,7 @@ public class MainController {
 			model.addAttribute("disableButton", 1);
 		}
 
-		
+
 
 		return "/vehicleEdit";
 	}
@@ -348,7 +348,7 @@ public class MainController {
 	 */
 	@RequestMapping(value = "/update-vehicle/{id}", method = RequestMethod.POST)
 	public String updateVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
-									  @PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
+			@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
 		redirectAttributes.addFlashAttribute("successMsg", "  Vehicle Record has been updated successfully.");
 		vehicleCatalog.updateVehicleRecord(vehicleRecord, lpr);
@@ -357,7 +357,7 @@ public class MainController {
 
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
 	public String updateClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
-									 @PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
+			@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
 
 		redirectAttributes.addFlashAttribute("successMsg", "  Client Record has been updated successfully.");
 
@@ -385,12 +385,27 @@ public class MainController {
 
 	@RequestMapping(value = "/vehicle-catalog-filter", method = RequestMethod.GET)
 	public ModelAndView getFilteredVehicleList(@RequestParam("filter") String filter,
-											   @RequestParam("value") String value) {
+			@RequestParam("value") String value,@RequestParam("selectfromdate") String selectfromdate, @RequestParam("selecttodate") String selecttodate,@RequestParam("Only_Date") String Only_Date) throws ParseException {
 		List<VehicleRecord> vehicles = vehicleCatalog.getFilteredList(filter, value);
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 		ModelAndView model = new ModelAndView("vehicleCatalog");
 		model.addObject("vehicles", vehicles);
 		model.addObject("clients", clients);
+
+		if(filter.equals("overdue"))
+		{
+			vehicles=vehicleCatalog.getOverDueParticularDay(Only_Date);
+		}
+		else if(filter.equals("due"))
+		{
+			vehicles=vehicleCatalog.getDueParticularDay(Only_Date);
+
+		}
+		else if(filter.equals("available"))
+		{
+			vehicles=vehicleCatalog.getAvailablabilityBetweenDates(selectfromdate, selecttodate);
+
+		}
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -405,7 +420,7 @@ public class MainController {
 
 	@RequestMapping(value = "/translist-filter", method = RequestMethod.GET)
 	public ModelAndView getFilteredTransactionHistory(@RequestParam("filter") String filter,
-													  @RequestParam("value") String value) {
+			@RequestParam("value") String value) {
 		System.out.println(filter + " " + value);
 		List<TransactionHistory> transactionsList = transactionCatalog.getFilteredTransactionHistory(filter, value);
 		ModelAndView model = new ModelAndView("transactions");
@@ -424,7 +439,7 @@ public class MainController {
 
 	@RequestMapping("/trans-list")
 	public ModelAndView displayAllTransactions() {
-		
+
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();		
 		List<TransactionHistory> transactionsList = transactionCatalog.getAllTransactionHistory();
 		ModelAndView model = new ModelAndView("transactions");
@@ -517,7 +532,7 @@ public class MainController {
 		this.clientController.addClientRecord(
 				new ClientRecord("A-1234-123456-13", "Robert", "Fischer", "(438) 566-9999", "2029-11-1"));
 		this.clientController
-				.addClientRecord(new ClientRecord("A-1234-123456-14", "Mal", "Cobb", "(438) 566-9999", "2029-12-1"));
+		.addClientRecord(new ClientRecord("A-1234-123456-14", "Mal", "Cobb", "(438) 566-9999", "2029-12-1"));
 
 		ClientRecord c2 = new ClientRecord("A-1234-123456-15", "Stephen", "Miles", "(438) 566-9999", "2059-11-1");
 		this.clientController.addClientRecord(c2);
