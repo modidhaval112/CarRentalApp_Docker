@@ -351,8 +351,8 @@
 								</c:when>
 
 								<c:when test="${empty listVehicleTransactionList}">
-							</div><p>No transactions to show</p>
-							</c:when>
+									<p>No transactions to show</p>
+								</c:when>
 
 							</c:choose>
 
