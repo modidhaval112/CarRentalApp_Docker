@@ -421,9 +421,12 @@ public class MainController {
 
 	@RequestMapping("/trans-list")
 	public ModelAndView displayAllTransactions() {
+		
+		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();		
 		List<TransactionHistory> transactionsList = transactionCatalog.getAllTransactionHistory();
 		ModelAndView model = new ModelAndView("transactions");
 		model.addObject("transactionsList", transactionsList);
+		model.addObject("vehicles", vehicles);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
