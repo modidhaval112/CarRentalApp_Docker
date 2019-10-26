@@ -1,12 +1,14 @@
 package com.soen6461.carrentalapplication.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,18 +39,15 @@ public class VehicleCatalog {
 		return copy;
 	}
 
-	public List getFilteredList(@RequestParam(name = "filter") String filter,
-								@RequestParam(name = "value") String value) {
+	public List getFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
-	public List getGreaterThanFilteredList(@RequestParam(name = "filter") String filter,
-										   @RequestParam(name = "value") String value) {
+	public List getGreaterThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
-	public List getLesserThanFilteredList(@RequestParam(name = "filter") String filter,
-										  @RequestParam(name = "value") String value) {
+	public List getLesserThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
@@ -125,11 +124,19 @@ public class VehicleCatalog {
 	 * @param vehicleRecord
 	 */
 	public void addVehicleRecord(VehicleRecord vehicleRecord) {
+		for (VehicleRecord existingVehicleRecord: this.vehicleRecordList) {
+			if (vehicleRecord.getLpr() == existingVehicleRecord.getLpr())
+			{
+				// throw new Exception("There is already a vehicle with license registration plate: " + vehicleRecord.getLpr() + " in the catalog.");
+				return;
+			}
+		}
+
 		this.vehicleRecordList.add(vehicleRecord);
 	}
 
 	public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate,
-							  String status) throws ParseException {
+							  String status) {
 
 		ClientRecord forClient = clientController.searchClient(driversLicense);
 		VehicleRecord seletctedVehicle = this.getVehicleRecord(licensePlateRecord);
@@ -154,8 +161,7 @@ public class VehicleCatalog {
 		selectedVehicle.returnTransaction(transactionId);
 	}
 
-	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId,
-			RedirectAttributes redirectAttributes) {
+	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes) {
 		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
 		for (int i = 0; i < transactionList.size(); i++) {
@@ -262,4 +268,120 @@ public class VehicleCatalog {
 			}
 		}
 	}
+	public List<VehicleRecord> getAvailablabilityBetweenDates(String startdate, String enddate) throws ParseException {
+		List<VehicleRecord> temp = new ArrayList<>();
+
+
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+			HashMap<String,String> vehStatus= new HashMap<String,String>();
+
+			List<Transaction> trans =vehicleRecordList.get(i).getTransactionList();
+			Date  sd = new Date();
+			Date  ed = new Date();
+			boolean transflag=false;
+
+			for(Transaction t:trans)
+			{
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				sd=sdf.parse(startdate);
+				ed=sdf.parse(enddate);
+				if((sd.compareTo(sdf.parse(t.getEndDate()))>0 || ed.compareTo(sdf.parse(t.getStartDate()))<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)) ) || t.getStatus().equals(Transaction.Status.Available) ||t.getStatus().equals(Transaction.Status.Cancelled)||t.getStatus().equals(Transaction.Status.Returned))
+				{
+					transflag=true;
+				}
+				else
+				{
+					transflag=false;
+					break;
+				}
+			}
+			if(trans.size()==0)
+			{
+				transflag=true;
+
+			}
+			if(transflag)
+			{
+				vehStatus.put(vehicleRecordList.get(i).getLpr(),"Available");
+				temp.add(vehicleRecordList.get(i));
+			}
+			else
+			{
+				vehStatus.put(vehicleRecordList.get(i).getLpr(),"NotAvailable");
+
+			}
+		}
+		return temp;
+	}
+	
+	public List<VehicleRecord> getOverDueParticularDay(String vehicledate) throws ParseException{
+		List<VehicleRecord> temp = new ArrayList<>();
+		Date  d1 = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        d1=sdf.parse(vehicledate);
+        
+    	for (int i = 0; i < vehicleRecordList.size(); i++) {
+        
+
+		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
+			if (sdf.parse(t.getEndDate() ).compareTo(d1)<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+				temp.add(t.getVehicleRecord());
+				break;
+			}
+		}
+		
+    	}
+		return temp;
+		
+	}
+	
+	public List<VehicleRecord> getDueParticularDay(String vehicledate) throws ParseException{
+		List<VehicleRecord> temp = new ArrayList<>();
+		Date  d1 = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        d1=sdf.parse(vehicledate);
+        
+    	for (int i = 0; i < vehicleRecordList.size(); i++) {
+        
+
+		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
+			if (sdf.parse(t.getEndDate() ).compareTo(d1)==0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+				temp.add(t.getVehicleRecord());
+				break;
+			}
+		}
+		
+    	}
+		return temp;
+		
+	}
+	
+	public List<VehicleRecord> getCurrentlyOutVehciles() throws ParseException{
+		List<VehicleRecord> temp = new ArrayList<>();
+		Date  d1 = new Date();
+	    Date cd = new Date();  
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        cd=sdf.parse(sdf.format(cd));
+        
+    	for (int i = 0; i < vehicleRecordList.size(); i++) {
+        
+
+		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
+			if (sdf.parse(t.getEndDate() ).compareTo(cd)>0 && sdf.parse(t.getStartDate() ).compareTo(cd)<0 &&(t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)))
+			{
+				temp.add(t.getVehicleRecord());
+				break;
+			}
+		}
+		
+    	}
+		return temp;
+		
+	}
+	
 }

@@ -35,7 +35,7 @@ public class DataValidationHelper {
             else if (phoneNumber.matches("(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}")) {
                 return true;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             // There was an error and the matching failed.
         }
 
@@ -61,17 +61,25 @@ public class DataValidationHelper {
 
     /**
      * Validate the drivers license format number
+     *
      * @param driversLicenseNumber drivers license number
      * @return True if the drivers license number is valid, false otherwise.
      */
     public static boolean isDriversLicenseNumber(String driversLicenseNumber) {
-        driversLicenseNumber = driversLicenseNumber.trim();
 
-        if (driversLicenseNumber.matches("\\p{Alpha}[-]\\d{4}[-]\\d{6}[-]\\d{2}")) {
-            return true;
-        }
+        // Accepted format: A-1234-123456-12
+        return driversLicenseNumber.trim().matches("\\p{Alpha}[-]\\d{4}[-]\\d{6}[-]\\d{2}");
+    }
 
-        // No match found
-        return false;
+    /**
+     * Validate the vehicle license registration plate.
+     *
+     * @param licenseRegistrationPlate Vehicle license registration plate.
+     * @return True if the vehicle license registration plate is valid, false otherwise.
+     */
+    public static boolean isLicenseRegistrationPlateValid(String licenseRegistrationPlate) {
+
+        // Accepted formats: ABC_012 or ABC 123
+        return licenseRegistrationPlate.trim().matches("[A-Za-z]{3}[ _][0-9]{3}");
     }
 }

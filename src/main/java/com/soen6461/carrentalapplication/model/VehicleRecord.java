@@ -1,6 +1,6 @@
 package com.soen6461.carrentalapplication.model;
 
-import java.util.ArrayList;
+import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import java.util.List;
 
 public class VehicleRecord extends Record {
@@ -11,8 +11,6 @@ public class VehicleRecord extends Record {
     private int year;
     private String color;
     private String lpr;
-
-    private List<Transaction> transactionList = new ArrayList<Transaction>();
 
     /**
      * The vehicle record constructor
@@ -152,7 +150,14 @@ public class VehicleRecord extends Record {
      * @param lpr The license plate registration number.
      */
     private void setLpr(String lpr) {
-        this.lpr = lpr;
+        lpr = lpr.trim();
+
+        if (DataValidationHelper.isLicenseRegistrationPlateValid(lpr)) {
+            this.lpr = lpr;
+        }
+        else {
+            // throw new InvalidParameterException("Phone number format not valid: " + lpr);
+        }
     }
 
     /*
@@ -161,15 +166,16 @@ public class VehicleRecord extends Record {
 
     /**
      * Override the toString method with vehicle relevant information.
+     *
      * @return Vehicle record information.
      */
     public String ToString() {
         return "vehicleRecord:{ licensePlateNumber:" + this.getLpr() +
-                                " carType:" + this.getCarType() +
-                                " make:" + this.getMake() +
-                                " model:" + this.getModel() +
-                                " year:" + this.getYear() +
-                                " color:" + this.getColor() +
+                " carType:" + this.getCarType() +
+                " make:" + this.getMake() +
+                " model:" + this.getModel() +
+                " year:" + this.getYear() +
+                " color:" + this.getColor() +
                 "}";
     }
 }
