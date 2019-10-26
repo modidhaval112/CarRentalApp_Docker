@@ -32,29 +32,29 @@
     <form method="GET" action="${contextPath}/translist-filter"
           class="input-group mb-3">
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
+<%--            <div class="input-group-prepend">--%>
 
-                <select name="filter" class="form-control" placeholder="filter"
-                        name="filter" id="filterType">
-                    <option value="vehicle-model">Model</option>
-                    <option value="vehicle-make">Make</option>
-                    <option value="car-type">Type</option>
-                    <option value="car-color">Color</option>
-                    <option value="client">Client</option>
-                    <%--						<option value="returned">Returned</option>--%>
-                    <%--						<option value="rented">Rented</option>--%>
-                    <%--						<option value="reserved">Reserved</option>--%>
-                    <%--						<option value="cancelled">Cancelled</option>--%>
-                </select> <br>
-            </div>
+<%--                <select name="filter" class="form-control" placeholder="filter"--%>
+<%--                        name="filter" id="filterType">--%>
+<%--                    <option value="vehicle-model">Model</option>--%>
+<%--                    <option value="vehicle-make">Make</option>--%>
+<%--                    <option value="car-type">Type</option>--%>
+<%--                    <option value="car-color">Color</option>--%>
+<%--                    <option value="client">Client</option>--%>
+<%--                    &lt;%&ndash;						<option value="returned">Returned</option>&ndash;%&gt;--%>
+<%--                    &lt;%&ndash;						<option value="rented">Rented</option>&ndash;%&gt;--%>
+<%--                    &lt;%&ndash;						<option value="reserved">Reserved</option>&ndash;%&gt;--%>
+<%--                    &lt;%&ndash;						<option value="cancelled">Cancelled</option>&ndash;%&gt;--%>
+<%--                </select> <br>--%>
+<%--            </div>--%>
             <input type="text" class="form-control" id="trans-filter-field-id"
                    placeholder="Term to filter vehicles..." aria-label="clientName"
                    aria-describedby="button-addon2" name="value" required>
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit"
-                        id="button-addon2">Search
-                </button>
-            </div>
+<%--            <div class="input-group-append">--%>
+<%--                <button class="btn btn-outline-secondary" type="submit"--%>
+<%--                        id="button-addon2">Search--%>
+<%--                </button>--%>
+<%--            </div>--%>
         </div>
     </form>
     <br/>
