@@ -24,7 +24,9 @@ public class Transaction {
     public enum Status {
         Available,
         Rented,
-        Reserved
+        Reserved,
+        Returned,
+        Cancelled
     }
 
     /**
