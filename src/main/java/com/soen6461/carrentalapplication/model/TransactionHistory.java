@@ -14,7 +14,7 @@ public class TransactionHistory {
 	 *
 	 * //TODO: Protect this method against unauthorised access from clerk.
 	 * @param transaction The transaction.
-	 * @throws status The transaction status.
+	 * @param status The transaction status.
 	 */
 	public TransactionHistory(Transaction transaction, String status) {
 		this.transaction = transaction;
