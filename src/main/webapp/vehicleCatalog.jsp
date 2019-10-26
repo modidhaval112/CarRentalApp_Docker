@@ -62,6 +62,37 @@
 		return true;
 	};
 </script>
+<script>
+	function show(select_item) {
+		if (select_item.value == "overdue" || select_item.value == "due") {
+			OnlyDate.style.visibility = 'visible';
+			OnlyDate.style.display = 'block';
+			ToDate.style.visibility = 'hidden';
+			ToDate.style.display = 'none';
+			FromDate.style.visibility = 'hidden';
+			FromDate.style.display = 'block';
+			Form.fileURL.focus();
+		} else {
+			OnlyDate.style.visibility = 'hidden';
+			OnlyDate.style.display = 'none';
+		}
+
+		if (select_item.value == "available") {
+			FromDate.style.visibility = 'visible';
+			FromDate.style.display = 'block';
+			ToDate.style.visibility = 'visible';
+			ToDate.style.display = 'block';
+			OnlyDate.style.visibility = 'hidden';
+			OnlyDate.style.display = 'none';
+			Form.fileURL.focus();
+		} else {
+			ToDate.style.visibility = 'hidden';
+			ToDate.style.display = 'none';
+			FromDate.style.visibility = 'hidden';
+			FromDate.style.display = 'block';
+		}
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="nav.jsp" />
@@ -77,7 +108,7 @@
 				<div class="input-group-prepend">
 
 					<select name="filter" class="form-control" placeholder="filter"
-						name="filter" id="filterType">
+						name="filter" id="filterType" onchange="show(this)">
 						<option value="make">Make</option>
 						<option value="model">Model</option>
 						<option value="color">Color</option>
@@ -121,6 +152,7 @@
 					<label>Date</label> <input type="date" id="Only_Date"
 						name="Only_Date" min="2018-01-01" max="2025-12-31" >
 				</div>
+			
 			</div>
 		</form>
 		<br />
@@ -182,53 +214,44 @@
 													<c:forEach var="transactionListValue"
 														items="${listValue.vehicleTransactionList}">
 														<form>
-															<c:set var="transactionStatus"
-																value="${transactionListValue.status}" />
-															<c:choose>
-																<c:when
-																	test="${transactionStatus == 'Rented' || transactionStatus == 'Reserved'}">
+															<tr>
+																<td>
+																	<p>${transactionListValue.clientRecord.firstName}
+																		${transactionListValue.clientRecord.lastName}</p>
+																</td>
+																<td>
+																	<p>${transactionListValue.startDate}</p>
+																</td>
+																<td>
+																	<p>${transactionListValue.endDate}</p>
+																</td>
+																<td>
+																	<p>${transactionListValue.status}</p>
+																</td>
 
-																	<tr>
-																		<td>
-																			<p>${transactionListValue.clientRecord.firstName}
-																				${transactionListValue.clientRecord.lastName}</p>
-																		</td>
-																		<td>
-																			<p>${transactionListValue.startDate}</p>
-																		</td>
-																		<td>
-																			<p>${transactionListValue.endDate}</p>
-																		</td>
-																		<td>
-																			<p>${transactionListValue.status}</p>
-																		</td>
+																<td>
+																	<div class="row">
+																		<c:set var="inputDisplay" value="${disableButton}" />
+																		<c:choose>
+																			<c:when test="${inputDisplay == 1}">
+																				<div class="col-md-auto">
+																					<a
+																						href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																						onclick="return confirm('Are you sure?')"
+																						class="btn btn-outline-info">Return</a>
+																				</div>
+																				<div class="col-md-auto">
+																					<a
+																						href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																						onclick="return confirm('Are you sure?')"
+																						class="btn btn-outline-danger">Cancel</a>
+																				</div>
+																			</c:when>
+																		</c:choose>
 
-																		<td>
-																			<div class="row">
-																				<c:set var="inputDisplay" value="${disableButton}" />
-																				<c:choose>
-																					<c:when test="${inputDisplay == 1}">
-																						<div class="col-md-auto">
-																							<a
-																								href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
-																								onclick="return confirm('Are you sure?')"
-																								class="btn btn-outline-info">Return</a>
-																						</div>
-																						<div class="col-md-auto">
-																							<a
-																								href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
-																								onclick="return confirm('Are you sure?')"
-																								class="btn btn-outline-danger">Cancel</a>
-																						</div>
-																					</c:when>
-																				</c:choose>
-
-																			</div>
-																		</td>
-																	</tr>
-
-																</c:when>
-															</c:choose>
+																	</div>
+																</td>
+															</tr>
 														</form>
 														<!-- Modal -->
 														<div class="modal fade"
@@ -352,7 +375,7 @@
 																	</select>
 																</div>
 																<div class="form-group">
-																	<label for="fromDate2">From</label> <input type="date"
+																	<label for="fromDate2">From</label> <input type="text"
 																		class="form-control" id="fromDate2${listValue.lpr}"
 																		name="fromDate2" placeholder="yyyy-mm-dd"
 																		pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
@@ -360,7 +383,7 @@
 																</div>
 
 																<div class="form-group">
-																	<label for="toDate2">To</label> <input type="date"
+																	<label for="toDate2">To</label> <input type="text"
 																		class="form-control" id="toDate2" name="toDate2"
 																		placeholder="yyyy-mm-dd"
 																		pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
