@@ -139,14 +139,17 @@ public class MainController {
 		Date tempEndDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
 
 		boolean overlap = false;
-		for (int i = 0; i < transactionList.size(); i++) {
-			overlap = (tempStartDate.getTime() <= transactionList.get(i).getEndDateObject().getTime())
-					&& (transactionList.get(i).getStartDateObject().getTime() <= tempEndDate.getTime());
+				for (int i = 0; i < transactionList.size(); i++) {
+			
+			if((transactionList.get(i).getStatus().equals(Transaction.Status.Reserved)) || (transactionList.get(i).getStatus().equals(Transaction.Status.Rented))) {
+				overlap = (tempStartDate.getTime() <= transactionList.get(i).getEndDateObject().getTime())
+						&& (transactionList.get(i).getStartDateObject().getTime() <= tempEndDate.getTime());
 
-			if (overlap) {
-				redirectAttributes.addFlashAttribute("errorMsg",
-						"  Sorry, this car is already booked for the given period of time.");
-				break;
+				if (overlap) {
+					redirectAttributes.addFlashAttribute("errorMsg",
+							"  Sorry, this car is already booked for the given period of time.");
+					break;
+				}
 			}
 		}
 
