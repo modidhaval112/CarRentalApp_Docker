@@ -60,7 +60,7 @@ public class Record extends Observable {
      *
      * @param transactionId The transaction to remove.
      */
-    public void returnTransaction(String transactionId) {
+   public void returnTransaction(String transactionId) {
 
         Iterator<Transaction> iterator = this.transactionList.iterator();
 
@@ -68,8 +68,8 @@ public class Record extends Observable {
             Transaction t = iterator.next();
             if (t.getTransactionId().equals(transactionId)) {
                 setObserver("Returned", t);
-
-                iterator.remove();
+                t.setStatus(Transaction.Status.Returned);
+                //iterator.remove();
             }
         }
     }
