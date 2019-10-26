@@ -86,6 +86,25 @@ public class TransactionCatalog {
 
         return temp;
     }
+	public List<VehicleRecord> getDueParticularDay(String vehicledate) throws ParseException{
+		List<VehicleRecord> temp = new ArrayList<>();
+		Date  d1 = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        d1=sdf.parse(vehicledate);
+        
+        
+
+		for (Transaction t : record.getTransactionList()) {
+			// check if end date is equal to today and check if the status is rented or reserved
+			if (sdf.parse(t.getEndDate() ).compareTo(d1)==0 || t.getStatus().equals(Transaction.Status.Rented)) {
+				temp.add(t.getVehicleRecord());
+			}
+		}
+		
+		return temp;
+		
+	}
 
 	public List<TransactionHistory> getDueTodayTransactionHistory() {
 		List<TransactionHistory> temp = new ArrayList<>();
