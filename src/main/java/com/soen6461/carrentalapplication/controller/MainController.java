@@ -548,7 +548,7 @@ public class MainController {
 		v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-10-22", Transaction.Status.Rented));
 
 		v2.addTransaction(new Transaction(c2, v2, "2020-07-1", "2020-01-15", Transaction.Status.Rented));
-		v2.addTransaction(new Transaction(c1, v2, "2020-09-1", "2019-10-23", Transaction.Status.Reserved));
+		v2.addTransaction(new Transaction(c1, v2, "2019-09-1", "2019-10-23", Transaction.Status.Reserved));
 
 	}
 }
