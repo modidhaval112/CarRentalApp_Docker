@@ -109,6 +109,18 @@
 					<button class="btn btn-outline-secondary" type="submit"
 						id="button-addon2">Search</button>
 				</div>
+				<div id="FromDate" style="display: none">
+					<label>From Date</label> <input type="date" id="selectfromdate"
+						name="selectfromdate" min="2018-01-01" max="2025-12-31" >
+				</div>
+				<div id='ToDate' style="display: none">
+					<label>To Date</label> <input type="date" id="selecttodate"
+						name="selecttodate" min="2018-01-01" max="2025-12-31" >
+				</div>
+				<div id="OnlyDate" style="display: none">
+					<label>Date</label> <input type="date" id="Only_Date"
+						name="Only_Date" min="2018-01-01" max="2025-12-31" >
+				</div>
 			</div>
 		</form>
 		<br />
