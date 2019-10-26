@@ -84,6 +84,12 @@
 						<%--						<option value="available">Availability</option>--%>
 						<option value="greater">Greater than year</option>
 						<option value="lesser">Lesser than year</option>
+						<c:set var="inputDisplay" value="${disableButton}" />
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="overdue">OverDue</option>
+							</c:when>
+						</c:choose>
 					</select> <br>
 				</div>
 				<input type="text" class="form-control"
