@@ -282,7 +282,7 @@ public class VehicleCatalog {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				sd=sdf.parse(startdate);
 				ed=sdf.parse(enddate);
-				if(sd.compareTo(sdf.parse(t.getEndDate()))>0 || ed.compareTo(sdf.parse(t.getStartDate()))<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))  )
+				if((sd.compareTo(sdf.parse(t.getEndDate()))>0 || ed.compareTo(sdf.parse(t.getStartDate()))<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)) ) || t.getStatus().equals(Transaction.Status.Available) ||t.getStatus().equals(Transaction.Status.Cancelled)||t.getStatus().equals(Transaction.Status.Returned))
 				{
 					transflag=true;
 				}
