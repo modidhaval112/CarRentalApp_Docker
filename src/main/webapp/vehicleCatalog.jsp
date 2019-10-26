@@ -131,6 +131,12 @@
 								<option value="due">Due</option>
 							</c:when>
 						</c:choose>
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="currentlyout">Currently Out vehicles</option>
+							</c:when>
+						</c:choose>
+						
 					</select> <br>
 				</div>
 				<input type="text" class="form-control"

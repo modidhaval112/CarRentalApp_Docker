@@ -389,8 +389,7 @@ public class MainController {
 		List<VehicleRecord> vehicles = vehicleCatalog.getFilteredList(filter, value);
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 		ModelAndView model = new ModelAndView("vehicleCatalog");
-		model.addObject("vehicles", vehicles);
-		model.addObject("clients", clients);
+		
 
 		if(filter.equals("overdue"))
 		{
@@ -406,6 +405,12 @@ public class MainController {
 			vehicles=vehicleCatalog.getAvailablabilityBetweenDates(selectfromdate, selecttodate);
 
 		}
+		
+		else if(filter.equals("currentlyout"))
+		{
+			vehicles=vehicleCatalog.getCurrentlyOutVehciles();
+
+		}
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -414,7 +419,8 @@ public class MainController {
 		} else {
 			model.addObject("disableButton", 1);
 		}
-
+		model.addObject("vehicles", vehicles);
+		model.addObject("clients", clients);
 		return model;
 	}
 

@@ -322,7 +322,6 @@ public class VehicleCatalog {
         
 
 		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
-			// check if end date is equal to today and check if the status is rented or reserved
 			if (sdf.parse(t.getEndDate() ).compareTo(d1)<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
 				temp.add(t.getVehicleRecord());
 				break;
@@ -345,8 +344,33 @@ public class VehicleCatalog {
         
 
 		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
-			// check if end date is equal to today and check if the status is rented or reserved
 			if (sdf.parse(t.getEndDate() ).compareTo(d1)==0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+				temp.add(t.getVehicleRecord());
+				break;
+			}
+		}
+		
+    	}
+		return temp;
+		
+	}
+	
+	public List<VehicleRecord> getCurrentlyOutVehciles() throws ParseException{
+		List<VehicleRecord> temp = new ArrayList<>();
+		Date  d1 = new Date();
+	    Date cd = new Date();  
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        cd=sdf.parse(sdf.format(cd));
+        
+    	for (int i = 0; i < vehicleRecordList.size(); i++) {
+        
+
+		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
+			if (sdf.parse(t.getEndDate() ).compareTo(cd)>0 && sdf.parse(t.getStartDate() ).compareTo(cd)<0 &&(t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)))
+			{
 				temp.add(t.getVehicleRecord());
 				break;
 			}
