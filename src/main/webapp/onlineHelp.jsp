@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags/form"%>
+
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -16,59 +18,116 @@
 </head>
 <body>
 <jsp:include page="nav.jsp" />
-<div class="container">
-    <div class="row">
-        <div class="col">
 
-            <br /> <br />
-            <H1>Clerk Functionality</H1>
-            <br />
+<c:set var="inputDisplay" value="${disableButton}" />
+<c:choose>
+    <c:when test="${inputDisplay == 0}">
+        <div class="container">
+            <div class="row">
+                <div class="col">
 
-            <H2>Client Management</H2>
-            <p>From the client Register:</p>
-            <ul>
-                <li>
-                    <p>Navigate the registered clients</p>
-                </li>
-                <li>
-                    <p>The clerk can remove clients by clicking on the delete
-                        button.</p>
-                </li>
-                <li>
-                    <p>The clerk can Add clients by clicking on the Add Client
-                        button.</p>
-                </li>
-                <li>
-                    <p>Update the client details by clicking on the edit button.</p>
-                </li>
-            </ul>
-            <br />
+                    <br /> <br />
+                    <H1>Admin Functionality</H1>
+                    <br />
 
-            <H2>Vehicle Catalog</H2>
-            <H3>Navigating the vehicle catalog</H3>
-            <p>The displayed list of vehicle can be search by entering the a
-                criteria and clicking on search.</p>
-            <p>The displayed list of vehicle can be be sorted by clicking on
-                one of the table headers.</p>
-            <p>The Vehicles can be sorted based on year by entering only the
-                year.</p>
-            <p>The View Detail button will present all the transactions
-                associated to the vehicle.</p>
-            <H3>Managing rentals</H3>
-            <p>To add a transaction, simply click on the Add Transaction
-                button and fill the form.</p>
-            <p>To return a transaction simply click on the Return button on
-                the transaction displayed in the detailed view.</p>
-            <p>To cancel a transaction simply click on the Cancel button on
-                the transaction displayed in the detailed view.</p>
-            <p>To edit a transaction simply cancel the transaction and add
-                recreate it.</p>
+                    <H2>Transaction History Management</H2>
+                    <p>From the 'Transaction History'</p>
+                    <ul>
+                        <li>
+                            <p>Filter out the transaction based on the status by
+                                selecting from drop-down.</p>
+                        </li>
+                        <li>
+                            <p>Can view all the transactions by clicking on 'All'
+                                button.</p>
+                        </li>
+                        <li>
+                            <p>Can view overdue the transactions by clicking on 'Over
+                                Due' button.</p>
+                        </li>
+                        <li>
+                            <p>Can view transactions which are due today by clicking on
+                                'Due Today' button.</p>
+                        </li>
+                    </ul>
+                    <br />
+
+                    <H2>Vehicle Catalog</H2>
+                    <H3>Navigating the vehicle catalog</H3>
+                    <p>The displayed list of vehicle can be search by entering the
+                        a criteria and clicking on search.</p>
+                    <p>The displayed list of vehicle can be be sorted by clicking
+                        on one of the table headers.</p>
+                    <p>The Vehicles can be sorted based on year by entering only
+                        the year.</p>
+                    <p>The View Detail button will present all the transactions
+                        associated to the vehicle.</p>
+
+                    <H2>Managing Vehicles</H2>
+                    <p>From the 'Vehicle Register'</p>
+                    <p>To add a vehicle, simply click on the Add vehicle button
+                        and fill the form.</p>
+                    <p>To edit a vehicle details, simply click on the Edit button
+                        button and update the form.</p>
+                    <p>To delete a vehicle simply click on the Delete button and
+                        confirm.</p>
+                </div>
+
+            </div>
         </div>
 
-    </div>
-</div>
+    </c:when>
+
+
+
+    <c:when test="${inputDisplay == 1}">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+
+                    <br /> <br />
+                    <H1>Clerk Functionality</H1>
+                    <br />
+
+                    <H2>Client Management</H2>
+                    <p>From the client Register:</p>
+                    <p>Navigate the registered clients</p>
+                    <p>The clerk can remove clients by clicking on the delete
+                        button.</p>
+                    <p>The clerk can Add clients by clicking on the Add Client
+                        button.</p>
+                    <p>Update the client details by clicking on the edit button.</p>
+                    <br />
+
+                    <H2>Vehicle Catalog</H2>
+                    <H3>Navigating the vehicle catalog</H3>
+                    <p>The displayed list of vehicle can be search by entering the
+                        a criteria and clicking on search.</p>
+                    <p>The displayed list of vehicle can be be sorted by clicking
+                        on one of the table headers.</p>
+                    <p>The Vehicles can be sorted based on year by entering only
+                        the year.</p>
+                    <p>The View Detail button will present all the transactions
+                        associated to the vehicle.</p>
+                    <H3>Managing rentals</H3>
+                    <p>To add a transaction, simply click on the Add Transaction
+                        button and fill the form.</p>
+                    <p>To return a transaction simply click on the Return button
+                        on the transaction displayed in the detailed view.</p>
+                    <p>To cancel a transaction simply click on the Cancel button
+                        on the transaction displayed in the detailed view.</p>
+                    <p>To edit a transaction simply cancel the transaction and add
+                        recreate it.</p>
+                </div>
+
+            </div>
+        </div>
+    </c:when>
+</c:choose>
 <br />
 <br />
+
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
