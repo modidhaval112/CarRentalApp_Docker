@@ -154,44 +154,53 @@
 													<c:forEach var="transactionListValue"
 														items="${listValue.vehicleTransactionList}">
 														<form>
-															<tr>
-																<td>
-																	<p>${transactionListValue.clientRecord.firstName}
-																		${transactionListValue.clientRecord.lastName}</p>
-																</td>
-																<td>
-																	<p>${transactionListValue.startDate}</p>
-																</td>
-																<td>
-																	<p>${transactionListValue.endDate}</p>
-																</td>
-																<td>
-																	<p>${transactionListValue.status}</p>
-																</td>
+															<c:set var="transactionStatus"
+																value="${transactionListValue.status}" />
+															<c:choose>
+																<c:when
+																	test="${transactionStatus == 'Rented' || transactionStatus == 'Reserved'}">
 
-																<td>
-																	<div class="row">
-																		<c:set var="inputDisplay" value="${disableButton}" />
-																		<c:choose>
-																			<c:when test="${inputDisplay == 1}">
-																				<div class="col-md-auto">
-																					<a
-																						href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
-																						onclick="return confirm('Are you sure?')"
-																						class="btn btn-outline-info">Return</a>
-																				</div>
-																				<div class="col-md-auto">
-																					<a
-																						href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
-																						onclick="return confirm('Are you sure?')"
-																						class="btn btn-outline-danger">Cancel</a>
-																				</div>
-																			</c:when>
-																		</c:choose>
+																	<tr>
+																		<td>
+																			<p>${transactionListValue.clientRecord.firstName}
+																				${transactionListValue.clientRecord.lastName}</p>
+																		</td>
+																		<td>
+																			<p>${transactionListValue.startDate}</p>
+																		</td>
+																		<td>
+																			<p>${transactionListValue.endDate}</p>
+																		</td>
+																		<td>
+																			<p>${transactionListValue.status}</p>
+																		</td>
 
-																	</div>
-																</td>
-															</tr>
+																		<td>
+																			<div class="row">
+																				<c:set var="inputDisplay" value="${disableButton}" />
+																				<c:choose>
+																					<c:when test="${inputDisplay == 1}">
+																						<div class="col-md-auto">
+																							<a
+																								href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																								onclick="return confirm('Are you sure?')"
+																								class="btn btn-outline-info">Return</a>
+																						</div>
+																						<div class="col-md-auto">
+																							<a
+																								href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																								onclick="return confirm('Are you sure?')"
+																								class="btn btn-outline-danger">Cancel</a>
+																						</div>
+																					</c:when>
+																				</c:choose>
+
+																			</div>
+																		</td>
+																	</tr>
+
+																</c:when>
+															</c:choose>
 														</form>
 														<!-- Modal -->
 														<div class="modal fade"
