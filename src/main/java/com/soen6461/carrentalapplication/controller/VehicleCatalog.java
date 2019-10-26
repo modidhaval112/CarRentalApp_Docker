@@ -1,8 +1,11 @@
 package com.soen6461.carrentalapplication.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -261,5 +264,50 @@ public class VehicleCatalog {
 				vehicleRecordList.set(i,vehicleRecord);
 			}
 		}
+	}
+	public List<VehicleRecord> getAvailablabilityBetweenDates(String startdate, String enddate) throws ParseException {
+		List<VehicleRecord> temp = new ArrayList<>();
+
+
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+			HashMap<String,String> vehStatus= new HashMap<String,String>();
+
+			List<Transaction> trans =vehicleRecordList.get(i).getTransactionList();
+			Date  sd = new Date();
+			Date  ed = new Date();
+			boolean transflag=false;
+
+			for(Transaction t:trans)
+			{
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				sd=sdf.parse(startdate);
+				ed=sdf.parse(enddate);
+				if(sd.compareTo(sdf.parse(t.getEndDate()))>0 || ed.compareTo(sdf.parse(t.getStartDate()))<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))  )
+				{
+					transflag=true;
+				}
+				else
+				{
+					transflag=false;
+					break;
+				}
+			}
+			if(trans.size()==0)
+			{
+				transflag=true;
+
+			}
+			if(transflag)
+			{
+				vehStatus.put(vehicleRecordList.get(i).getLpr(),"Available");
+				temp.add(vehicleRecordList.get(i));
+			}
+			else
+			{
+				vehStatus.put(vehicleRecordList.get(i).getLpr(),"NotAvailable");
+
+			}
+		}
+		return temp;
 	}
 }
