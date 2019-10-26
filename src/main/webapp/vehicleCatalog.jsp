@@ -90,6 +90,16 @@
 								<option value="overdue">OverDue</option>
 							</c:when>
 						</c:choose>
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="available">Available</option>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${inputDisplay == 0}">
+								<option value="due">Due</option>
+							</c:when>
+						</c:choose>
 					</select> <br>
 				</div>
 				<input type="text" class="form-control"
