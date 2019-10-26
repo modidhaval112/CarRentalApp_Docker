@@ -34,8 +34,9 @@
                     <p>From the 'Transaction History'</p>
                     <ul>
                         <li>
-                            <p>Filter out the transaction based on the status by
-                                selecting from drop-down.</p>
+                            <p>The Transactions can be filtered based on the Client name, Vehicle License plate number, model, make and also by a specific due date.<br>
+                                Just type the data in the search bar.
+                            </p>
                         </li>
                         <li>
                             <p>Can view all the transactions by clicking on 'All'
