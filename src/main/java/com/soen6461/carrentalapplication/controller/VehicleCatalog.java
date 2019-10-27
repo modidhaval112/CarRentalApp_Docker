@@ -254,11 +254,11 @@ public class VehicleCatalog {
 	}
 
 	public void deleteVehicleRecord(String lpr) {
-		for (int i = 0; i < vehicleRecordList.size(); i++) {
-			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
-				vehicleRecordList.remove(vehicleRecordList.get(i));
-			}
-		}
+//		for (int i = 0; i < vehicleRecordList.size(); i++) {
+//			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
+				vehicleRecordList.remove(searchVehicle(lpr));
+//			}
+//		}
 	}
 
 	public void updateVehicleRecord(VehicleRecord vehicleRecord, String lpr) {
