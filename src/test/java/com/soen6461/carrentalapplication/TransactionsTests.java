@@ -130,6 +130,8 @@ public class TransactionsTests {
 		System.out.println(afteradd);
 
 		Assert.assertTrue(beforeadd==afteradd);
+		
+		
 
 	}
 }
