@@ -372,7 +372,7 @@ public class VehicleCatalog {
         
 
 		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
-			if (sdf.parse(t.getEndDate() ).compareTo(cd)>0 && sdf.parse(t.getStartDate() ).compareTo(cd)<0 &&(t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)))
+			if (sdf.parse(t.getEndDate() ).compareTo(cd)>=0 && sdf.parse(t.getStartDate() ).compareTo(cd)<=0 &&(t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)))
 			{
 				temp.add(t.getVehicleRecord());
 				break;
