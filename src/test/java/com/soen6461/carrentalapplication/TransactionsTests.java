@@ -94,4 +94,42 @@ public class TransactionsTests {
 
 		Assert.assertFalse(beforeadd==afteradd);
 	}
+	@Test
+	public void vehiclesOverDue() throws ParseException
+	{
+		List<VehicleRecord> vr= vehicleCatalog.getOverDueParticularDay("2019-10-22");
+		int beforeadd=vr.size();
+		System.out.println(beforeadd);
+		ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
+
+		VehicleRecord v1 =  vehicleCatalog.getVehicleRecord("ABF_636");
+		Transaction t1= new Transaction(clientRecord, v1, "2019-10-19", "2019-10-21", Transaction.Status.Rented);
+		v1.addTransaction(t1);
+		int afteradd= vehicleCatalog.getOverDueParticularDay("2019-10-22").size();
+
+		System.out.println(afteradd);
+
+		Assert.assertFalse(beforeadd==afteradd);
+
+	}
+	
+	
+	@Test
+	public void vehiclesOverDueTrue() throws ParseException
+	{
+		List<VehicleRecord> vr= vehicleCatalog.getOverDueParticularDay("2019-10-22");
+		int beforeadd=vr.size();
+		System.out.println(beforeadd);
+		ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
+
+		VehicleRecord v1 =  vehicleCatalog.getVehicleRecord("ABF_636");
+		Transaction t1= new Transaction(clientRecord, v1, "2019-10-19", "2019-10-24", Transaction.Status.Rented);
+		v1.addTransaction(t1);
+		int afteradd= vehicleCatalog.getOverDueParticularDay("2019-10-22").size();
+
+		System.out.println(afteradd);
+
+		Assert.assertTrue(beforeadd==afteradd);
+
+	}
 }
