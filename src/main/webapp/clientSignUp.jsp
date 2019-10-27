@@ -44,7 +44,7 @@
 			<div class="row">
 				<div class="form-group col-sm-6">
 					<label for="phoneNumber">phone number:</label>
-					<input type="text" class="form-control" id="phoneNumber" placeholder="(###) ###-####" name="phoneNumber" pattern="(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}" required>
+					<input type="text" class="form-control" id="phoneNumber" placeholder="###-###-####" name="phoneNumber" pattern="(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}" required>
 				</div>
 			</div>
 			<div class="row">

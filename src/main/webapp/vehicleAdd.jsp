@@ -59,7 +59,7 @@
          <div class="row">
             <div class="form-group col-sm-6" data-toggle="validator">
                 <label for="lpr">License Plate Number:</label>
-                <input type="text" class="form-control" id="lpr" placeholder="ABC-123" name="lpr" pattern="[A-Za-z]{3}_[0-9]{3}" required>
+                <input type="text" class="form-control" id="lpr" placeholder="ABC_123" name="lpr" pattern="[A-Za-z]{3}_[0-9]{3}" required>
 
             </div>
         </div>
