@@ -13,11 +13,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * Class designed for redirection on successful login
+ * @author Admin
+ *
+ */
 @Component
 public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
+	/**
+	 * Class designed for redirection on successful login
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 * @param authentication
+	 */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest arg0, HttpServletResponse arg1, Authentication authentication)
 			throws IOException, ServletException {

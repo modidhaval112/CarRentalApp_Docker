@@ -12,33 +12,45 @@ import java.util.List;
 @RestController
 public class UserRegister {
 
-    private List<User> userList = new ArrayList<User>();
+	private List<User> userList = new ArrayList<User>();
 
-    public void addUser(User user) {
-        userList.add(user);
-    }
+	/**
+	 * method to add new users
+	 * @param user
+	 */
+	public void addUser(User user) {
+		userList.add(user);
+	}
 
-    public List<Clerk> getAllClerks() {
-        List<Clerk> clerkList = new ArrayList<Clerk>();
-        for (User user: this.userList) {
+	/**
+	 * method to fecth all clerks
+	 * @return
+	 */
+	public List<Clerk> getAllClerks() {
+		List<Clerk> clerkList = new ArrayList<Clerk>();
+		for (User user: this.userList) {
 
-            if(user.getRole() == User.RoleType.Clerk) {
-                clerkList.add((Clerk)user);
-            }
-        }
+			if(user.getRole() == User.RoleType.Clerk) {
+				clerkList.add((Clerk)user);
+			}
+		}
 
-        return clerkList;
-    }
+		return clerkList;
+	}
 
-    public List<Administrator> getAllAdministrators() {
-        List<Administrator> administratorList = new ArrayList<Administrator>();
-        for (User user: this.userList) {
+	/**
+	 * method to fetch all the admins
+	 * @return
+	 */
+	public List<Administrator> getAllAdministrators() {
+		List<Administrator> administratorList = new ArrayList<Administrator>();
+		for (User user: this.userList) {
 
-            if(user.getRole() == User.RoleType.Administrator) {
-                administratorList.add((Administrator)user);
-            }
-        }
+			if(user.getRole() == User.RoleType.Administrator) {
+				administratorList.add((Administrator)user);
+			}
+		}
 
-        return administratorList;
-    }
+		return administratorList;
+	}
 }

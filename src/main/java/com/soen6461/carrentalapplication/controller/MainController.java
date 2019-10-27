@@ -48,6 +48,11 @@ public class MainController {
 		return "clientSignUp";
 	}
 
+	/**
+	 * This method is designed for returning view that displays all vehicles
+	 * 
+	 * @return vehicleAdd view
+	 */
 	@RequestMapping("/vehicle-add")
 	public ModelAndView vehicleDisplay() {
 		ModelAndView model = new ModelAndView("vehicleAdd");
@@ -63,6 +68,11 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * This method is designed for returning view that displays online help
+	 * 
+	 * @return onlineHelp view
+	 */
 	@RequestMapping("/online-help")
 	public ModelAndView displayOnlineHelp() {
 		ModelAndView model = new ModelAndView("onlineHelp");
@@ -77,6 +87,11 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * This method is designed for redirection based on authentication
+	 * 
+	 * @return redirection to particular view
+	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String RedirectToDisplayVehicleCatalog() {
 		if (isAdministratorRole()) {
@@ -86,6 +101,11 @@ public class MainController {
 		}
 	}
 
+	/**
+	 * Validates if logged in user is Admin or not
+	 * 
+	 * @return true or false
+	 */
 	private boolean isAdministratorRole() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		for (GrantedAuthority authority : authentication.getAuthorities()) {
@@ -97,6 +117,15 @@ public class MainController {
 		return false;
 	}
 
+
+	/**
+	 * Method for handling logging process
+	 * 
+	 * @param model
+	 * @param error
+	 * @param logout
+	 * @return authentication message
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, String error, String logout) {
 		if (error != null)
@@ -106,6 +135,11 @@ public class MainController {
 		return "/login";
 	}
 
+	/**
+	 * Method designed for displaying vehicle catalog 
+	 * 
+	 * @return vehicleCatalog view
+	 */
 	@RequestMapping("/vehicle-catalog")
 	public ModelAndView displayVehicleCatalog() {
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
@@ -126,6 +160,18 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * Method for assigning vehicle to the client
+	 * 
+	 * @param driversLicense
+	 * @param licensePlateRecord
+	 * @param startDate
+	 * @param endDate
+	 * @param status
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-catalog
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/assign-vehicle/{lpr}", method = RequestMethod.POST)
 	public String assignVehicle(@RequestParam("forClient") String driversLicense,
 			@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
@@ -160,6 +206,14 @@ public class MainController {
 		return "redirect:/vehicle-catalog";
 	}
 
+	/**
+	 * Method for cancelling the transaction
+	 * 
+	 * @param transactionId
+	 * @param licensePlateRecord
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-catalog
+	 */
 	@RequestMapping(value = "/cancel-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String cancelTransaction(@PathVariable("transactionId") String transactionId,
 			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
@@ -169,6 +223,14 @@ public class MainController {
 		return "redirect:/vehicle-catalog";
 	}
 
+	/**
+	 * Method for return transaction
+	 * 
+	 * @param transactionId
+	 * @param licensePlateRecord
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-catalog
+	 */
 	@RequestMapping(value = "/return-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
 	public String returnTransaction(@PathVariable("transactionId") String transactionId,
 			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
@@ -177,6 +239,17 @@ public class MainController {
 		return "redirect:/vehicle-catalog";
 	}
 
+	/**
+	 * Method for editing transaction
+	 * 
+	 * @param driversLicenseNumber
+	 * @param licensePlateRecord
+	 * @param startDate
+	 * @param endDate
+	 * @param status
+	 * @return redirection to vehicle-catalog
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/edit-transaction/{clientDriversLicense}", method = RequestMethod.POST)
 	public String editTransaction(@PathVariable("clientDriversLicense") String driversLicenseNumber,
 			@RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
@@ -204,6 +277,10 @@ public class MainController {
 		return "redirect:/vehicle-catalog";
 	}
 
+	/**
+	 * Method for registering clients
+	 * @return clientRegister view
+	 */
 	@RequestMapping("/client-register")
 	public ModelAndView displayClientRegister() {
 		List<ClientRecord> clients = clientController.getAllClientRecord();
@@ -219,6 +296,10 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * Method for registering vehicles
+	 * @return vehicleDisplay view
+	 */
 	@RequestMapping("/vehicle-register")
 	public ModelAndView displayVehicleRegister() {
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
@@ -236,6 +317,13 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * Method for adding new client
+	 * 
+	 * @param clientRecord
+	 * @param redirectAttributes
+	 * @return redirection to client-register
+	 */
 	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
 	public String addClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
 			RedirectAttributes redirectAttributes) {
@@ -261,6 +349,13 @@ public class MainController {
 		return "redirect:/client-register";
 	}
 
+	/**
+	 * Method for adding new vehicle record
+	 * 
+	 * @param vehicleRecord
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-register
+	 */
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
 	public String addVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
 			RedirectAttributes redirectAttributes) {
@@ -280,6 +375,15 @@ public class MainController {
 		return "redirect:/vehicle-register";
 	}
 
+	/**
+	 * Method for editing client record
+	 * 
+	 * @param driverslicense
+	 * @param model
+	 * @param redirectAttributes
+	 * @return clientUpdate view
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView editClientRecord(@PathVariable("id") String driverslicense, ModelAndView model,
 			RedirectAttributes redirectAttributes) throws Exception {
@@ -349,6 +453,14 @@ public class MainController {
 		return "redirect:/vehicle-register";
 	}
 
+	/**
+	 * Method for updating client record
+	 * 
+	 * @param clientRecord
+	 * @param driverslicense
+	 * @param redirectAttributes
+	 * @return redirection to client-register
+	 */
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
 	public String updateClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
 			@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
@@ -359,6 +471,13 @@ public class MainController {
 		return "redirect:/client-register";
 	}
 
+	/**
+	 * Method for deleting client record
+	 * 
+	 * @param driverslicense
+	 * @param redirectAttributes
+	 * @return redirection to client-register
+	 */
 	@RequestMapping(value = "/delete-client-record/{id}", method = RequestMethod.GET)
 	public String deleteClientRecord(@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
 		clientController.deleteClientRecord(driverslicense);
@@ -368,6 +487,13 @@ public class MainController {
 		return "redirect:/client-register";
 	}
 
+	/**
+	 * Method for deleting vehicle record
+	 * 
+	 * @param lpr
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-register
+	 */
 	@RequestMapping(value = "/delete-vehicle-record/{id}", method = RequestMethod.GET)
 	public String deleteVehicleRecord(@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
@@ -387,6 +513,17 @@ public class MainController {
 		return "redirect:/vehicle-register";
 	}
 
+	/**
+	 * Method for filtering vehicles
+	 * 
+	 * @param filter
+	 * @param value
+	 * @param selectfromdate
+	 * @param selecttodate
+	 * @param Only_Date
+	 * @return vehicleCatalog view
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/vehicle-catalog-filter", method = RequestMethod.GET)
 	public ModelAndView getFilteredVehicleList(@RequestParam("filter") String filter,
 			@RequestParam("value") String value,@RequestParam("selectfromdate") String selectfromdate, @RequestParam("selecttodate") String selecttodate,@RequestParam("Only_Date") String Only_Date) throws ParseException {
@@ -428,6 +565,13 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * Method for filtering transaction history
+	 * 
+	 * @param filter
+	 * @param value
+	 * @return 
+	 */
 	@RequestMapping(value = "/translist-filter", method = RequestMethod.GET)
 	public ModelAndView getFilteredTransactionHistory(@RequestParam("filter") String filter,
 			@RequestParam("value") String value) {
@@ -447,6 +591,11 @@ public class MainController {
 		return model;
 	}
 
+	/**
+	 * Method for displaying all transaction history
+	 * 
+	 * @return transactions view
+	 */
 	@RequestMapping("/trans-list")
 	public ModelAndView displayAllTransactions() {
 

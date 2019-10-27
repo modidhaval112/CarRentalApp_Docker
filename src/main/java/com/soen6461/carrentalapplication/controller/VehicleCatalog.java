@@ -24,9 +24,17 @@ public class VehicleCatalog {
 	private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
 	private static VehicleCatalog instance = null;
 
+	/**
+	 * Default class constructor
+	 */
 	public VehicleCatalog() {
 	}
 
+	/**
+	 * This method will fetch and return all the vehicle records
+	 * 
+	 * @return list of vehicles
+	 */
 	public List getAllVehicleRecord() {
 		// To protect the main vehicle record list, only a copy is provided.
 		// this avoids someone other than this class from adding or removing vehicles.
@@ -39,18 +47,46 @@ public class VehicleCatalog {
 		return copy;
 	}
 
+	/**
+	 * This method will return filtered vehicle list
+	 * 
+	 * @param filter filter name
+	 * @param value value if that applies
+	 * @return list of filtered vehicles
+	 */
 	public List getFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
+	/**
+	 * This method will return filtered vehicle for 'Greater than' scenario
+	 * 
+	 * @param filter filter name
+	 * @param value value if that applies
+	 * @return list of filtered vehicles
+	 */
 	public List getGreaterThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
+	/**
+	 * This method will return filtered vehicle for 'Less than' scenario
+	 * 
+	 * @param filter filter name
+	 * @param value value if that applies
+	 * @return list of filtered vehicles
+	 */
 	public List getLesserThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
 		return this.getResultSet(filter, value);
 	}
 
+	/**
+	 * This method will return filtered vehicle list.
+	 * 
+	 * @param filter filter name
+	 * @param value value if that applies
+	 * @return list of filtered vehicles
+	 */
 	public List<VehicleRecord> getResultSet(String filter, String value) {
 
 		List<VehicleRecord> temp = new ArrayList<>();
@@ -135,8 +171,17 @@ public class VehicleCatalog {
 		this.vehicleRecordList.add(vehicleRecord);
 	}
 
+	/**
+	 * This method is designed to assign vehicles to client
+	 *  
+	 * @param driversLicense driver's license
+	 * @param licensePlateRecord vehicle's number plate
+	 * @param startDate start date
+	 * @param endDate end date
+	 * @param status status
+	 */
 	public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate,
-							  String status) {
+			String status) {
 
 		ClientRecord forClient = clientController.searchClient(driversLicense);
 		VehicleRecord seletctedVehicle = this.getVehicleRecord(licensePlateRecord);
@@ -156,11 +201,25 @@ public class VehicleCatalog {
 		}
 	}
 
+	/**
+	 * This method is designed for handling return transactions
+	 * 
+	 * @param transactionId
+	 * @param licensePlateRecord
+	 */
 	public void returnTransaction(String transactionId, String licensePlateRecord) {
 		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 		selectedVehicle.returnTransaction(transactionId);
 	}
 
+	/**
+	 * This method is designed for handling cancel transactions
+	 * 
+	 * @param licensePlateRecord
+	 * @param transactionId
+	 * @param redirectAttributes
+	 * @return
+	 */
 	public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes) {
 		VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
@@ -181,8 +240,15 @@ public class VehicleCatalog {
 		return redirectAttributes;
 	}
 
+	/**
+	 * This method will return filtered transaction list
+	 * 
+	 * @param filter filter name
+	 * @param value value if that applies
+	 * @return list of transactions
+	 */
 	public List getFilteredTransactionList(@RequestParam(name = "filter") String filter,
-										   @RequestParam(name = "value") String value) {
+			@RequestParam(name = "value") String value) {
 		return this.getTransactionSet(filter, value);
 	}
 
@@ -234,6 +300,11 @@ public class VehicleCatalog {
 		return temp;
 	}
 
+	/**
+	 * THis method will return all the transactions
+	 * 
+	 * @return list of transactions
+	 */
 	public List<Transaction> getAllTransactions() {
 		List<Transaction> transList = new ArrayList<>();
 		for (VehicleRecord v : vehicleRecordList) {
@@ -242,6 +313,12 @@ public class VehicleCatalog {
 		return transList;
 	}
 
+	/**
+	 * This method is designed for searching the vehicle
+	 * 
+	 * @param lpr
+	 * @return vehicle record
+	 */
 	public VehicleRecord searchVehicle(String lpr) {
 		VehicleRecord vehicle = null;
 		for (VehicleRecord v : vehicleRecordList) {
@@ -253,14 +330,25 @@ public class VehicleCatalog {
 		return vehicle;
 	}
 
+	/**
+	 * This method is designed for deleting the vehicle
+	 * 
+	 * @param lpr license plate number
+	 */
 	public void deleteVehicleRecord(String lpr) {
-//		for (int i = 0; i < vehicleRecordList.size(); i++) {
-//			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
-				vehicleRecordList.remove(searchVehicle(lpr));
-//			}
-//		}
+		//		for (int i = 0; i < vehicleRecordList.size(); i++) {
+		//			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
+		vehicleRecordList.remove(searchVehicle(lpr));
+		//			}
+		//		}
 	}
 
+	/**
+	 * This method is designed for updating the vehicle record
+	 * 
+	 * @param vehicleRecord vehicle record
+	 * @param lpr license plate number
+	 */
 	public void updateVehicleRecord(VehicleRecord vehicleRecord, String lpr) {
 		for (int i = 0; i < vehicleRecordList.size(); i++) {
 			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
@@ -268,6 +356,16 @@ public class VehicleCatalog {
 			}
 		}
 	}
+
+
+	/**
+	 * This method is designed for fetching available vehicles between two dates
+	 * 
+	 * @param startdate start date
+	 * @param enddate end date
+	 * @return list of vehicles
+	 * @throws ParseException
+	 */
 	public List<VehicleRecord> getAvailablabilityBetweenDates(String startdate, String enddate) throws ParseException {
 		List<VehicleRecord> temp = new ArrayList<>();
 
@@ -313,75 +411,97 @@ public class VehicleCatalog {
 		}
 		return temp;
 	}
-	
+
+	/**
+	 * This method is designed for fetching overdue vehicles after
+	 * particular date
+	 * 
+	 * @param vehicledate particular date
+	 * @return list of vehicle
+	 * @throws ParseException
+	 */
 	public List<VehicleRecord> getOverDueParticularDay(String vehicledate) throws ParseException{
 		List<VehicleRecord> temp = new ArrayList<>();
 		Date  d1 = new Date();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d1=sdf.parse(vehicledate);
-        
-    	for (int i = 0; i < vehicleRecordList.size(); i++) {
-        
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		d1=sdf.parse(vehicledate);
 
-		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
-			if (sdf.parse(t.getEndDate() ).compareTo(d1)<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
-				temp.add(t.getVehicleRecord());
-				break;
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+
+
+			for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
+				if (sdf.parse(t.getEndDate() ).compareTo(d1)<0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+					temp.add(t.getVehicleRecord());
+					break;
+				}
 			}
+
 		}
-		
-    	}
 		return temp;
-		
+
 	}
-	
+
+	/**
+	 * This method is designed for fetching due vehicles on
+	 * particular date
+	 * 
+	 * @param vehicledate particular date
+	 * @return list of vehicle
+	 * @throws ParseException
+	 */
 	public List<VehicleRecord> getDueParticularDay(String vehicledate) throws ParseException{
 		List<VehicleRecord> temp = new ArrayList<>();
 		Date  d1 = new Date();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d1=sdf.parse(vehicledate);
-        
-    	for (int i = 0; i < vehicleRecordList.size(); i++) {
-        
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		d1=sdf.parse(vehicledate);
 
-		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
-			if (sdf.parse(t.getEndDate() ).compareTo(d1)==0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
-				temp.add(t.getVehicleRecord());
-				break;
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+
+
+			for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
+				if (sdf.parse(t.getEndDate() ).compareTo(d1)==0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+					temp.add(t.getVehicleRecord());
+					break;
+				}
 			}
+
 		}
-		
-    	}
 		return temp;
-		
+
 	}
-	
+
+	/**
+	 * This method is designed for fetching vehicles are not available
+	 * 
+	 * @return list of vehicles
+	 * @throws ParseException
+	 */
 	public List<VehicleRecord> getCurrentlyOutVehciles() throws ParseException{
 		List<VehicleRecord> temp = new ArrayList<>();
 		Date  d1 = new Date();
-	    Date cd = new Date();  
+		Date cd = new Date();  
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
-        cd=sdf.parse(sdf.format(cd));
-        
-    	for (int i = 0; i < vehicleRecordList.size(); i++) {
-        
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
-			if (sdf.parse(t.getEndDate() ).compareTo(cd)>=0 && sdf.parse(t.getStartDate() ).compareTo(cd)<=0 &&(t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)))
-			{
-				temp.add(t.getVehicleRecord());
-				break;
+		cd=sdf.parse(sdf.format(cd));
+
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+
+
+			for (Transaction t :  vehicleRecordList.get(i).getVehicleTransactionList()) {
+				if (sdf.parse(t.getEndDate() ).compareTo(cd)>=0 && sdf.parse(t.getStartDate() ).compareTo(cd)<=0 &&(t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved)))
+				{
+					temp.add(t.getVehicleRecord());
+					break;
+				}
 			}
+
 		}
-		
-    	}
 		return temp;
-		
+
 	}
-	
+
 }

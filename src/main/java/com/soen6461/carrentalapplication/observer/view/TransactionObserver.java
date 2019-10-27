@@ -6,8 +6,20 @@ import java.util.Observer;
 import com.soen6461.carrentalapplication.model.Record;
 import com.soen6461.carrentalapplication.model.TransactionHistory;
 
+
+/**
+ * Class designed for implementing observer pattern
+ * @author Admin
+ *
+ */
 public class TransactionObserver implements Observer {
 
+	/**
+	 * This method will be notified whenever there is any changes in states
+	 * of observable classes
+	 * @param o Observable instance
+	 * @param arg Object instance
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 
