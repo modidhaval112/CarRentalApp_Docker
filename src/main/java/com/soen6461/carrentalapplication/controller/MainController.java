@@ -266,13 +266,7 @@ public class MainController {
 			RedirectAttributes redirectAttributes) {
 
 		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
-		boolean recordExists = false;
-		for (int i = 0; i < vehicleRecordList.size(); i++) {
-			if (vehicleRecordList.get(i).getLpr().equals(vehicleRecord.getLpr())) {
-				recordExists = true;
-				break;
-			}
-		}
+		boolean recordExists = checkIfVehicleExists(vehicleRecordList,vehicleRecord);
 
 		if (recordExists) {
 			redirectAttributes.addFlashAttribute("errorMsg",
@@ -560,5 +554,21 @@ public class MainController {
 		v2.addTransaction(new Transaction(c2, v2, "2020-02-1", "2020-02-14", Transaction.Status.Reserved));
 		v2.addTransaction(new Transaction(c1, v2, "2019-09-1", "2019-10-30", Transaction.Status.Reserved));
 
+	}
+	/**
+	 * Checks if vehicle exists in the list
+	 * @param vehicleRecordList
+	 * @param vehicleRecord
+	 * @return
+	 */
+	public boolean checkIfVehicleExists(List<VehicleRecord> vehicleRecordList,VehicleRecord vehicleRecord ) {
+		boolean recordExists = false;
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+			if (vehicleRecordList.get(i).getLpr().equals(vehicleRecord.getLpr())) {
+				recordExists = true;
+				break;
+			}
+		}
+		return recordExists;
 	}
 }
