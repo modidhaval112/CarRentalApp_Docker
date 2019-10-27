@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
 		FrontendActionTest.class,
 		VehicleTests.class,
 		UserTests.class,
-		DataValidationHelperTests.class
+		DataValidationHelperTests.class,
+		TransactionsTests.class
 })
 
 public class JunitTestSuite  {   
