@@ -34,9 +34,10 @@
                     <p>From the 'Transaction History'</p>
                     <ul>
                         <li>
-                            <p>The Transactions can be filtered based on the Client name, Vehicle License plate number, model, make and also by a specific due date.<br>
+                            <p>The transactions can be filtered based on the Client name, Vehicle License plate number, model, make and also by a specific due date.<br>
                                 Just type the data in the search bar.
                             </p>
+                            <p>The transactions can also be filtered by the status of the vehicle by selecting options from the drop down menu</p>
                         </li>
                         <li>
                             <p>Can view all the transactions by clicking on 'All'
@@ -57,6 +58,18 @@
                     <H3>Navigating the vehicle catalog</H3>
                     <p>The displayed list of vehicle can be search by entering the
                         a criteria and clicking on search.</p>
+
+                    <h4>The filters list and ways to use them:<br></h4>
+                    <p>
+                        <ol>
+                    <li><b>Overdue:</b> Input the date in the newly appeared date field and click search</li>
+                    <li><b>Available:</b>   Input from date and to date in newly appeared date fields and click search</li>
+                    <li><b>Due:</b> </li>
+                    <li><b>Currently out vehicles: </b>Select filter and press search</li>
+                    <li><b>Make, model, color: </b> Input the appropriate data as per the filter in the search bar and click search</li>
+                    <li><b>Greater than, Lesser than:</b> This refers to the make year of the vehicle,<br> enter desired value (year of format 'yyyy') and click search</li>
+                </ol>
+                    </p>
                     <p>The displayed list of vehicle can be be sorted by clicking
                         on one of the table headers.</p>
                     <p>The Vehicles can be sorted based on year by entering only
