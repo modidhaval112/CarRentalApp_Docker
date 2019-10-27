@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.ParseException;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class VehicleTests {
@@ -98,4 +101,27 @@ public class VehicleTests {
 
 		Assert.assertTrue(v1.getTransactionList().size()==3);
 	}
+
+    @Test
+    public void vehiclesDue() throws ParseException
+    {
+        List<VehicleRecord> vr= vehicleCatalog.getDueParticularDay("2019-10-22");
+        int beforeadd=vr.size();
+        System.out.println(beforeadd);
+        ClientRecord clientRecord = new ClientRecord("T-1234-123456-12", "Johny", "Tester", "(438) 566-9999", "2059-10-31");
+
+        VehicleRecord v1 =  vehicleCatalog.getVehicleRecord("ABF_636");
+        Transaction t1= new Transaction(clientRecord, v1, "2019-10-21", "2019-10-22", Transaction.Status.Rented);
+        v1.addTransaction(t1);
+        int afteradd= vehicleCatalog.getDueParticularDay("2019-10-22").size();
+
+        System.out.println(afteradd);
+
+        Assert.assertFalse(beforeadd==afteradd);
+
+    }
+
+
+
+
 }
