@@ -113,7 +113,6 @@ public class TransactionsTests {
 
 	}
 	
-	
 	@Test
 	public void vehiclesOverDueTrue() throws ParseException
 	{
