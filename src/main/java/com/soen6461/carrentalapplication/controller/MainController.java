@@ -370,17 +370,17 @@ public class MainController {
 
 	@RequestMapping(value = "/delete-vehicle-record/{id}", method = RequestMethod.GET)
 	public String deleteVehicleRecord(@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
-		
+
 		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(lpr);
 		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
-		
+
 		for (int i = 0; i < transactionList.size(); i++) {
 			if(transactionList.get(i).getStatus().equals(Transaction.Status.Rented) || (transactionList.get(i).getStatus().equals(Transaction.Status.Reserved))) {
 				redirectAttributes.addFlashAttribute("errorMsg", "  To delete vehicle record all the transactions status must be 'Returned' or 'Cancelled'.");
 				return "redirect:/vehicle-register";
 			}
 		}
-		
+
 		vehicleCatalog.deleteVehicleRecord(lpr);
 		redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
 
@@ -393,7 +393,7 @@ public class MainController {
 		List<VehicleRecord> vehicles = vehicleCatalog.getFilteredList(filter, value);
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 		ModelAndView model = new ModelAndView("vehicleCatalog");
-		
+
 
 		if(filter.equals("overdue"))
 		{
@@ -409,7 +409,7 @@ public class MainController {
 			vehicles=vehicleCatalog.getAvailablabilityBetweenDates(selectfromdate, selecttodate);
 
 		}
-		
+
 		else if(filter.equals("currentlyout"))
 		{
 			vehicles=vehicleCatalog.getCurrentlyOutVehciles();
