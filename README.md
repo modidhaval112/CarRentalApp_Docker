@@ -33,6 +33,11 @@ Since this repository is using JAVA, the following guide line must be followed:
 
 * Code Conventions for the Java Programming Language (http://www.oracle.com/technetwork/java/javase/documentation/codeconventions-135099.html).
 
+### Database setup
+- The application needs to connect to an instance of MySQL
+- The database connection information can be found in the file:".\src\main\resources\application.properties"
+- The configuration to preset the database with tables and some hard coded values can be found in the file: ".\schema-mysql.sql"
+
 ### How to build the project using IntelliJ
 
 1. Run the Maven life cycle install
