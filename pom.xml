@@ -48,7 +48,6 @@
 <!--			<artifactId>spring-boot-starter-jdbc</artifactId>-->
 <!--		</dependency>-->
 
-
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -67,12 +66,6 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>5.1.2.RELEASE</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
 		</dependency>
 	</dependencies>
 
