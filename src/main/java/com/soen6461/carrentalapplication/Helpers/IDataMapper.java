@@ -5,10 +5,9 @@ public interface IDataMapper<T> {
     /**
      * Insert a new record in the database to persist its data.
      *
-     * @param id             Id of the object to insert in the database.
      * @param objectToInsert Object to insert in the database.
      */
-    boolean insert(int id, T objectToInsert);
+    boolean insert(T objectToInsert);
 
     /**
      * Method to delete a record from the database

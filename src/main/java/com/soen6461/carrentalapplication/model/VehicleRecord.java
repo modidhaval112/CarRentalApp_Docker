@@ -1,10 +1,13 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+
 import java.util.List;
 
 public class VehicleRecord extends Record {
 
+    private int id;
+    private int recordVersion;
     private String carType;
     private String make;
     private String model;
@@ -32,9 +35,51 @@ public class VehicleRecord extends Record {
         this.setLpr(lpr);
     }
 
+    /**
+     * The vehicle record constructor
+     *
+     * @param id            The record id.
+     * @param recordVersion The record version.
+     * @param lpr           The license plate registration number.
+     * @param carType       The car type.
+     * @param make          The vehicle make.
+     * @param model         The vehicle model
+     * @param year          The vehicle year.
+     * @param color         The vehicle color.
+     */
+    public VehicleRecord(int id, int recordVersion, String lpr, String carType, String make, String model, int year, String color) {
+
+        this.id = id;
+        this.recordVersion = recordVersion;
+        this.setCarType(carType);
+        this.setMake(make);
+        this.setYear(year);
+        this.setColor(color);
+        this.setModel(model);
+        this.setLpr(lpr);
+    }
+
     /*
      * Properties section.
      */
+
+    /**
+     * Gets the vehicle record version.
+     *
+     * @return The record version.
+     */
+    public int getRecordVersion() {
+        return this.recordVersion;
+    }
+
+    /**
+     * Gets the vehicle record id.
+     *
+     * @return The id.
+     */
+    public int getId() {
+        return this.id;
+    }
 
     /**
      * Gets a copy of the vehicle transaction list.
@@ -154,9 +199,6 @@ public class VehicleRecord extends Record {
 
         if (DataValidationHelper.isLicenseRegistrationPlateValid(lpr)) {
             this.lpr = lpr;
-        }
-        else {
-            // throw new InvalidParameterException("Phone number format not valid: " + lpr);
         }
     }
 
