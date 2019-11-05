@@ -9,6 +9,7 @@ import java.util.Date;
  * Client Record model class
  */
 public class ClientRecord {
+    private int recordVersion;
     private String driversLicenseNumber;
     private String firstName;
     private String lastName;
@@ -36,6 +37,15 @@ public class ClientRecord {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ClientRecord( String driversLicenseNumber, int recordVersion, String firstName, String lastName, String phoneNumber, Date expirationDate) {
+        this.recordVersion = recordVersion;
+        this.driversLicenseNumber = driversLicenseNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.expirationDate = expirationDate;
     }
 
     /**
@@ -149,9 +159,13 @@ public class ClientRecord {
         }
     }
 
-    /*
-     * Methods section.
+    /**
+     * Get the version of he record of client
+     * @return
      */
+    public int getRecordVersion() {
+        return recordVersion;
+    }
 
     /**
      * Override the toString method with client relevant information.

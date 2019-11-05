@@ -2,15 +2,13 @@ package com.soen6461.carrentalapplication;
 
 
 import com.soen6461.carrentalapplication.model.VehicleRecord;
-import com.soen6461.carrentalapplication.model.VehicleRecordDataMapper;
-import com.soen6461.carrentalapplication.model.VehicleTableDataGateway;
+import com.soen6461.carrentalapplication.tabledatagateway.VehicleRecordTdg;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 @RunWith(SpringRunner.class)
@@ -19,7 +17,7 @@ public class VehicleRecordDataMapperTests {
 
     @Test
     public void CRUDTest() throws SQLException {
-        VehicleTableDataGateway vtdg = new VehicleTableDataGateway();
+        VehicleRecordTdg vtdg = new VehicleRecordTdg();
 
         // Set db connection
         // TODO: This will be removed.

@@ -1,6 +1,7 @@
-package com.soen6461.carrentalapplication.model;
+package com.soen6461.carrentalapplication.tabledatagateway;
 
 import com.soen6461.carrentalapplication.Helpers.ITableGatewayMapper;
+import com.soen6461.carrentalapplication.model.VehicleRecord;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +12,7 @@ import java.util.Properties;
 /**
  * The vehicle table data gateway dissociates the
  */
-public class VehicleTableDataGateway implements ITableGatewayMapper<VehicleRecord> {
+public class VehicleRecordTdg implements ITableGatewayMapper<VehicleRecord> {
 
     boolean isDataMapperTest;
 
