@@ -3,6 +3,7 @@ package com.soen6461.carrentalapplication;
 
 import com.soen6461.carrentalapplication.model.VehicleRecord;
 import com.soen6461.carrentalapplication.model.VehicleRecordDataMapper;
+import com.soen6461.carrentalapplication.model.VehicleTableDataGateway;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +19,7 @@ public class VehicleRecordDataMapperTests {
 
     @Test
     public void CRUDTest() throws SQLException {
-        VehicleRecordDataMapper vrdm = new VehicleRecordDataMapper();
+        VehicleTableDataGateway vtdg = new VehicleTableDataGateway();
 
         // Set db connection
         // TODO: This will be removed.
@@ -26,17 +27,17 @@ public class VehicleRecordDataMapperTests {
         //// Assert.notNull(connection);
 
         // Clear the test data.
-        Assert.isTrue(vrdm.clearTestingData(), "Clearing testing data.");
+        Assert.isTrue(vtdg.clearTestingData(), "Clearing testing data.");
 
         // Set the vehicle record data mapper in test mode.
-        vrdm.setIsDataMapperTest(true);
+        vtdg.setIsDataMapperTest(true);
 
         // Testing insertion in database.
         VehicleRecord originalVR = new VehicleRecord("TES_123", "SUV", "Jeep", "Hummer", 2019, "Yellow");
-        Assert.isTrue(vrdm.insert( originalVR), "Testing insertion in database");
+        Assert.isTrue(vtdg.insert(originalVR), "Testing insertion in database");
 
         // Testing read from database.
-        VehicleRecord updatedVehicleRecord = vrdm.getObject(0);
+        VehicleRecord updatedVehicleRecord = vtdg.getObject(0);
 
         Assert.isTrue(originalVR.getLpr().equals("TES_123"), "Testing read from database.");
         Assert.isTrue(originalVR.getCarType().equals("SUV"), "Testing read from database.");
@@ -47,13 +48,12 @@ public class VehicleRecordDataMapperTests {
 
         // Testing update record in database.
         VehicleRecord updatedVR = new VehicleRecord("TES_123", "SUV2", "Jeep2", "Hummer2", 2020, "Yellow2");
-        Assert.isTrue(vrdm.update(0, updatedVR), "Testing insertion in database");
+        Assert.isTrue(vtdg.update(0, updatedVR), "Testing insertion in database");
 
         // Testing deleting record from database.
-        Assert.isTrue(vrdm.delete(0), "Testing insertion in database");
-
+        Assert.isTrue(vtdg.delete(0), "Testing insertion in database");
 
         // Clear the test data.
-        Assert.isTrue(vrdm.clearTestingData());
+        Assert.isTrue(vtdg.clearTestingData());
     }
 }
