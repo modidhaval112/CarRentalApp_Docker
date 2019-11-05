@@ -1,5 +1,6 @@
-package com.soen6461.carrentalapplication.model;
+package com.soen6461.carrentalapplication.mapper;
 
+import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
 import org.springframework.beans.factory.annotation.Autowired;
 

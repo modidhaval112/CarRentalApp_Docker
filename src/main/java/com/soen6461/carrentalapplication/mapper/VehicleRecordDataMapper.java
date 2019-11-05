@@ -1,6 +1,7 @@
-package com.soen6461.carrentalapplication.model;
+package com.soen6461.carrentalapplication.mapper;
 
 import com.soen6461.carrentalapplication.Helpers.IDataMapper;
+import com.soen6461.carrentalapplication.model.VehicleRecord;
 import com.soen6461.carrentalapplication.tabledatagateway.VehicleRecordTdg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,6 @@
 package com.soen6461.carrentalapplication.tabledatagateway;
 
 import com.soen6461.carrentalapplication.model.ClientRecord;
-import com.soen6461.carrentalapplication.model.ClientRecordDataMapper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Properties;
 
 public class ClientRecordTdg {
