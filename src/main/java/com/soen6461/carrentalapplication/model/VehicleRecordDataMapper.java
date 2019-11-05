@@ -33,17 +33,6 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
     }
 
     /**
-     * Insert a new record in the database to persist its data.
-     *
-     * @param vehicleRecordToInsert Vehicle record to insert in the database.
-     */
-    @Override
-    public boolean insert(VehicleRecord vehicleRecordToInsert) {
-
-        return this.vehicleTableDataGateway.insert(vehicleRecordToInsert);
-    }
-
-    /**
      * Method to delete a record from the database
      *
      * @param id Id of the record to delete from the database.
@@ -51,17 +40,6 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
     @Override
     public boolean delete(int id) {
         return this.vehicleTableDataGateway.delete(id);
-    }
-
-    /**
-     * Method to update an object data in the database.
-     *
-     * @param id             Id of the object to map.
-     * @param objectToUpdate Object to update.
-     */
-    @Override
-    public boolean update(int id, VehicleRecord objectToUpdate) {
-        return this.vehicleTableDataGateway.update(id, objectToUpdate);
     }
 
     /**
