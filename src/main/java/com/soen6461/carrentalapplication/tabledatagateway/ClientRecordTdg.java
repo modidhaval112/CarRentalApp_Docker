@@ -1,4 +1,4 @@
-package com.soen6461.carrentalapplication.tdg;
+package com.soen6461.carrentalapplication.tabledatagateway;
 
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.ClientRecordDataMapper;
@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
@@ -97,13 +98,13 @@ public class ClientRecordTdg {
      * @return The object mapping to the given id.
      */
    // @Override
-    public List getObject(String driversLicenseNumber) {
+    public ResultSet getObject(String driversLicenseNumber) {
         String sql = "SELECT * FROM `carrentaldb`.`" + this.getClientRecordTableName() + "` WHERE driversLicenseNumber = " + driversLicenseNumber;
 
         try (Statement stmt = this.connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
 
-            List<ClientRecord> results = jdbcTemplate.query("SELECT * FROM clientRecord", new ClientRecordDataMapper());
-            return results;
+            return rs;
 
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
@@ -112,13 +113,14 @@ public class ClientRecordTdg {
         return null;
     }
 
-    public List getAllObjects(String driversLicenseNumber) {
+    public ResultSet getAllObjects() {
         String sql = "SELECT * FROM `carrentaldb`.`" + this.getClientRecordTableName();
 
         try (Statement stmt = this.connection.createStatement()) {
 
-            List<ClientRecord> results = jdbcTemplate.query("SELECT * FROM clientRecord", new ClientRecordDataMapper());
-            return results;
+            ResultSet rs = stmt.executeQuery(sql);
+
+            return rs;
 
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());

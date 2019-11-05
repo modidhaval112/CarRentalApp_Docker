@@ -1,20 +1,21 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.IDataMapper;
-import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
+import com.soen6461.carrentalapplication.tabledatagateway.VehicleRecordTdg;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
 public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
 
-    private VehicleTableDataGateway vehicleTableDataGateway;
+    private VehicleRecordTdg vehicleRecordTdg;
 
     /**
      * VehicleRecordDataMapper constructor.
      */
     public VehicleRecordDataMapper() {
-        this.vehicleTableDataGateway = new VehicleTableDataGateway();
+        this.vehicleRecordTdg = new VehicleRecordTdg();
     }
 
     /**
@@ -25,11 +26,11 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
     @Override
     public boolean save(VehicleRecord objectToInsert) {
 
-        if (this.vehicleTableDataGateway.getObject(objectToInsert.getId()) == null) {
-            return this.vehicleTableDataGateway.insert(objectToInsert);
+        if (this.vehicleRecordTdg.getObject(objectToInsert.getId()) == null) {
+            return this.vehicleRecordTdg.insert(objectToInsert);
         }
 
-        return this.vehicleTableDataGateway.update(objectToInsert.getId(), objectToInsert);
+        return this.vehicleRecordTdg.update(objectToInsert.getId(), objectToInsert);
     }
 
     /**
@@ -39,7 +40,7 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
      */
     @Override
     public boolean delete(int id) {
-        return this.vehicleTableDataGateway.delete(id);
+        return this.vehicleRecordTdg.delete(id);
     }
 
     /**
