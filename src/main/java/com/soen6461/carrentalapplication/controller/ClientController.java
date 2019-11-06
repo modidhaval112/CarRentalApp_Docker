@@ -17,17 +17,16 @@ import com.soen6461.carrentalapplication.model.ClientRecord;
  * This class is responsible to control the REST services related to client record
  * creation, search, modify, delete.
  */
-@RestController
+
 public class ClientController {
 
-   private ClientRecordDataMapper clientRecordDataMapper = new ClientRecordDataMapper();
+   private ClientRecordDataMapper clientRecordDataMapper= new ClientRecordDataMapper();
     HashMap<String,List<ClientRecord>> context = new HashMap<String, List<ClientRecord>>();
 
     private ClientRepository clientRepository= new ClientRepository(context,clientRecordDataMapper);
 
-    private List<ClientRecord> clientRecordList =  new ArrayList<>();
-//            clientRecordDataMapper.getAllObjects();
-//
+    private List<ClientRecord> clientRecordList =  clientRecordDataMapper.getAllObjects();
+
 
     /**
      *  ClientRecord class constructor.
@@ -56,7 +55,6 @@ public class ClientController {
 
         clientRecordList.add(clientRecord);
         clientRepository.registerNew(clientRecord);
-//        clientRepository.commit();
 
     }
 
