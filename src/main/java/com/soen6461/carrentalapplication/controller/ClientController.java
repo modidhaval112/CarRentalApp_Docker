@@ -1,8 +1,12 @@
 package com.soen6461.carrentalapplication.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
+import com.soen6461.carrentalapplication.unitofwork.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,10 +17,16 @@ import com.soen6461.carrentalapplication.model.ClientRecord;
  * This class is responsible to control the REST services related to client record
  * creation, search, modify, delete.
  */
-@RestController
+
 public class ClientController {
 
-    private List<ClientRecord> clientRecordList = new ArrayList<ClientRecord>();
+   private ClientRecordDataMapper clientRecordDataMapper= new ClientRecordDataMapper();
+    HashMap<String,List<ClientRecord>> context = new HashMap<String, List<ClientRecord>>();
+
+    private ClientRepository clientRepository= new ClientRepository(context,clientRecordDataMapper);
+
+    private List<ClientRecord> clientRecordList =  clientRecordDataMapper.getAllObjects();
+
 
     /**
      *  ClientRecord class constructor.
@@ -44,6 +54,8 @@ public class ClientController {
         }
 
         clientRecordList.add(clientRecord);
+        clientRepository.registerNew(clientRecord);
+
     }
 
     @PostMapping(value = "/get-all-client-records")
@@ -60,6 +72,7 @@ public class ClientController {
         for (int i = 0; i < clientRecordList.size(); i++) {
             if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicenseNumber)) {
                 clientRecordList.remove(clientRecordList.get(i));
+                clientRepository.registerDeleted(clientRecordList.get(i));
             }
         }
     }
@@ -73,6 +86,7 @@ public class ClientController {
         for (int i = 0; i < clientRecordList.size(); i++) {
             if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicense)) {
                 clientRecordList.set(i,clientRecord);
+                clientRepository.registerDirty(clientRecord);
             }
         }
     }
