@@ -1,4 +1,4 @@
-package com.soen6461.carrentalapplication.Helpers;
+package com.soen6461.carrentalapplication.unitofwork;
 
 public interface IUnitOfWork<T> {
     String INSERT = "INSERT";
