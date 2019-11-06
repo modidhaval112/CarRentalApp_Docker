@@ -85,7 +85,7 @@ public class ClientRecordTdg {
      * @param driversLicenseNumber The id of the object to retrieve from the database.
      * @return The object mapping to the given id.
      */
-   // @Override
+    // @Override
     public ResultSet getObject(String driversLicenseNumber) {
         String sql = "SELECT * FROM `carrentaldb`.`" + this.getClientRecordTableName() + "` WHERE driversLicenseNumber = " + driversLicenseNumber;
 

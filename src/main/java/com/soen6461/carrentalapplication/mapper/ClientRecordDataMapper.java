@@ -15,6 +15,9 @@ public class ClientRecordDataMapper {
     @Autowired
     private ClientRecordTdg clientRecordTdg;
 
+    public ClientRecordDataMapper() {
+    }
+
     /**
      * Insert a client record
      * @param clientRecordToInsert
