@@ -1,6 +1,9 @@
 package com.soen6461.carrentalapplication.Helpers;
 
-public interface IUnitOfWork {
+public interface IUnitOfWork<T> {
+    String INSERT = "INSERT";
+    String DELETE = "DELETE";
+    String MODIFY = "MODIFY";
 
     /**
      * @return
@@ -11,25 +14,25 @@ public interface IUnitOfWork {
      * @param obj
      * @return
      */
-    boolean registerDeleted(Object obj);
+    void registerDeleted(T obj);
 
     /**
      * @param obj
      * @return
      */
-    boolean registerDirty(Object obj);
+    void registerDirty(T obj);
 
     /**
      * @param obj
      * @return
      */
-    boolean registerNew(Object obj);
+    void registerNew(T obj);
 
     /**
      * @param obj
      * @return
      */
-    boolean registerClean(Object obj);
+    void registerClean(T obj);
 
     /**
      * @return
