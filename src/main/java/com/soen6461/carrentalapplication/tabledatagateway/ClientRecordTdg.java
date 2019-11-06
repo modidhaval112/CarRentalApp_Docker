@@ -2,29 +2,19 @@ package com.soen6461.carrentalapplication.tabledatagateway;
 
 import com.soen6461.carrentalapplication.model.ClientRecord;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
+import javax.sql.DataSource;
 import java.util.Properties;
 
 public class ClientRecordTdg {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
+    DataSource dataSource;
     boolean isDataMapperTest;
-
-    private String dbName = "carRentalDb";
-    private String dbms = "mysql";
-    private String portNumber = "3306";
-    private String serverName = "localhost";
-    private Object password = "root";
-    private Object userName = "root";
 
     private Connection connection;
 
@@ -156,7 +146,12 @@ public class ClientRecordTdg {
 
         if(this.connection == null)
         {
-            this.getConnection();
+            try {
+                this.getConnection();
+            } catch (Exception e){
+                System.out.println("Exception in connecting to the database");
+                e.printStackTrace();
+            }
         }
 
         boolean isSuccess;
@@ -186,29 +181,9 @@ public class ClientRecordTdg {
      * Gets the connection to the database.
      *
      */
-    public void getConnection() {
-
-        try {
-            Connection conn = null;
-            Properties connectionProps = new Properties();
-            connectionProps.put("user", this.userName);
-            connectionProps.put("password", this.password);
-
-            if (this.dbms.equals("mysql")) {
-                conn = DriverManager.getConnection(
-                        "jdbc:" + this.dbms + "://" +
-                                this.serverName +
-                                ":" + this.portNumber + "/",
-                        connectionProps);
-            } else if (this.dbms.equals("derby")) {
-                conn = DriverManager.getConnection(
-                        "jdbc:" + this.dbms + ":" +
-                                this.dbName +
-                                ";create=true",
-                        connectionProps);
-            }
-            System.out.println("Connected to database");
-            this.connection = conn;
+    public void getConnection() throws SQLException {
+        try{
+        this.connection = this.dataSource.getConnection();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
