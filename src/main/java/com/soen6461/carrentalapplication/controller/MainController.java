@@ -669,9 +669,12 @@ public class MainController {
 	private void AddingHardCodedValues() throws Exception {
 
 		// Create some users.
-		userRegister.addUser(new Administrator("admin", "admin"));
-		userRegister.addUser(new Clerk("clerk", "clerk"));
-		userRegister.addUser(new Clerk("super_clerk", "clerk"));
+		/*
+		 * userRegister.addUser(new Administrator("admin", "admin"));
+		 * userRegister.addUser(new Clerk("clerk", "clerk")); userRegister.addUser(new
+		 * Clerk("super_clerk", "clerk"));
+		 */
+		userRegister.setUserRegisterObject();
 
 		// Adding some hard coded vehicles to populate the views.
 		VehicleRecord v1 = new VehicleRecord("ABD_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
