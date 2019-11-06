@@ -4,6 +4,7 @@ import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -19,7 +20,12 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRecordDataMapper.class);
 
     private Map<String, List<ClientRecord>> context;
+
     private ClientRecordDataMapper clientRecordDataMapper;
+
+    public ClientRepository() {
+
+    }
 
     /**
      * @param context                set of operations to be perform during commit.
