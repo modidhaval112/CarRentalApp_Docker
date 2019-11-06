@@ -47,10 +47,23 @@ public class ClientRecordDataMapper {
      * @param driversLicenseNumber
      * @return
      */
-    public List getObject(String driversLicenseNumber) {
-        List<ClientRecord> clientRecords = new ArrayList<>();
+    public ClientRecord getObject(String driversLicenseNumber) {
+        ClientRecord clientRecord= null;
         ResultSet rs= clientRecordTdg.getObject(driversLicenseNumber);
-        return MapClientRecords(clientRecords, rs);
+        try{
+                clientRecord =  new ClientRecord(
+                rs.getString("driversLicenseNumber"),
+                rs.getInt("version"),
+                rs.getString("firstname"),
+                rs.getString("lastname"),
+                rs.getString("phoneNumber"),
+                rs.getDate("expirationDate")
+
+        );
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return clientRecord;
     }
 
     /**
