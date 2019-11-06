@@ -1,10 +1,5 @@
 package com.soen6461.carrentalapplication.config;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This class is designed for different wen pages Authentication
@@ -32,20 +30,11 @@ public class ClientSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	UserRegister userRegister;
-	
-	@Autowired
-    DataSource dataSource;
 
 	@Bean
 	public static NoOpPasswordEncoder passwordEncoder() {
 		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 	}
-	
-	//Enable jdbc authentication
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
-    }
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -83,39 +72,42 @@ public class ClientSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	 * 
 	 * @param authenticationMgr authenticationMgr
 	 */
-	/*
-	 * @Override protected void configure(AuthenticationManagerBuilder
-	 * authenticationMgr) throws Exception {
-	 * authenticationMgr.userDetailsService(inMemoryUserDetailsManager()); }
-	 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder authenticationMgr) throws Exception {
+		authenticationMgr.userDetailsService(inMemoryUserDetailsManager());
+	}
 
 	/**
 	 * Method to fetch passwords for Admin and Clerk
 	 * 
 	 */
-	/*
-	 * @Bean public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-	 * 
-	 * // https://spring.io/guides/gs/securing-web/
-	 * 
-	 * Collection<UserDetails> userDetailsCollection = new ArrayList<UserDetails>();
-	 * 
-	 * // Add all clerks for (Clerk clerk : this.userRegister.getAllClerks()) {
-	 * UserDetails userDetails =
-	 * org.springframework.security.core.userdetails.User.withUsername(clerk.
-	 * getUsername()) .password(clerk.getPassword()) .roles(clerk.getRole().name())
-	 * .build();
-	 * 
-	 * userDetailsCollection.add(userDetails); }
-	 * 
-	 * // Add all administrators for (Administrator administrator :
-	 * this.userRegister.getAllAdministrators()) { UserDetails userDetails =
-	 * org.springframework.security.core.userdetails.User.withUsername(administrator
-	 * .getUsername()) .password(administrator.getPassword())
-	 * .roles(administrator.getRole().name()) .build();
-	 * 
-	 * userDetailsCollection.add(userDetails); }
-	 * 
-	 * return new InMemoryUserDetailsManager(userDetailsCollection); }
-	 */
+	@Bean
+	public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+
+		// https://spring.io/guides/gs/securing-web/
+
+		Collection<UserDetails> userDetailsCollection = new ArrayList<UserDetails>();
+
+		// Add all clerks
+		for (Clerk clerk : this.userRegister.getAllClerks()) {
+			UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(clerk.getUsername())
+					.password(clerk.getPassword())
+					.roles(clerk.getRole().name())
+					.build();
+
+			userDetailsCollection.add(userDetails);
+		}
+
+		// Add all administrators
+		for (Administrator administrator : this.userRegister.getAllAdministrators()) {
+			UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(administrator.getUsername())
+					.password(administrator.getPassword())
+					.roles(administrator.getRole().name())
+					.build();
+
+			userDetailsCollection.add(userDetails);
+		}
+
+		return new InMemoryUserDetailsManager(userDetailsCollection);
+	}
 }

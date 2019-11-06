@@ -183,7 +183,7 @@ public class ClientRecordTdg {
      */
     public void getConnection() throws SQLException {
         try{
-            this.connection = this.dataSource.getConnection();
+        this.connection = this.dataSource.getConnection();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }

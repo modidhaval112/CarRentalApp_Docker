@@ -1,9 +1,15 @@
 package com.soen6461.carrentalapplication.config;
 
-import org.springframework.web.bind.annotation.RestController;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * This class is responsible to control the REST services related to users.
@@ -11,9 +17,47 @@ import java.util.List;
  */
 @RestController
 public class UserRegister {
+	
+	@Autowired
+	DataSource dataSource;
 
 	private List<User> userList = new ArrayList<User>();
 
+	
+	public ResultSet getObject() {
+        String sql = "SELECT * FROM carrentaldb.users";
+        try {
+        	Statement stmt = this.dataSource.getConnection().createStatement();     	
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            return rs;
+
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+        }
+
+        return null;
+    }
+	
+	public void setUserRegisterObject() {
+        ResultSet rs= getObject();
+        try{
+        	while( rs.next()) {
+        		String role = rs.getString("role");
+        		
+        		if(role.equalsIgnoreCase("USER")) {
+        			addUser(new Clerk(rs.getString("username"), rs.getString("password")));
+        		}
+        		
+        		if(role.equalsIgnoreCase("ADMINISTRATOR")) {
+        			addUser(new Administrator(rs.getString("username"), rs.getString("password")));
+        		}
+        	}
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+	
 	/**
 	 * method to add new users
 	 * @param user
