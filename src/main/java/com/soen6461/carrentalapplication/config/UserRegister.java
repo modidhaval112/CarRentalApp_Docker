@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.soen6461.carrentalapplication.database.DatabaseConnection;
+
 /**
  * This class is responsible to control the REST services related to users.
  * creation, search, modify, delete.
@@ -20,6 +22,7 @@ public class UserRegister {
 	
 	@Autowired
 	DataSource dataSource;
+	DatabaseConnection dc = DatabaseConnection.getInstance();
 
 	private List<User> userList = new ArrayList<User>();
 
