@@ -22,7 +22,7 @@ public class UserRegister {
 	
 	@Autowired
 	DataSource dataSource;
-	DatabaseConnection dc = DatabaseConnection.getInstance();
+//	DatabaseConnection dc = DatabaseConnection.getInstance();
 
 	private List<User> userList = new ArrayList<User>();
 

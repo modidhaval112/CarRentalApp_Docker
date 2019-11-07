@@ -28,7 +28,6 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
 
     }
 
-
     @Override
     public void registerNew(ClientRecord clientRecord) {
         LOGGER.info("Registering {} for insert in context.", clientRecord.getFirstName());
@@ -69,12 +68,12 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
             commitInsert();
         }
 
-        if (context.containsKey(IUnitOfWork.MODIFY)) {
-            commitModify();
-        }
-        if (context.containsKey(IUnitOfWork.DELETE)) {
-            commitDelete();
-        }
+//        if (context.containsKey(IUnitOfWork.MODIFY)) {
+//            commitModify();
+//        }
+//        if (context.containsKey(IUnitOfWork.DELETE)) {
+//            commitDelete();
+//        }
 
         LOGGER.info("Commit finished.");
         return true;
@@ -88,21 +87,21 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
         }
     }
 
-    private void commitModify() {
-        List<ClientRecord> modifiedClients = context.get(IUnitOfWork.MODIFY);
-        for (ClientRecord clientRecord : modifiedClients) {
-            LOGGER.info("Modifying {} to database.", clientRecord.getFirstName());
-            clientRecordDataMapper.update(clientRecord);
-        }
-    }
+//    private void commitModify() {
+//        List<ClientRecord> modifiedClients = context.get(IUnitOfWork.MODIFY);
+//        for (ClientRecord clientRecord : modifiedClients) {
+//            LOGGER.info("Modifying {} to database.", clientRecord.getFirstName());
+//            clientRecordDataMapper.update(clientRecord);
+//        }
+//    }
 
-    private void commitDelete() {
-        List<ClientRecord> deletedClients = context.get(IUnitOfWork.DELETE);
-        for (ClientRecord clientRecord : deletedClients) {
-            LOGGER.info("Deleting {} to database.", clientRecord.getFirstName());
-            clientRecordDataMapper.delete(clientRecord.getDriversLicenseNumber());
-        }
-    }
+//    private void commitDelete() {
+//        List<ClientRecord> deletedClients = context.get(IUnitOfWork.DELETE);
+//        for (ClientRecord clientRecord : deletedClients) {
+//            LOGGER.info("Deleting {} to database.", clientRecord.getFirstName());
+//            clientRecordDataMapper.delete(clientRecord.getDriversLicenseNumber());
+//        }
+//    }
 
     //Todo: Implement rollback
     @Override

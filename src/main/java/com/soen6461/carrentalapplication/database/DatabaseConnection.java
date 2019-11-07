@@ -10,34 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DatabaseConnection {
 	@Autowired
 	private DataSource dataSource;
-	private Connection connection;
 
-	private static DatabaseConnection instance = new DatabaseConnection();
+//	private static DatabaseConnection instance = new DatabaseConnection();
 
-	private DatabaseConnection(){
-		try {
-			this.getConnection();
-		} catch (SQLException e){
-			e.printStackTrace();
-		}
-	}
-	public static DatabaseConnection getInstance(){
-		return instance;
-	}
+//	private DatabaseConnection(){}
+//	public static DatabaseConnection getInstance(){
+//		return instance;
+//	}
 
-
-	public void setDataSource (DataSource dataSource) {
+	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
-	private void getConnection() throws SQLException
+	public Connection getConnection() throws SQLException
 	{
-		this.connection = dataSource.getConnection();
+		return dataSource.getConnection();
 	}
-
-	public Connection accessConnection(){
-		return connection;
-	}
-
-
 }
