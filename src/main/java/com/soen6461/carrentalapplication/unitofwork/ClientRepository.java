@@ -5,36 +5,29 @@ import com.soen6461.carrentalapplication.model.ClientRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-@Repository
+@Component
 public class ClientRepository implements IUnitOfWork<ClientRecord> {
-
+    HashMap<String,List<ClientRecord>> context = new HashMap<String, List<ClientRecord>>();
     /**
      * supports unit of work for client data.
      */
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRecordDataMapper.class);
 
-    private Map<String, List<ClientRecord>> context;
-
+    @Autowired
     private ClientRecordDataMapper clientRecordDataMapper;
 
     public ClientRepository() {
 
     }
 
-    /**
-     * @param context                set of operations to be perform during commit.
-     * @param clientRecordDataMapper Client data mapper for persistance.
-     */
-    public ClientRepository(Map<String, List<ClientRecord>> context, ClientRecordDataMapper clientRecordDataMapper) {
-        this.context = context;
-        this.clientRecordDataMapper = clientRecordDataMapper;
-    }
 
     @Override
     public void registerNew(ClientRecord clientRecord) {

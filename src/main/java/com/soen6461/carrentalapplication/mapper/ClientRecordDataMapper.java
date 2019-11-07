@@ -3,19 +3,22 @@ package com.soen6461.carrentalapplication.mapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-
-public class ClientRecordDataMapper {
+@Component
+public class ClientRecordDataMapper implements RowMapper<ClientRecord> {
 
     @Autowired
     private ClientRecordTdg clientRecordTdg;
 
-    public ClientRecordDataMapper() {
+    public ClientRecordDataMapper(){
+
     }
 
     /**
@@ -32,8 +35,8 @@ public class ClientRecordDataMapper {
      * @param objectToUpdate
      * @return
      */
-    public boolean update(ClientRecord objectToUpdate) {
-        return clientRecordTdg.update(objectToUpdate);
+    public void update(ClientRecord objectToUpdate) {
+        clientRecordTdg.update(objectToUpdate);
     }
 
     /**
@@ -41,8 +44,8 @@ public class ClientRecordDataMapper {
      * @param driversLicenseNumber
      * @return
      */
-    public boolean delete(String driversLicenseNumber) {
-        return clientRecordTdg.delete(driversLicenseNumber);
+    public void delete(String driversLicenseNumber) {
+         clientRecordTdg.delete(driversLicenseNumber);
     }
 
     /**
@@ -75,9 +78,10 @@ public class ClientRecordDataMapper {
      */
     public List getAllObjects() {
         List<ClientRecord> clientRecords = new ArrayList<>();
-        ResultSet rs= clientRecordTdg.getAllObjects();
-        return MapClientRecords(clientRecords, rs);
+        clientRecords= clientRecordTdg.getAllObjects();
+        return clientRecords;
     }
+
 
     /**
      * Maps the result set to client objects
@@ -87,6 +91,7 @@ public class ClientRecordDataMapper {
      */
     private List MapClientRecords(List<ClientRecord> clientRecords, ResultSet rs) {
         try{
+            System.out.println(rs+"------------------------------------------------------------------------------");
             while (rs.next()) {
                 // retrieve and print the values for the current row
                 ClientRecord clientRecord=  new ClientRecord(
@@ -112,11 +117,25 @@ public class ClientRecordDataMapper {
      * @param objectToInsert
      * @return
      */
-    public boolean save(ClientRecord objectToInsert) {
+//    public boolean save(ClientRecord objectToInsert) {
+//
+//        if (this.clientRecordTdg.getObject(objectToInsert.getDriversLicenseNumber()) == null) {
+//            return this.clientRecordTdg.insert(objectToInsert);
+//        }
+//         this.clientRecordTdg.update(objectToInsert);
+//    }
 
-        if (this.clientRecordTdg.getObject(objectToInsert.getDriversLicenseNumber()) == null) {
-            return this.clientRecordTdg.insert(objectToInsert);
-        }
-        return this.clientRecordTdg.update(objectToInsert);
+    @Override
+    public ClientRecord mapRow(ResultSet rs, int i) throws SQLException {
+        ClientRecord clientRecord =  new ClientRecord(
+                rs.getString("driversLicenseNumber"),
+                rs.getInt("version"),
+                rs.getString("firstname"),
+                rs.getString("lastname"),
+                rs.getString("phoneNumber"),
+                rs.getDate("expirationDate")
+
+        );
+        return clientRecord;
     }
 }
