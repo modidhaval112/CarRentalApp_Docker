@@ -7,34 +7,35 @@ import java.util.List;
 import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
 import com.soen6461.carrentalapplication.unitofwork.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.soen6461.carrentalapplication.model.ClientRecord;
 
 /**
  * This class is responsible to control the REST services related to client record
  * creation, search, modify, delete.
  */
-@RestController
+@Component
 public class ClientController {
 
-   private ClientRecordDataMapper clientRecordDataMapper= new ClientRecordDataMapper();
-    HashMap<String,List<ClientRecord>> context = new HashMap<String, List<ClientRecord>>();
+    @Autowired
+    private ClientRecordDataMapper clientRecordDataMapper;
 
-    private ClientRepository clientRepository= new ClientRepository(context,clientRecordDataMapper);
+    @Autowired
+    private ClientRepository clientRepository;
 
-    private List<ClientRecord> clientRecordList =  new ArrayList<>();
-//            clientRecordDataMapper.getAllObjects();
-
-
+    private static List<ClientRecord> clientRecordList = new ArrayList<>();
     /**
-     *  ClientRecord class constructor.
+     *  ClientRController class constructor.
      */
     private ClientController() {
     }
 
+    public void loadClientRecords(){
+        this.clientRecordList= this.clientRecordDataMapper.getAllObjects();
+    }
     @PostMapping(value = "/search")
     public ClientRecord searchClient(@RequestParam("dl") String dl) {
         return this.search(dl);
@@ -57,6 +58,7 @@ public class ClientController {
         clientRecordList.add(clientRecord);
         clientRepository.registerNew(clientRecord);
 
+
     }
 
     @PostMapping(value = "/get-all-client-records")
@@ -74,6 +76,7 @@ public class ClientController {
             if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicenseNumber)) {
                 clientRecordList.remove(clientRecordList.get(i));
                 clientRepository.registerDeleted(clientRecordList.get(i));
+//                clientRepository.commit();
             }
         }
     }
@@ -106,5 +109,9 @@ public class ClientController {
         }
 
         return null;
+    }
+
+    public void persistData(){
+        this.clientRepository.commit();
     }
 }

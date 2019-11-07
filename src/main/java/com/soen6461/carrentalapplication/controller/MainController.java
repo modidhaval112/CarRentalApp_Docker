@@ -131,6 +131,7 @@ public class MainController {
 		if (error != null)
 			model.addAttribute("errorMsg", "Your username and password are invalid.");
 		if (logout != null)
+			clientController.persistData();
 			model.addAttribute("msg", "You have been logged out successfully.");
 		return "/login";
 	}
@@ -339,7 +340,7 @@ public class MainController {
 
 		if (recordExists) {
 			redirectAttributes.addFlashAttribute("errorMsg",
-					"  Sorry, Client Record already exists with this Driver's Licence Number.");
+					"  Sorry, Client Record already exists with this Driver's License Number.");
 		} else {
 			redirectAttributes.addFlashAttribute("successMsg", "  Client has been added successfully.");
 			clientController.addClientRecord(clientRecord);
@@ -675,36 +676,37 @@ public class MainController {
 		 * Clerk("super_clerk", "clerk"));
 		 */
 		userRegister.setUserRegisterObject();
+		clientController.loadClientRecords();
 
 		// Adding some hard coded vehicles to populate the views.
-		VehicleRecord v1 = new VehicleRecord("ABD_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
-		this.vehicleCatalog.addVehicleRecord(v1);
-
-		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("UDF_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
-
-		VehicleRecord v2 = new VehicleRecord("ABE_636", "Sedan", "Audi", "A8", 2011, "Red");
-		this.vehicleCatalog.addVehicleRecord(v2);
-
-		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("ABF_636", "Sedan", "Audi", "Q7", 2014, "Black"));
-
-		// Adding some hard coded clients to populate the views.
-		ClientRecord c1 = new ClientRecord("A-1234-123456-12", "Dominick", "Cobb", "(438) 566-9999", "2039-10-1");
-		this.clientController.addClientRecord(c1);
-
-		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-13", "Robert", "Fischer", "(438) 566-9999", "2029-11-1"));
-		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-14", "Mal", "Cobb", "(438) 566-9999", "2029-12-1"));
-
-		ClientRecord c2 = new ClientRecord("A-1234-123456-15", "Stephen", "Miles", "(438) 566-9999", "2059-11-1");
-		this.clientController.addClientRecord(c2);
-		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-16", "Ariadne", "Fischer", "(438) 566-9999", "2079-11-1"));
-
-		// Adding some hard coded transactions to populate the views.
-		v1.addTransaction(new Transaction(c1, v1, "2019-11-01", "2019-11-15", Transaction.Status.Reserved));
-		v1.addTransaction(new Transaction(c2, v1, "2019-10-10", "2019-12-30", Transaction.Status.Rented));
-		v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-10-22", Transaction.Status.Rented));
-
-		v2.addTransaction(new Transaction(c2, v2, "2020-02-1", "2020-02-14", Transaction.Status.Reserved));
-		v2.addTransaction(new Transaction(c1, v2, "2019-09-1", "2019-10-30", Transaction.Status.Reserved));
+//		VehicleRecord v1 = new VehicleRecord("ABD_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
+//		this.vehicleCatalog.addVehicleRecord(v1);
+//
+//		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("UDF_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
+//
+//		VehicleRecord v2 = new VehicleRecord("ABE_636", "Sedan", "Audi", "A8", 2011, "Red");
+//		this.vehicleCatalog.addVehicleRecord(v2);
+//
+//		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("ABF_636", "Sedan", "Audi", "Q7", 2014, "Black"));
+//
+//		// Adding some hard coded clients to populate the views.
+//		ClientRecord c1 = new ClientRecord("A-1234-123456-12", "Dominick", "Cobb", "(438) 566-9999", "2039-10-1");
+//		this.clientController.addClientRecord(c1);
+//
+//		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-13", "Robert", "Fischer", "(438) 566-9999", "2029-11-1"));
+//		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-14", "Mal", "Cobb", "(438) 566-9999", "2029-12-1"));
+//
+//		ClientRecord c2 = new ClientRecord("A-1234-123456-15", "Stephen", "Miles", "(438) 566-9999", "2059-11-1");
+//		this.clientController.addClientRecord(c2);
+//		this.clientController.addClientRecord(new ClientRecord("A-1234-123456-16", "Ariadne", "Fischer", "(438) 566-9999", "2079-11-1"));
+//
+//		// Adding some hard coded transactions to populate the views.
+//		v1.addTransaction(new Transaction(c1, v1, "2019-11-01", "2019-11-15", Transaction.Status.Reserved));
+//		v1.addTransaction(new Transaction(c2, v1, "2019-10-10", "2019-12-30", Transaction.Status.Rented));
+//		v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-10-22", Transaction.Status.Rented));
+//
+//		v2.addTransaction(new Transaction(c2, v2, "2020-02-1", "2020-02-14", Transaction.Status.Reserved));
+//		v2.addTransaction(new Transaction(c1, v2, "2019-09-1", "2019-10-30", Transaction.Status.Reserved));
 
 	}
 	/**
