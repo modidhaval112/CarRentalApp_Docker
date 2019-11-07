@@ -1,6 +1,7 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
 /**
  * Client Record model class
  */
+@Component
 public class ClientRecord {
     private int recordVersion;
     private String driversLicenseNumber;
@@ -15,6 +17,9 @@ public class ClientRecord {
     private String lastName;
     private String phoneNumber;
     private Date expirationDate;
+
+    public ClientRecord() {
+    }
 
     /**
      * ClientRecord class parameterised constructor
@@ -41,11 +46,11 @@ public class ClientRecord {
 
     public ClientRecord( String driversLicenseNumber, int recordVersion, String firstName, String lastName, String phoneNumber, Date expirationDate) {
         this.recordVersion = recordVersion;
-        this.driversLicenseNumber = driversLicenseNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.expirationDate = expirationDate;
+        this.setDriversLicenseNumber(driversLicenseNumber);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setPhoneNumber(phoneNumber);
+        this.setExpirationDate(expirationDate);
     }
 
     /**
@@ -90,6 +95,8 @@ public class ClientRecord {
      * @return The expiration date of the drivers license.
      */
     public String getExpirationDate() {
+
+        System.out.println("-------- this --------" + this.expirationDate);
         return DataValidationHelper.dateFormat.format(this.expirationDate);
     }
 
