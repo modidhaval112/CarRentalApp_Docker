@@ -1,5 +1,6 @@
 package com.soen6461.carrentalapplication.tabledatagateway;
 
+import com.soen6461.carrentalapplication.database.DatabaseConnection;
 import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 
@@ -20,8 +21,11 @@ public class ClientRecordTdg {
     @Autowired
     DataSource dataSource;
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+//    private DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+//    private Connection connection = databaseConnection.getConnection();
+
+    public ClientRecordTdg() throws SQLException {
+    }
 
     /**
      * Insert a new record in the database to persist its data.
@@ -49,14 +53,17 @@ public class ClientRecordTdg {
                     "\"" + clientRecordToInsert.getPhoneNumber() + "\", " +
                     "\"" + clientRecordToInsert.getExpirationDate() + "\", " +
                     ");";
-            try{
-                jdbcTemplate.execute(sql);
-            jdbcTemplate.execute(sqlRecord);
-            } catch (DataIntegrityViolationException e) {
-                e.printStackTrace();
-                return false;
-            }
-        return true;
+
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            stmt.executeUpdate(sql);
+            stmt.execute(sqlRecord);
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return false;
+        }
 
     }
 
@@ -66,9 +73,17 @@ public class ClientRecordTdg {
      * @param driversLicenseNumber Driver's license number of the record to delete from the database.
      */
     //@Override
-    public void delete(String driversLicenseNumber) {
+    public boolean delete(String driversLicenseNumber) {
         String sql = "DELETE from `carrentaldb`.`" + this.getClientRecordTableName() + "`   WHERE `driversLicenseNumber` = '" + driversLicenseNumber + "'";
-        jdbcTemplate.execute(sql);
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -77,7 +92,7 @@ public class ClientRecordTdg {
      * @param objectToUpdate Object to update.
      */
     //@Override
-    public void update(ClientRecord objectToUpdate) {
+    public boolean update(ClientRecord objectToUpdate) {
         String sql = " UPDATE  `carrentaldb`.`" + this.getClientRecordTableName() + "` SET " +
                 "`driversLicenseNumber`=" +  objectToUpdate.getDriversLicenseNumber() + ", " +
                 "`version`=" + objectToUpdate.getRecordVersion() + ", " +
@@ -86,7 +101,16 @@ public class ClientRecordTdg {
                 "`phoneNumber`=\"" + objectToUpdate.getPhoneNumber() + "\", " +
                 "`expirationDate`=\"" + objectToUpdate.getExpirationDate() + "\", " +
                 " WHERE driversLicense=" + objectToUpdate.getDriversLicenseNumber() +";";
-        jdbcTemplate.execute(sql);
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return false;
+        }
+
     }
 
     /**
@@ -99,30 +123,55 @@ public class ClientRecordTdg {
     public ResultSet getObject(String driversLicenseNumber) {
         String sql = "SELECT * FROM `carrentaldb`.`" + this.getClientRecordTableName() + "` WHERE driversLicenseNumber = " + driversLicenseNumber;
 
-        try  {
-            jdbcTemplate.execute(sql);
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            return rs;
+
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
         }
-
         return null;
     }
 
-    public List<ClientRecord> getAllObjects() {
-        List<ClientRecord> results = jdbcTemplate.query("SELECT * FROM carrentaldb.clientRecord", new ClientRecordDataMapper());
-        return results;
+    public ResultSet getAllObjects() {
+//        List<ClientRecord> results = jdbcTemplate.query("SELECT * FROM carrentaldb.clientRecord", new ClientRecordDataMapper());
+//        return results;
+        String sql= "SELECT * FROM carrentaldb.clientRecord";
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            return rs;
+
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+        }
+        return null;
     }
 
-    /**
-     * Clear the testing data.
-     *
-     * @return True if the testing data is cleared, false otherwise.
-     */
+    private boolean sqlUpdateStatement(String sql) throws SQLException {
+        Boolean isSuccess;
+        Statement statement;
+        try {
+            statement = this.dataSource.getConnection().createStatement();
+            statement.executeUpdate(sql);
 
+            // Releasing the resources
+            if (statement != null) {
+                statement.close();
+            }
 
+            isSuccess = true;
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            System.out.println(sql);
+            isSuccess = false;
+        }
+
+        return isSuccess;
+    }
 
     private String getClientRecordTableName() {
-
         return "ClientRecord";
     }
 }
