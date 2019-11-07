@@ -326,13 +326,14 @@ public class MainController {
 	 * @return redirection to client-register
 	 */
 	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
-	public String addClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
+	public String addClientRecord(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("driversLicenseNumber") String driversLicenseNumber, @RequestParam("expirationDate") String expirationDate,
 			RedirectAttributes redirectAttributes) {
 
 		List<ClientRecord> clientRecordList = clientController.getAllClientRecord();
 		boolean recordExists = false;
 		for (int i = 0; i < clientRecordList.size(); i++) {
-			if (clientRecordList.get(i).getDriversLicenseNumber().equals(clientRecord.getDriversLicenseNumber())) {
+			if (clientRecordList.size() != 0 && !(clientRecordList.isEmpty()) && clientRecordList.get(i).getDriversLicenseNumber().equalsIgnoreCase(driversLicenseNumber)) {
 				recordExists = true;
 				break;
 			}
@@ -343,7 +344,7 @@ public class MainController {
 					"  Sorry, Client Record already exists with this Driver's License Number.");
 		} else {
 			redirectAttributes.addFlashAttribute("successMsg", "  Client has been added successfully.");
-			clientController.addClientRecord(clientRecord);
+			clientController.addClientRecord(new ClientRecord(driversLicenseNumber, firstName, lastName, phoneNumber, expirationDate));
 
 		}
 
