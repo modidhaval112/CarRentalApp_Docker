@@ -1,222 +1,129 @@
 package com.soen6461.carrentalapplication.tabledatagateway;
 
-import com.soen6461.carrentalapplication.Helpers.ITableGatewayMapper;
-import com.soen6461.carrentalapplication.model.VehicleRecord;
-
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * The vehicle table data gateway dissociates the
- */
-public class VehicleRecordTdg implements ITableGatewayMapper<VehicleRecord> {
+import javax.sql.DataSource;
 
-    boolean isDataMapperTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-    private String dbName = "carRentalDb";
-    private String dbms = "mysql";
-    private String portNumber = "3306";
-    private String serverName = "localhost";
-    private Object password = "root";
-    private Object userName = "root";
+@Repository
+public class VehicleRecordTdg {
+    @Autowired
+    DataSource dataSource;
+    //	DatabaseConnection dc= DatabaseConnection.getInstance();
+    Connection con;
+    Statement stmt = null;
 
-    private Connection connection;
 
-    /**
-     * Insert a new record in the database to persist its data.
-     *
-     * @param vehicleRecordToInsert Vehicle record to insert in the database.
-     */
-    @Override
-    public boolean insert(VehicleRecord vehicleRecordToInsert) {
-        String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + this.getVehicleRecordTableName() + "` (" +
-                "    `id` INT PRIMARY KEY," +
+    public List<Map<String, Object>> findAll() throws SQLException {
+        String sql = "SELECT * FROM carrentaldb.vehicleRecord";
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+
+            List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+            while (rs.next()) {
+
+                Map<String, Object> row = new HashMap<String, Object>(columns);
+                for (int i = 1; i <= columns; ++i) {
+                    row.put(md.getColumnName(i), rs.getObject(i));
+                }
+                rows.add(row);
+            }
+            return rows;
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return null;
+        }
+    }
+
+    public boolean delete(String licensePlateNumber) {
+        String statement = "DELETE FROM `carrentaldb`.`vehicleRecord` where `licensePlateNumber `=?";
+		try {
+			PreparedStatement dbStatement = this.dataSource.getConnection().prepareStatement(statement);
+			dbStatement.setString(1 ,licensePlateNumber);
+			dbStatement.executeUpdate();
+			return true;
+		}catch(SQLException e){
+            System.out.println("Get object exception" + e.getMessage());
+            return false;
+		}
+
+    }
+
+	public boolean insert(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
+			String color) {
+		String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + "`vehicleRecord`" + "` (" +
+                "    `licensePlateNumber` VARCHAR(50) PRIMARY KEY," +
+                "    `id` INT," +
                 "    `version` INT," +
-                "    `lpr` VARCHAR(60)," +
-                "    `carType` VARCHAR(50)," +
+                "    `carType` VARCHAR(60)," +
                 "    `make` VARCHAR(50)," +
                 "    `model` VARCHAR(50)," +
-                "    `year` INT," +
-                "    `color` VARCHAR(50)" +
+                "    `year` INT" +
+                "    `color` VARCHAR(50)," +
                 ");";
-        if (this.sqlUpdateStatement(sql)) {
-            String sqlRecord = "INSERT INTO `carrentaldb`.`" + this.getVehicleRecordTableName() + "`" +
-                    "(`id`, `version`, `lpr`, `carType`, `make`, `model`, `year`, `color`) " +
-                    "VALUES (" +
-                    vehicleRecordToInsert.getId() + ", " +
-                    vehicleRecordToInsert.getRecordVersion() + ", " +
-                    "\"" + vehicleRecordToInsert.getLpr() + "\", " +
-                    "\"" + vehicleRecordToInsert.getCarType() + "\", " +
-                    "\"" + vehicleRecordToInsert.getMake() + "\", " +
-                    "\"" + vehicleRecordToInsert.getModel() + "\", " +
-                    vehicleRecordToInsert.getYear() + ", " +
-                    "\"" + vehicleRecordToInsert.getColor() + "\"" +
-                    ");";
-            return this.sqlUpdateStatement(sqlRecord);
-        }
 
-        return false;
-    }
+        String sqlRecord = "INSERT INTO `carrentaldb`.`" + "`vehicleRecord`" + "`" +
+                "(`licensePlateNumber`, `id`, `version`, `carType`, `make`, `model`, `year`, `color`) " +
+                "VALUES (" +
+                lpr + ", " +
+                id + ", " +
+                recordVersion + ", " +
+                "\"" + carType + "\", " +
+                "\"" + make + "\", " +
+                "\"" + model + "\", " +
+                "\"" + year + "\", " +
+                "\"" + color + "\", " +
+                ");";
 
-    /**
-     * Method to delete a record from the database
-     *
-     * @param id Id of the record to delete from the database.
-     */
-    @Override
-    public boolean delete(int id) {
-        String sql = "DELETE from `carrentaldb`.`" + this.getVehicleRecordTableName() + "` where id = '" + id + "'";
-        return this.sqlUpdateStatement(sql);
-    }
-
-    /**
-     * Method to update an object data in the database.
-     *
-     * @param id             Id of the object to map.
-     * @param objectToUpdate Object to update.
-     */
-    @Override
-    public boolean update(int id, VehicleRecord objectToUpdate) {
-        String sql = " UPDATE  `carrentaldb`.`" + this.getVehicleRecordTableName() + "` SET " +
-                "`id`=" +  objectToUpdate.getId() + ", " +
-                "`version`=" + objectToUpdate.getRecordVersion() + ", " +
-                "`lpr`= \"" + objectToUpdate.getLpr() + "\", " +
-                "`carType`=\"" + objectToUpdate.getCarType() + "\", " +
-                "`make`=\"" + objectToUpdate.getMake() + "\", " +
-                "`model`=\"" + objectToUpdate.getModel() + "\", " +
-                "`year`=" + objectToUpdate.getYear() + ", " +
-                "`color`=\"" + objectToUpdate.getColor() +"\" " +
-                " WHERE id=" + id +";";
-        return this.sqlUpdateStatement(sql);
-    }
-
-    /**
-     * Method to retrieve an object from the database.
-     *
-     * @param id The id of the object to retrieve from the database.
-     * @return The object mapping to the given id.
-     */
-    @Override
-    public VehicleRecord getObject(int id) {
-        String sql = "SELECT * FROM `carrentaldb`.`" + this.getVehicleRecordTableName() + "` WHERE id = " + id;
-
-        try (Statement stmt = this.connection.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery(sql);
-
-            return new VehicleRecord(
-                    rs.getInt("id"),
-                    rs.getInt("version"),
-                    rs.getString("lpr"),
-                    rs.getString("carType"),
-                    rs.getString("make"),
-                    rs.getString("model"),
-                    rs.getInt("year"),
-                    rs.getString("color"));
+        try {
+			Statement stmt = this.dataSource.getConnection().createStatement();
+            stmt.executeUpdate(sql);
+            stmt.execute(sqlRecord);
+            return true;
 
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
+            return false;
         }
+	}
 
-        return null;
-    }
-
-    /**
-     * Method used to allow testing of te vehicle data mapper.
-     *
-     * @param isTest Set to true when testing the data mapper.
-     */
-    public void setIsDataMapperTest(Boolean isTest) {
-        this.isDataMapperTest = isTest;
-    }
-
-    /**
-     * Clear the testing data.
-     *
-     * @return True if the testing data is cleared, false otherwise.
-     */
-    public boolean clearTestingData() {
-        String sql = "DROP TABLE IF EXISTS `carrentaldb`.`VehicleRecordTestTable`";
-        return this.sqlUpdateStatement(sql);
-    }
-
-    /**
-     * Execute an update statement on the database.
-     *
-     * @param sql The sql statement.
-     * @return True if the statement was executed without issues, false otherwise.
-     */
-    private boolean sqlUpdateStatement(String sql) {
-
-        if(this.connection == null)
-        {
-            this.getConnection();
-        }
-
-        boolean isSuccess;
-        Statement statement;
-
+	public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
+			String color) {
+		String sql = " UPDATE  `carrentaldb`.`" + "`vehicleRecord`" + "` SET " +
+				"`id`=" + id + ", " +
+                "`version`=" + recordVersion + ", " +
+                "`licensePlateNumber`= \"" + lpr + "\", " +
+                "`carType`=\"" + carType + "\", " +
+                "`make`=\"" + make + "\", " +
+                "`model`=\"" + model + "\", " +
+                "`year`=\"" + year + "\", " +
+                "`color`=\"" + color + "\", " +
+                " WHERE licensePlateNumber=" + lpr + ";";
         try {
-            statement = this.connection.createStatement();
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return false;
 
-            statement.executeUpdate(sql);
-
-            // Releasing the resources
-            if (statement != null) {
-                statement.close();
-            }
-
-            isSuccess = true;
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            System.out.println(sql);
-            isSuccess = false;
         }
+	}
 
-        return isSuccess;
-    }
-
-    /**
-     * Gets the connection to the database.
-     *
-     */
-    public void getConnection() {
-
-        try {
-            Connection conn = null;
-            Properties connectionProps = new Properties();
-            connectionProps.put("user", this.userName);
-            connectionProps.put("password", this.password);
-
-            if (this.dbms.equals("mysql")) {
-                conn = DriverManager.getConnection(
-                        "jdbc:" + this.dbms + "://" +
-                                this.serverName +
-                                ":" + this.portNumber + "/",
-                        connectionProps);
-            } else if (this.dbms.equals("derby")) {
-                conn = DriverManager.getConnection(
-                        "jdbc:" + this.dbms + ":" +
-                                this.dbName +
-                                ";create=true",
-                        connectionProps);
-            }
-            System.out.println("Connected to database");
-            this.connection = conn;
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
-
-    }
-
-    private String getVehicleRecordTableName() {
-        if (this.isDataMapperTest) {
-            return "VehicleRecordTestTable";
-        }
-
-        return "VehicleRecord";
-    }
 }
+
+
