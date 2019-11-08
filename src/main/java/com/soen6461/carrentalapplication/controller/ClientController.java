@@ -1,5 +1,7 @@
 package com.soen6461.carrentalapplication.controller;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +35,8 @@ public class ClientController {
     private ClientController() {
     }
 
-    public void loadClientRecords(){
-        this.clientRecordList= this.clientRecordDataMapper.getAllObjects();
+    public void loadClientRecords() throws ParseException, SQLException {
+        this.clientRecordList= this.clientRecordDataMapper.findAll();
     }
     @PostMapping(value = "/search")
     public ClientRecord searchClient(@RequestParam("dl") String dl) {
@@ -86,7 +88,7 @@ public class ClientController {
      *
      * @param clientRecord the updated client record.
      */
-    public void updateClientRecord(ClientRecord clientRecord, String driversLicense) {
+    public void updateClientRecord(ClientRecord clientRecord,String driversLicense) {
         for (int i = 0; i < clientRecordList.size(); i++) {
             if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicense)) {
                 clientRecordList.set(i,clientRecord);

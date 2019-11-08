@@ -68,12 +68,12 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
             commitInsert();
         }
 
-//        if (context.containsKey(IUnitOfWork.MODIFY)) {
-//            commitModify();
-//        }
-//        if (context.containsKey(IUnitOfWork.DELETE)) {
-//            commitDelete();
-//        }
+        if (context.containsKey(IUnitOfWork.MODIFY)) {
+            commitModify();
+        }
+        if (context.containsKey(IUnitOfWork.DELETE)) {
+            commitDelete();
+        }
 
         LOGGER.info("Commit finished.");
         return true;
@@ -87,13 +87,13 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
         }
     }
 
-//    private void commitModify() {
-//        List<ClientRecord> modifiedClients = context.get(IUnitOfWork.MODIFY);
-//        for (ClientRecord clientRecord : modifiedClients) {
-//            LOGGER.info("Modifying {} to database.", clientRecord.getFirstName());
-//            clientRecordDataMapper.update(clientRecord);
-//        }
-//    }
+    private void commitModify() {
+        List<ClientRecord> modifiedClients = context.get(IUnitOfWork.MODIFY);
+        for (ClientRecord clientRecord : modifiedClients) {
+            LOGGER.info("Modifying {} to database.", clientRecord.getFirstName());
+            clientRecordDataMapper.update(clientRecord);
+        }
+    }
 
 //    private void commitDelete() {
 //        List<ClientRecord> deletedClients = context.get(IUnitOfWork.DELETE);

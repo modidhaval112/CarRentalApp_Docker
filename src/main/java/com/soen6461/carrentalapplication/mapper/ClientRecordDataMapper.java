@@ -1,9 +1,10 @@
 package com.soen6461.carrentalapplication.mapper;
 
 import com.soen6461.carrentalapplication.model.ClientRecord;
-import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
-import com.soen6461.carrentalapplication.tabledatagateway.ClientTDG;
 
+
+
+import com.soen6461.carrentalapplication.tabledatagateway.ClientTDG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,7 @@ import java.util.Map;
 public class ClientRecordDataMapper {
 
     @Autowired
-    private ClientRecordTdg clientRecordTdg;
-    private ClientTDG clientTdg;
+    private ClientTDG clientRecordTdg;
 
     /**
      * Insert a client record
@@ -28,7 +28,7 @@ public class ClientRecordDataMapper {
      * @return
      */
     public boolean insert(ClientRecord clientRecordToInsert) {
-    	return clientTdg.insert(clientRecordToInsert.getFirstName(),clientRecordToInsert.getLastName(),clientRecordToInsert.getPhoneNumber(),clientRecordToInsert.getExpirationDateObject(),clientRecordToInsert.getDriversLicenseNumber(),clientRecordToInsert.getRecordVersion());
+    	return clientRecordTdg.insert(clientRecordToInsert.getFirstName(),clientRecordToInsert.getLastName(),clientRecordToInsert.getPhoneNumber(),clientRecordToInsert.getExpirationDateObject(),clientRecordToInsert.getDriversLicenseNumber(),clientRecordToInsert.getRecordVersion());
     }
 
     /**
@@ -36,41 +36,17 @@ public class ClientRecordDataMapper {
      * @param objectToUpdate
      * @return
      */
-//    public boolean update(ClientRecord objectToUpdate) {
-//        return this.clientRecordTdg.update(objectToUpdate);
-//    }
+    public boolean update(ClientRecord objectToUpdate) {
+        return this.clientRecordTdg.update(objectToUpdate);
+    }
 
     /**
      * Delete the client record
      * @param driversLicenseNumber
      * @return
      */
-//    public boolean delete(String driversLicenseNumber) {
-//        return clientRecordTdg.delete(driversLicenseNumber);
-//    }
-
-    /**
-     * Get a client record
-     * @param driversLicenseNumber
-     * @return
-     */
-    public ClientRecord getObject(String driversLicenseNumber) {
-        ClientRecord clientRecord= null;
-        List<Map<String, Object>> rs= clientTdg.findClientRecord(driversLicenseNumber);
-        try{
-            clientRecord =  new ClientRecord(
-                    rs.getString("driversLicenseNumber"),
-                    rs.getInt("version"),
-                    rs.getString("firstname"),
-                    rs.getString("lastname"),
-                    rs.getString("phoneNumber"),
-                    rs.getDate("expirationDate")
-
-            );
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return clientRecord;
+    public boolean delete(String driversLicenseNumber) {
+        return clientRecordTdg.delete(driversLicenseNumber);
     }
 
     /**
@@ -79,9 +55,9 @@ public class ClientRecordDataMapper {
      * @throws ParseException 
      * @throws NumberFormatException 
      */
-    public List getAllObjects() throws NumberFormatException, ParseException {
+    public List findAll() throws NumberFormatException, ParseException, SQLException {
         List<ClientRecord> clientRecords = new ArrayList<>();
-        List<Map<String, Object>> records= clientTdg.findAll();
+        List<Map<String, Object>> records= clientRecordTdg.findAll();
         
         for(int i=0; i<records.size();i++)
         {
@@ -103,33 +79,33 @@ public class ClientRecordDataMapper {
      * @param rs
      * @return
      */
-    public List FindAll() {
-    	
-        List<ClientRecord> clientRecords = new ArrayList<>();
-        ResultSet rs= clientRecordTdg.getAllObjects();
-
-        try{
-            List<ClientRecord> clientRecords = new ArrayList<>();
-
-            while (rs.next()) {
-                // retrieve and print the values for the current row
-                ClientRecord clientRecord=  new ClientRecord(
-                        rs.getString("driversLicenseNumber"),
-                        rs.getInt("version"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        rs.getString("phoneNumber"),
-                        rs.getDate("expirationDate")
-
-                );
-                clientRecords.add(clientRecord);
-            }
-        } catch(SQLException e){
-            System.out.println("Sql exception at ResultSet:" );
-            e.printStackTrace();
-        }
-        return clientRecords;
-    }
+//    public List FindAll() {
+//
+//        List<ClientRecord> clientRecords = new ArrayList<>();
+//        ResultSet rs= clientRecordTdg.getAllObjects();
+//
+//        try{
+//            List<ClientRecord> clientRecords = new ArrayList<>();
+//
+//            while (rs.next()) {
+//                // retrieve and print the values for the current row
+//                ClientRecord clientRecord=  new ClientRecord(
+//                        rs.getString("driversLicenseNumber"),
+//                        rs.getInt("version"),
+//                        rs.getString("firstname"),
+//                        rs.getString("lastname"),
+//                        rs.getString("phoneNumber"),
+//                        rs.getDate("expirationDate")
+//
+//                );
+//                clientRecords.add(clientRecord);
+//            }
+//        } catch(SQLException e){
+//            System.out.println("Sql exception at ResultSet:" );
+//            e.printStackTrace();
+//        }
+//        return clientRecords;
+//    }
 
     /**
      * Save the client Record
