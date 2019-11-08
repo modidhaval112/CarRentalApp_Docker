@@ -47,7 +47,7 @@ public class ClientTDG {
         }
     }
 
-    public void update(String firstname, String lastname, String phoneNumber, Date expirationDate, String driversLicense, int version) {
+    public boolean update(String firstname, String lastname, String phoneNumber, Date expirationDate, String driversLicense, int version) {
 
         String sql = " UPDATE  `carrentaldb`.`" + "`clientRecord`" + "` SET " +
                 "`driversLicenseNumber`=" + driversLicense + ", " +
@@ -60,8 +60,11 @@ public class ClientTDG {
         try {
             Statement stmt = this.dataSource.getConnection().createStatement();
             stmt.executeUpdate(sql);
+            return true;
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
+            return false;
+
         }
     }
 
@@ -100,14 +103,16 @@ public class ClientTDG {
     }
 
 
-    public void delete(String driversLicense) {
+    public boolean delete(String driversLicense) {
         String statement = "DELETE FROM `carrentaldb`.`clientRecord` where `driversLicenseNumber`=?";
 		try {
 			PreparedStatement dbStatement = this.dataSource.getConnection().prepareStatement(statement);
 			dbStatement.setString(1 ,driversLicense);
 			dbStatement.executeUpdate();
+			return true;
 		}catch(SQLException e){
             System.out.println("Get object exception" + e.getMessage());
+            return false;
 		}
 
     }

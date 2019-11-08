@@ -37,7 +37,7 @@ public class ClientRecordDataMapper {
      * @return
      */
     public boolean update(ClientRecord objectToUpdate) {
-        return this.clientRecordTdg.update(objectToUpdate);
+        return this.clientRecordTdg.update(objectToUpdate.getFirstName(),objectToUpdate.getLastName(),objectToUpdate.getPhoneNumber(),objectToUpdate.getExpirationDateObject(),objectToUpdate.getDriversLicenseNumber(),objectToUpdate.getRecordVersion());
     }
 
     /**
