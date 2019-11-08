@@ -1,8 +1,8 @@
 package com.soen6461.carrentalapplication.controller;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,18 +11,27 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.soen6461.carrentalapplication.mapper.VehicleRecordDataMapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.VehicleRecord;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 public class VehicleCatalog {
 	@Autowired
 	private ClientController clientController;
+	
+	@Autowired
+    private VehicleRecordDataMapper vehicleRecordDataMapper;
+	
 	private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
 	private static VehicleCatalog instance = null;
+	
+	public void loadVehicleRecords() throws ParseException, SQLException {
+        this.vehicleRecordList= this.vehicleRecordDataMapper.findAll();
+    }
 
 	/**
 	 * Default class constructor

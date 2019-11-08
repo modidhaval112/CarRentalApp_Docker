@@ -95,13 +95,13 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
         }
     }
 
-//    private void commitDelete() {
-//        List<ClientRecord> deletedClients = context.get(IUnitOfWork.DELETE);
-//        for (ClientRecord clientRecord : deletedClients) {
-//            LOGGER.info("Deleting {} to database.", clientRecord.getFirstName());
-//            clientRecordDataMapper.delete(clientRecord.getDriversLicenseNumber());
-//        }
-//    }
+    private void commitDelete() {
+        List<ClientRecord> deletedClients = context.get(IUnitOfWork.DELETE);
+        for (ClientRecord clientRecord : deletedClients) {
+            LOGGER.info("Deleting {} to database.", clientRecord.getFirstName());
+            clientRecordDataMapper.delete(clientRecord.getDriversLicenseNumber());
+        }
+    }
 
     //Todo: Implement rollback
     @Override
