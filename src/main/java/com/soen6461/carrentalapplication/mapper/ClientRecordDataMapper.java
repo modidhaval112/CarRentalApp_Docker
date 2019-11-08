@@ -8,8 +8,6 @@ import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,7 +53,7 @@ public class ClientRecordDataMapper {
      * @throws ParseException 
      * @throws NumberFormatException 
      */
-    public List findAll() throws NumberFormatException, ParseException, SQLException {
+    public List findAll() throws NumberFormatException, ParseException {
         List<ClientRecord> clientRecords = new ArrayList<>();
         List<Map<String, Object>> records= clientRecordTdg.findAll();
         
