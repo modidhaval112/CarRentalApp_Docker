@@ -19,26 +19,26 @@ public class VehicleRecordDataMapper {
     private VehicleRecordTdg vehicleRecordTdg;
 
     /**
-     * Insert a client record
-     * @param clientRecordToInsert
+     * Insert a vehicle record
+     * @param vehicleRecordToInsert
      * @return
      */
     public boolean insert(VehicleRecord vehicleRecordToInsert) {
-    	return vehicleRecordTdg.insert(vehicleRecordToInsert.getFirstName(),vehicleRecordToInsert.getLastName(),vehicleRecordToInsert.getPhoneNumber(),vehicleRecordToInsert.getExpirationDateObject(),vehicleRecordToInsert.getDriversLicenseNumber(),vehicleRecordToInsert.getRecordVersion());
+    	return vehicleRecordTdg.insert(vehicleRecordToInsert.getId(), vehicleRecordToInsert.getRecordVersion(),vehicleRecordToInsert.getLpr(),vehicleRecordToInsert.getCarType(),vehicleRecordToInsert.getMake(),vehicleRecordToInsert.getModel(),vehicleRecordToInsert.getYear(), vehicleRecordToInsert.getColor());
     }
 
     /**
-     * Update a client record
+     * Update a vehicle record
      * @param objectToUpdate
      * @return
      */
     public boolean update(VehicleRecord objectToUpdate) {
-        return this.vehicleRecordTdg.update(objectToUpdate.getFirstName(),objectToUpdate.getLastName(),objectToUpdate.getPhoneNumber(),objectToUpdate.getExpirationDateObject(),objectToUpdate.getDriversLicenseNumber(),objectToUpdate.getRecordVersion());
+        return this.vehicleRecordTdg.update(objectToUpdate.getId(), objectToUpdate.getRecordVersion(),objectToUpdate.getLpr(),objectToUpdate.getCarType(),objectToUpdate.getMake(),objectToUpdate.getModel(),objectToUpdate.getYear(), objectToUpdate.getColor());
     }
 
     /**
-     * Delete the client record
-     * @param driversLicenseNumber
+     * Delete the vehicle record
+     * @param lpr
      * @return
      */
     public boolean delete(String lpr) {
@@ -46,7 +46,7 @@ public class VehicleRecordDataMapper {
     }
 
     /**
-     * Get all client records
+     * Get all vehicle records
      * @return
      * @throws ParseException 
      * @throws NumberFormatException 
