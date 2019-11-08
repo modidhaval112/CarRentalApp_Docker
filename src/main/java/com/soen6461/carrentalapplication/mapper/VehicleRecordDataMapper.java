@@ -1,57 +1,73 @@
 package com.soen6461.carrentalapplication.mapper;
 
-import com.soen6461.carrentalapplication.Helpers.IDataMapper;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.soen6461.carrentalapplication.model.VehicleRecord;
 import com.soen6461.carrentalapplication.tabledatagateway.VehicleRecordTdg;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
+@Component
+public class VehicleRecordDataMapper {
 
-@Repository
-public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
-
+    @Autowired
     private VehicleRecordTdg vehicleRecordTdg;
 
     /**
-     * VehicleRecordDataMapper constructor.
+     * Insert a client record
+     * @param clientRecordToInsert
+     * @return
      */
-    public VehicleRecordDataMapper() {
-        this.vehicleRecordTdg = new VehicleRecordTdg();
+    public boolean insert(VehicleRecord vehicleRecordToInsert) {
+    	return vehicleRecordTdg.insert(vehicleRecordToInsert.getFirstName(),vehicleRecordToInsert.getLastName(),vehicleRecordToInsert.getPhoneNumber(),vehicleRecordToInsert.getExpirationDateObject(),vehicleRecordToInsert.getDriversLicenseNumber(),vehicleRecordToInsert.getRecordVersion());
     }
 
     /**
-     * Save the data in the database to persist it.
-     *
-     * @param objectToInsert Object to save in the database.
+     * Update a client record
+     * @param objectToUpdate
+     * @return
      */
-    @Override
-    public boolean save(VehicleRecord objectToInsert) {
+    public boolean update(VehicleRecord objectToUpdate) {
+        return this.vehicleRecordTdg.update(objectToUpdate.getFirstName(),objectToUpdate.getLastName(),objectToUpdate.getPhoneNumber(),objectToUpdate.getExpirationDateObject(),objectToUpdate.getDriversLicenseNumber(),objectToUpdate.getRecordVersion());
+    }
 
-        if (this.vehicleRecordTdg.getObject(objectToInsert.getId()) == null) {
-            return this.vehicleRecordTdg.insert(objectToInsert);
+    /**
+     * Delete the client record
+     * @param driversLicenseNumber
+     * @return
+     */
+    public boolean delete(String lpr) {
+        return vehicleRecordTdg.delete(lpr);
+    }
+
+    /**
+     * Get all client records
+     * @return
+     * @throws ParseException 
+     * @throws NumberFormatException 
+     */
+    public List findAll() throws NumberFormatException, ParseException, SQLException {
+        List<VehicleRecord> vehicleRecords = new ArrayList<>();
+        List<Map<String, Object>> records= vehicleRecordTdg.findAll();
+        
+        for(int i=0; i<records.size();i++)
+        {
+        	VehicleRecord vehicleRecord=  new VehicleRecord(
+        			Integer.parseInt(records.get(i).get("id").toString()),
+        			Integer.parseInt(records.get(i).get("version").toString()),
+        			records.get(i).get("lpr").toString(),
+        			records.get(i).get("carType").toString(),
+        			records.get(i).get("make").toString(),
+        			records.get(i).get("model").toString(),
+        			Integer.parseInt(records.get(i).get("year").toString()),
+        			records.get(i).get("color").toString());
+        	vehicleRecords.add(vehicleRecord);
         }
-
-        return this.vehicleRecordTdg.update(objectToInsert.getId(), objectToInsert);
-    }
-
-    /**
-     * Method to delete a record from the database
-     *
-     * @param id Id of the record to delete from the database.
-     */
-    @Override
-    public boolean delete(int id) {
-        return this.vehicleRecordTdg.delete(id);
-    }
-
-    /**
-     * Method to retrieve an object from the database.
-     *
-     * @param id The id of the object to retrieve from the database.
-     * @return The object mapping to the given id.
-     */
-    @Override
-    public VehicleRecord getObject(int id) {
-        return this.getObject(id);
+        return vehicleRecords;
     }
 }

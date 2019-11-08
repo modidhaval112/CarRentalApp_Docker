@@ -1,15 +1,24 @@
 package com.soen6461.carrentalapplication.tabledatagateway;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.Date;
-import java.util.*;
-
 @Repository
-public class ClientTDG {
+public class ClientRecordTdg {
     @Autowired
     DataSource dataSource;
     //	DatabaseConnection dc= DatabaseConnection.getInstance();

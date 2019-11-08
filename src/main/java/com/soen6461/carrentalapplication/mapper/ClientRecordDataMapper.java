@@ -4,7 +4,7 @@ import com.soen6461.carrentalapplication.model.ClientRecord;
 
 
 
-import com.soen6461.carrentalapplication.tabledatagateway.ClientTDG;
+import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 public class ClientRecordDataMapper {
 
     @Autowired
-    private ClientTDG clientRecordTdg;
+    private ClientRecordTdg clientRecordTdg;
 
     /**
      * Insert a client record
