@@ -38,3 +38,16 @@ CREATE TABLE IF NOT EXISTS carrentaldb. clientRecord   (
 
 # "Creation table for transaction."
 #---------------------------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS carrentaldb.  transaction   ( 
+                    transactionId VARCHAR(50) PRIMARY KEY, 
+                    version INT, 
+                    status VARCHAR(50), 
+                    startDate Date ,
+                    endDate Date,
+                    licensePlateNumber VARCHAR(50),
+                    driversLicenseNumber VARCHAR(50),
+					CONSTRAINT fk_vehcilerecord FOREIGN KEY (licensePlateNumber) references vehiclerecord(licensePlateNumber),
+					CONSTRAINT fk_clientrecord FOREIGN KEY (driversLicenseNumber) references clientrecord(driversLicenseNumber)
+
+
+                );
