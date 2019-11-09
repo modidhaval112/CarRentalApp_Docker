@@ -32,7 +32,7 @@ public class ClientRecordTdg {
 //	}
 
 
-    public List<Map<String, Object>> findAll() throws SQLException {
+    public List<Map<String, Object>> findAll()  {
         String sql = "SELECT * FROM carrentaldb.clientRecord";
         try {
             Statement stmt = this.dataSource.getConnection().createStatement();
