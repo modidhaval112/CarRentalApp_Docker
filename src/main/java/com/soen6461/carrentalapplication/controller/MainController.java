@@ -359,10 +359,12 @@ public class MainController {
 	 * @return redirection to vehicle-register
 	 */
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
-	public String addVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
-			RedirectAttributes redirectAttributes) {
+	public String addVehicleRecord(@RequestParam("carType") String carType, @RequestParam("make") String make,
+			@RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") String year,
+			@RequestParam("lpr") String lpr, RedirectAttributes redirectAttributes) {
 
 		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
+		VehicleRecord vehicleRecord = new VehicleRecord(lpr, carType, make, model, Integer.parseInt(year), color);
 		boolean recordExists = checkIfVehicleExists(vehicleRecordList,vehicleRecord);
 
 		if (recordExists) {
@@ -678,6 +680,7 @@ public class MainController {
 		 */
 		userRegister.setUserRegisterObject();
 		clientController.loadClientRecords();
+		vehicleCatalog.loadVehicleRecords();
 
 		// Adding some hard coded vehicles to populate the views.
 //		VehicleRecord v1 = new VehicleRecord("ABD_636", "SUV", "Jeep", "Mercedes Rover", 2019, "Gold");
