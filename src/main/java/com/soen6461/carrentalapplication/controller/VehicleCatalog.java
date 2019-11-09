@@ -17,6 +17,7 @@ import com.soen6461.carrentalapplication.mapper.VehicleRecordDataMapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.VehicleRecord;
+import com.soen6461.carrentalapplication.unitofwork.VehicleRepository;
 
 @RestController
 public class VehicleCatalog {
@@ -25,6 +26,9 @@ public class VehicleCatalog {
 	
 	@Autowired
     private VehicleRecordDataMapper vehicleRecordDataMapper;
+	
+	@Autowired
+    private VehicleRepository vehicleRepository;
 	
 	private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
 	private static VehicleCatalog instance = null;
@@ -512,5 +516,9 @@ public class VehicleCatalog {
 		return temp;
 
 	}
+	
+	public void persistData(){
+        this.vehicleRepository.commit();
+    }
 
 }
