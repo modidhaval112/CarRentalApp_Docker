@@ -91,30 +91,30 @@ public class VehicleRecordTdg {
 
     }
 
-	public boolean insert(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
+    public boolean insert(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
 			String color) {
-		String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + "`vehicleRecord`" + "` (" +
+		String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + "vehicleRecord" + "` (" +
                 "    `licensePlateNumber` VARCHAR(50) PRIMARY KEY," +
                 "    `id` INT," +
                 "    `version` INT," +
                 "    `carType` VARCHAR(60)," +
                 "    `make` VARCHAR(50)," +
                 "    `model` VARCHAR(50)," +
-                "    `year` INT" +
-                "    `color` VARCHAR(50)," +
+                "    `year` INT," +
+                "    `color` VARCHAR(50)" +
                 ");";
 
-        String sqlRecord = "INSERT INTO `carrentaldb`.`" + "`vehicleRecord`" + "`" +
+        String sqlRecord = "INSERT INTO `carrentaldb`.`" + "vehicleRecord" + "`" +
                 "(`licensePlateNumber`, `id`, `version`, `carType`, `make`, `model`, `year`, `color`) " +
                 "VALUES (" +
-                lpr + ", " +
+                "\"" + lpr + "\", " +
                 id + ", " +
                 recordVersion + ", " +
                 "\"" + carType + "\", " +
                 "\"" + make + "\", " +
                 "\"" + model + "\", " +
-                "\"" + year + "\", " +
-                "\"" + color + "\", " +
+                year + ", " +
+                "\"" + color + "\" " +
                 ");";
 
         try {
@@ -129,7 +129,7 @@ public class VehicleRecordTdg {
         }
 	}
 
-	public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
+    public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
 			String color) {
 		String sql = " UPDATE  `carrentaldb`.`" + "`vehicleRecord`" + "` SET " +
 				"`id`=" + id + ", " +

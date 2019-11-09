@@ -132,6 +132,7 @@ public class MainController {
 			model.addAttribute("errorMsg", "Your username and password are invalid.");
 		if (logout != null)
 			clientController.persistData();
+			vehicleCatalog.persistData();
 			model.addAttribute("msg", "You have been logged out successfully.");
 		return "/login";
 	}
@@ -729,4 +730,6 @@ public class MainController {
 		}
 		return recordExists;
 	}
+	
+	
 }
