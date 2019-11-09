@@ -41,8 +41,8 @@ public class TransactionDataMapper {
 	 * @return
 	 */
 	public boolean update(Transaction transrecord) {
-		return false;    }
-
+		return transactionTdg.update(1,transrecord.getTransactionId(), transrecord.getStatus().toString(), transrecord.getStartDateObject(), transrecord.getEndDateObject(), transrecord.getVehicleRecord().getLpr(), transrecord.getClientRecord().getDriversLicenseNumber());
+	}
 	/**
 	 * Delete the Transaction record
 	 * @param driversLicenseNumber

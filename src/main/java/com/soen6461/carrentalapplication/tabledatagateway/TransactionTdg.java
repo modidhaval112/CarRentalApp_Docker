@@ -81,7 +81,7 @@ public class TransactionTdg {
 		}
 	}
 
-	 public boolean update(int id, int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
+	 public boolean update( int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
 				String driversLicenseNumber) {
 
 	        String sql = " UPDATE  `carrentaldb`.`" + "`transaction`" + "` SET " +
