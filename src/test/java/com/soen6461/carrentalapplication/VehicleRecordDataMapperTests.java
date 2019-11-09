@@ -1,4 +1,4 @@
-/*package com.soen6461.carrentalapplication;
+package com.soen6461.carrentalapplication;
 
 
 import com.soen6461.carrentalapplication.model.VehicleRecord;
@@ -54,4 +54,4 @@ public class VehicleRecordDataMapperTests {
         // Clear the test data.
         Assert.isTrue(vtdg.clearTestingData());
     }
-}*/
+}
