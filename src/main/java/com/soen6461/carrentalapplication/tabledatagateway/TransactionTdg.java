@@ -73,5 +73,25 @@ public class TransactionTdg {
 		}
 	}
 
+	 public boolean update(int id, int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
+				String driversLicenseNumber) {
 
+	        String sql = " UPDATE  `carrentaldb`.`" + "`transaction`" + "` SET " +
+	                "`version`=" + recordVersion + ", " +
+	                "`transactionId`=" + transactionId + ", " +
+	                "`status`= \"" + status + "\", " +
+	                "`startDate`=\"" + startDate + "\", " +
+	                "`endDate`=\"" + endDate + "\", " +
+	                "`licensePlateNumber`=\"" + licensePlateNumber + "\", " +
+	                " WHERE transactionId=" + transactionId + ";";
+	        try {
+	            Statement stmt = this.dataSource.getConnection().createStatement();
+	            stmt.executeUpdate(sql);
+	            return true;
+	        } catch (Exception e) {
+	            System.out.println("Get object exception" + e.getMessage());
+	            return false;
+
+	        }
+	    }
 }
