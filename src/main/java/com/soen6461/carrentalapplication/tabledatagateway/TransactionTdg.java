@@ -141,4 +141,27 @@ public class TransactionTdg {
 	        }
 	    }
 
+	 public Map<String, Object> findTransaction(String transactionid) throws SQLException {
+	        String sql = "SELECT * FROM carrentaldb.transaction where transactionId=" +transactionid+ ";";
+	        try {
+	            Statement stmt = this.dataSource.getConnection().createStatement();
+	            ResultSet rs = stmt.executeQuery(sql);
+	            ResultSetMetaData md = rs.getMetaData();
+	            int columns = md.getColumnCount();
+	            Map<String, Object> row = new HashMap<String, Object>(columns);
+
+	            while (rs.next()) {
+
+	             row = new HashMap<String, Object>(columns);
+	                for (int i = 1; i <= columns; ++i) {
+	                    row.put(md.getColumnName(i), rs.getObject(i));
+	                }
+	            }
+	            return row;
+	        } catch (Exception e) {
+	            System.out.println("Get object exception" + e.getMessage());
+	            return null;
+	        }
+	    }
+
 }
