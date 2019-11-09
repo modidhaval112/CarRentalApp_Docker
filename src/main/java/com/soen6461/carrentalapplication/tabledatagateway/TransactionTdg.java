@@ -94,4 +94,18 @@ public class TransactionTdg {
 
 	        }
 	    }
+	
+	 public boolean delete(String transactionId) {
+	        String statement = "DELETE FROM `carrentaldb`.`transaction` where `transactionId `=?";
+			try {
+				PreparedStatement dbStatement = this.dataSource.getConnection().prepareStatement(statement);
+				dbStatement.setString(1 ,transactionId);
+				dbStatement.executeUpdate();
+				return true;
+			}catch(SQLException e){
+	            System.out.println("Get object exception" + e.getMessage());
+	            return false;
+			}
+
+	    }
 }
