@@ -35,7 +35,7 @@ public class TransactionTdg {
 	 * @param driversLicenseNumber driversLicenseNumber of client
 	 * @return
 	 */
-	public boolean insert(int id, int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
+	public boolean insert( int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
 			String driversLicenseNumber) {
 		String sql = "CREATE TABLE IF NOT EXISTS carrentaldb.  transaction   ( \n" + 
 				"                    transactionId VARCHAR(50) PRIMARY KEY, \n" + 

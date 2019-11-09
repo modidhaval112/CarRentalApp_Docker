@@ -12,14 +12,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.Transaction;
+import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 
-
+@Component
 public class TransactionDataMapper {
+	@Autowired 
+	private TransactionTdg transactionTdg;
 
+	/**
+	 * Transaction record insert mapper
+	 * @param transrecord transaction record type
+	 * @return returns true or false
+	 */
 	public boolean insert(Transaction transrecord) {
-		return false;
+		return transactionTdg.insert(1,transrecord.getTransactionId(), transrecord.getStatus().toString(), transrecord.getStartDateObject(), transrecord.getEndDateObject(), transrecord.getVehicleRecord().getLpr(), transrecord.getClientRecord().getDriversLicenseNumber());
+		
+
 	}
 
 	/**
