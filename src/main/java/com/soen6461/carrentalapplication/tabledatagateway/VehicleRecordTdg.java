@@ -48,6 +48,34 @@ public class VehicleRecordTdg {
             return null;
         }
     }
+    
+    /**
+     * Method gets particular behicle based on lpr
+     * @param lpr license plate
+     * @return it returns the vehicle record
+     */
+    public Map<String, Object> findVehicle(String lpr)  {
+        String sql = "SELECT * FROM carrentaldb.vehicleRecord where licensePlateNumber= " + lpr +";";
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+
+            Map<String, Object> row = new HashMap<String, Object>();
+            while (rs.next()) {
+
+                for (int i = 1; i <= columns; ++i) {
+                    row.put(md.getColumnName(i), rs.getObject(i));
+                }
+            }
+            return row;
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return null;
+        }
+    }
+    
 
     public boolean delete(String licensePlateNumber) {
         String statement = "DELETE FROM `carrentaldb`.`vehicleRecord` where `licensePlateNumber `=?";
