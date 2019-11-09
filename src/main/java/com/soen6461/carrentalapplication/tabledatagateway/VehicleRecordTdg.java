@@ -50,7 +50,7 @@ public class VehicleRecordTdg {
     }
     
     /**
-     * Method gets particular behicle based on lpr
+     * Method gets particular vehicle based on lpr
      * @param lpr license plate
      * @return it returns the vehicle record
      */

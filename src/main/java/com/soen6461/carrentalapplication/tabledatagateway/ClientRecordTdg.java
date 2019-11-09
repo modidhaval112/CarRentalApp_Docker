@@ -56,6 +56,45 @@ public class ClientRecordTdg {
         }
     }
 
+   
+    /**
+     * Get particular client based on license of client
+     * @param driversLicense driver license number of client 
+     * @return returns particular client row
+     */
+    public Map<String, Object> findclient(String driversLicense)  {
+        String sql = "SELECT * FROM carrentaldb.clientRecord WHERE driversLicense=" + driversLicense + ";";
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+
+            Map<String, Object> row = new HashMap<String, Object>();
+            while (rs.next()) {
+
+              row = new HashMap<String, Object>(columns);
+                for (int i = 1; i <= columns; ++i) {
+                    row.put(md.getColumnName(i), rs.getObject(i));
+                }
+            }
+            return row;
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Updates the client table based on license number
+     * @param firstname first name of client
+     * @param lastname last name of client
+     * @param phoneNumber phone number of client
+     * @param expirationDate expiration date of client license
+     * @param driversLicense license number
+     * @param version version
+     * @return true or false of vehcile updation
+     */
     public boolean update(String firstname, String lastname, String phoneNumber, Date expirationDate, String driversLicense, int version) {
 
         String sql = " UPDATE  `carrentaldb`.`" + "`clientRecord`" + "` SET " +
