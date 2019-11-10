@@ -3,6 +3,7 @@ package com.soen6461.carrentalapplication.unitofwork;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
      */
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VehicleRecordDataMapper.class);
-    private boolean dirtyFlag = true;
+    private Map<String, Boolean> dirtyMap = new HashMap<>();
 
     @Autowired
     private VehicleRecordDataMapper vehicleRecordDataMapper;
@@ -28,15 +29,13 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
 
     }
     
-    public boolean isDirtyFlag() {
-		return dirtyFlag;
+ 	public Map<String, Boolean> getDirtyMap() {
+		return dirtyMap;
 	}
 
-
-	public void setDirtyFlag(boolean dirtyFlag) {
-		this.dirtyFlag = dirtyFlag;
+	public void setDirtyMap(Map<String, Boolean> dirtyMap) {
+		this.dirtyMap = dirtyMap;
 	}
-
 
 
 	@Override
@@ -105,7 +104,7 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
             vehicleRecordDataMapper.update(vehicleRecord);
         }
         
-        this.dirtyFlag = true;
+        this.dirtyMap = new HashMap<>();
     }
 
     private void commitDelete() {
