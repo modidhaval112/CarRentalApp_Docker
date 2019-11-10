@@ -63,15 +63,17 @@ public class VehicleRecordDataMapper {
         List<VehicleRecord> vehicleRecords = new ArrayList<>();
         List<Map<String, Object>> records = vehicleRecordTdg.findAll();
 
-        for (int i = 0; i < records.size(); i++) {
-            VehicleRecord vehicleRecord = new VehicleRecord(Integer.parseInt(records.get(i).get("id").toString()),
-                    Integer.parseInt(records.get(i).get("version").toString()), records.get(i).get("licensePlateNumber").toString(),
-                    records.get(i).get("carType").toString(), records.get(i).get("make").toString(),
-                    records.get(i).get("model").toString(), Integer.parseInt(records.get(i).get("year").toString()),
-                    records.get(i).get("color").toString());
-            vehicleRecords.add(vehicleRecord);
+        if(records != null) {
+            for (int i = 0; i < records.size(); i++) {
+                VehicleRecord vehicleRecord = new VehicleRecord(Integer.parseInt(records.get(i).get("id").toString()),
+                        Integer.parseInt(records.get(i).get("version").toString()), records.get(i).get("licensePlateNumber").toString(),
+                        records.get(i).get("carType").toString(), records.get(i).get("make").toString(),
+                        records.get(i).get("model").toString(), Integer.parseInt(records.get(i).get("year").toString()),
+                        records.get(i).get("color").toString());
+                vehicleRecords.add(vehicleRecord);
+            }
         }
-
+        
         return vehicleRecords;
     }
 
