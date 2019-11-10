@@ -182,6 +182,7 @@ public class VehicleCatalog {
 		}
 
 		this.vehicleRecordList.add(vehicleRecord);
+        vehicleRepository.registerNew(vehicleRecord);
 	}
 
 	/**
@@ -352,6 +353,7 @@ public class VehicleCatalog {
 		//		for (int i = 0; i < vehicleRecordList.size(); i++) {
 		//			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
 		vehicleRecordList.remove(searchVehicle(lpr));
+		vehicleRepository.registerDeleted(searchVehicle(lpr));
 		//			}
 		//		}
 	}
@@ -366,6 +368,7 @@ public class VehicleCatalog {
 		for (int i = 0; i < vehicleRecordList.size(); i++) {
 			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
 				vehicleRecordList.set(i,vehicleRecord);
+				vehicleRepository.registerDirty(vehicleRecord);
 			}
 		}
 	}
