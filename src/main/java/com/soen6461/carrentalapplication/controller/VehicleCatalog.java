@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -381,7 +382,7 @@ public class VehicleCatalog {
 		
 		System.out.println("Version_db : " + version_db);
 		System.out.println("Version : " + vehicleRecord.getVersion());
-		if(version_db == vehicleRecord.getVersion() && vehicleRepository.isDirtyFlag()) {
+		if(version_db == vehicleRecord.getVersion() && !vehicleRepository.getDirtyMap().containsKey(vehicleRecord.getLpr())) {
 			
 			for (int i = 0; i < vehicleRecordList.size(); i++) {
 				if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
@@ -390,7 +391,9 @@ public class VehicleCatalog {
 				}
 			}
 			
-			vehicleRepository.setDirtyFlag(false);
+			Map<String, Boolean> dirtyMap = vehicleRepository.getDirtyMap();
+			dirtyMap.put(vehicleRecord.getLpr(), false);
+			vehicleRepository.setDirtyMap(dirtyMap);
 			return true;
 		}
 		
