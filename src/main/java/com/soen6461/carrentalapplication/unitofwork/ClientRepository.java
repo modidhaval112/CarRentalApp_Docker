@@ -2,6 +2,8 @@ package com.soen6461.carrentalapplication.unitofwork;
 
 import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
+import com.soen6461.carrentalapplication.model.VehicleRecord;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,7 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
         if (context.containsKey(IUnitOfWork.DELETE)) {
             commitDelete();
         }
-
+        context = new HashMap<String, List<ClientRecord>>();
         LOGGER.info("Commit finished.");
         return true;
     }
