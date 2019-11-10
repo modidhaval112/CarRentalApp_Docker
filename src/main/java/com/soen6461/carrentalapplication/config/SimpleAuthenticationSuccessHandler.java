@@ -52,5 +52,5 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                 throw new IllegalStateException();
             }
         });
-
+    }
 }
