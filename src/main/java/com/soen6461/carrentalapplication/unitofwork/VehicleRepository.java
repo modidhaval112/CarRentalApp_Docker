@@ -2,6 +2,7 @@ package com.soen6461.carrentalapplication.unitofwork;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,8 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VehicleRecordDataMapper.class);
     private Map<String, Boolean> dirtyMap = new HashMap<>();
+    private LinkedList<String> deleteRecords = new LinkedList<>();
+    private LinkedList<String> deletedVehicleRecords = new LinkedList<>();
 
     @Autowired
     private VehicleRecordDataMapper vehicleRecordDataMapper;
@@ -37,6 +40,22 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
+    
+    public LinkedList<String> getDeleteRecords() {
+		return deleteRecords;
+	}
+
+	public void setDeleteRecords(LinkedList<String> deleteRecords) {
+		this.deleteRecords = deleteRecords;
+	}
+	
+	public LinkedList<String> getDeletedVehicleRecords() {
+		return deletedVehicleRecords;
+	}
+
+	public void setDeletedVehicleRecords(LinkedList<String> deletedVehicleRecords) {
+		this.deletedVehicleRecords = deletedVehicleRecords;
+	}
 
     @Override
     public void registerNew(VehicleRecord vehicleRecord) {
@@ -112,7 +131,9 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
         for (VehicleRecord vehicleRecord : deletedClients) {
             LOGGER.info("Deleting {} to database.", vehicleRecord.getLpr());
             vehicleRecordDataMapper.delete(vehicleRecord.getLpr());
+            deletedVehicleRecords.add(vehicleRecord.getLpr());
         }
+        this.deleteRecords = new LinkedList<>();
     }
 
     //Todo: Implement rollback
