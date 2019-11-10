@@ -307,6 +307,7 @@ public class MainController {
      */
     @RequestMapping("/vehicle-register")
     public ModelAndView displayVehicleRegister() {
+        vehicleCatalog.persistData();
         List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
         ModelAndView model = new ModelAndView("vehicleDisplay");
         model.addObject("vehicles", vehicles);
@@ -515,6 +516,8 @@ public class MainController {
     @RequestMapping(value = "/delete-vehicle-record/{id}", method = RequestMethod.GET)
     public String deleteVehicleRecord(@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
+        vehicleCatalog.persistData();
+        
         VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(lpr);
         List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
 
@@ -525,8 +528,12 @@ public class MainController {
             }
         }
 
-        vehicleCatalog.deleteVehicleRecord(lpr);
-        redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
+        if(vehicleCatalog.deleteVehicleRecord(lpr)) {		
+			redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
+		}
+		else {
+			redirectAttributes.addFlashAttribute("errorMsg", "  Vehicle Record has already been deleted.");
+		}
 
         return "redirect:/vehicle-register";
     }
