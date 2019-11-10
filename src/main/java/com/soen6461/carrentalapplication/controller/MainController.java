@@ -365,7 +365,7 @@ public class MainController {
 			@RequestParam("lpr") String lpr, RedirectAttributes redirectAttributes) {
 
 		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
-		VehicleRecord vehicleRecord = new VehicleRecord(lpr, carType, make, model, Integer.parseInt(year), color);
+		VehicleRecord vehicleRecord = new VehicleRecord(1, 1, lpr, carType, make, model, Integer.parseInt(year), color);
 		boolean recordExists = checkIfVehicleExists(vehicleRecordList,vehicleRecord);
 
 		if (recordExists) {
