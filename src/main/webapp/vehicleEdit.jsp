@@ -1,3 +1,4 @@
+ @@ -1,75 +1,81 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags/form"%>
 
 <html>
@@ -65,6 +66,12 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="version">Version</label>
+				<input type="text" class="form-control" id="version" name="version" value="${version}" readonly="readonly">
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-md-auto">
 				<input class="btn btn-primary" type="submit" value="Update" />
 			</div>
@@ -73,3 +80,4 @@
 </div>
 </body>
 </html>
+No newline at end of file
