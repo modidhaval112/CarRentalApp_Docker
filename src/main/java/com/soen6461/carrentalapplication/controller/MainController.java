@@ -455,9 +455,14 @@ public class MainController {
 			@RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") String year,
 			@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
-		redirectAttributes.addFlashAttribute("successMsg", "  Vehicle Record has been updated successfully.");
+		
 		VehicleRecord vehicleRecord = new VehicleRecord(1, Integer.parseInt(version),lpr, carType, make, model, Integer.parseInt(year), color);
-		vehicleCatalog.updateVehicleRecord(vehicleRecord, lpr);
+		if(vehicleCatalog.updateVehicleRecord(vehicleRecord, lpr)) {
+			redirectAttributes.addFlashAttribute("successMsg", "  Vehicle Record has been updated successfully.");
+		}
+		else {
+			redirectAttributes.addFlashAttribute("errorMsg", "  This is an older version of record you have. Please try again.");
+		}
 		return "redirect:/vehicle-register";
 	}
 

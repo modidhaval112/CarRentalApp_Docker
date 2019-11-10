@@ -370,13 +370,33 @@ public class VehicleCatalog {
 	 * @param vehicleRecord vehicle record
 	 * @param lpr license plate number
 	 */
-	public void updateVehicleRecord(VehicleRecord vehicleRecord, String lpr) {
+	public boolean updateVehicleRecord(VehicleRecord vehicleRecord, String lpr) {
+		
+		Integer version_db = 0;
+		try {
+			version_db = this.vehicleRecordDataMapper.findVehicle(lpr).getVersion();
+		} catch (NumberFormatException | ParseException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Version_db : " + version_db);
+		System.out.println("Version : " + vehicleRecord.getVersion());
+		if(version_db != vehicleRecord.getVersion()) {
+			System.out.println("This is an older version of record you have. Please try again.");
+			return false;
+		}
+		
+		if(version_db == vehicleRecord.getVersion()) {
+			vehicleRecord.setVersion(vehicleRecord.getVersion() + 1);
+		}
+		
 		for (int i = 0; i < vehicleRecordList.size(); i++) {
 			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
 				vehicleRecordList.set(i,vehicleRecord);
 				vehicleRepository.registerDirty(vehicleRecord);
 			}
 		}
+		return true;
 	}
 
 

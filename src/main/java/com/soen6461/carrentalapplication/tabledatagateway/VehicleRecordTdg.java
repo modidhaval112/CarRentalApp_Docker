@@ -50,7 +50,6 @@ public class VehicleRecordTdg {
     	Connection con = null;
         try {
         	
-        	checkHikari();
         	con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -91,7 +90,6 @@ public class VehicleRecordTdg {
         Connection con = null;
         try {
         	
-        	checkHikari();
         	con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -125,7 +123,6 @@ public class VehicleRecordTdg {
         Connection con = null;
 		try {
 			
-			checkHikari();
 			con = this.dataSource.getConnection();
 			PreparedStatement dbStatement = con.prepareStatement(statement);
 			dbStatement.setString(1 ,licensePlateNumber);
@@ -174,7 +171,6 @@ public class VehicleRecordTdg {
         Connection con = null;
         try {
         	
-        	checkHikari();
         	con = this.dataSource.getConnection();
 			Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
@@ -210,7 +206,6 @@ public class VehicleRecordTdg {
 		Connection con = null;
         try {
         	
-        	checkHikari();
         	con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);

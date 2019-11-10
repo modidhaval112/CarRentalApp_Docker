@@ -7,7 +7,6 @@ import java.util.List;
 public class VehicleRecord extends Record {
 
     private int id;
-    private int recordVersion;
     private int version;
     private String carType;
     private String make;
@@ -52,7 +51,7 @@ public class VehicleRecord extends Record {
     public VehicleRecord(int id, int version, String lpr, String carType, String make, String model, int year, String color) {
 
         this.id = id;
-        this.recordVersion = recordVersion;
+        this.version = version;
         this.setVersion(version);
         this.setCarType(carType);
         this.setMake(make);
