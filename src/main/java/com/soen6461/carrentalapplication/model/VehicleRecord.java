@@ -1,4 +1,3 @@
- @@ -1,223 +1,232 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
@@ -27,7 +26,6 @@ public class VehicleRecord extends Record {
      * @param year    The vehicle year.
      * @param color   The vehicle color.
      */
-    public VehicleRecord(String lpr, String carType, String make, String model, int year, String color) {
     /*public VehicleRecord(String lpr, String carType, String make, String model, int year, String color) {
 
         this.setCarType(carType);
@@ -51,7 +49,6 @@ public class VehicleRecord extends Record {
      * @param year          The vehicle year.
      * @param color         The vehicle color.
      */
-    public VehicleRecord(int id, int recordVersion, String lpr, String carType, String make, String model, int year, String color) {
     public VehicleRecord(int id, int version, String lpr, String carType, String make, String model, int year, String color) {
 
         this.id = id;
@@ -74,8 +71,7 @@ public class VehicleRecord extends Record {
      *
      * @return The record version.
      */
-    public int getRecordVersion() {
-        return this.recordVersion;
+
     public int getVersion() {
         return this.version;
     }
