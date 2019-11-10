@@ -381,18 +381,21 @@ public class VehicleCatalog {
 		
 		System.out.println("Version_db : " + version_db);
 		System.out.println("Version : " + vehicleRecord.getVersion());
-		if(version_db != vehicleRecord.getVersion()) {
-			System.out.println("This is an older version of record you have. Please try again.");
-			return false;
+		if(version_db == vehicleRecord.getVersion() && vehicleRepository.isDirtyFlag()) {
+			
+			for (int i = 0; i < vehicleRecordList.size(); i++) {
+				if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
+					vehicleRecordList.set(i,vehicleRecord);
+					vehicleRepository.registerDirty(vehicleRecord);
+				}
+			}
+			
+			vehicleRepository.setDirtyFlag(false);
+			return true;
 		}
 		
-		for (int i = 0; i < vehicleRecordList.size(); i++) {
-			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
-				vehicleRecordList.set(i,vehicleRecord);
-				vehicleRepository.registerDirty(vehicleRecord);
-			}
-		}
-		return true;
+		
+		return false;
 	}
 
 

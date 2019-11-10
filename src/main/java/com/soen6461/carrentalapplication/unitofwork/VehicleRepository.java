@@ -19,6 +19,7 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
      */
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VehicleRecordDataMapper.class);
+    private boolean dirtyFlag = true;
 
     @Autowired
     private VehicleRecordDataMapper vehicleRecordDataMapper;
@@ -26,8 +27,19 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
     public VehicleRepository() {
 
     }
+    
+    public boolean isDirtyFlag() {
+		return dirtyFlag;
+	}
 
-    @Override
+
+	public void setDirtyFlag(boolean dirtyFlag) {
+		this.dirtyFlag = dirtyFlag;
+	}
+
+
+
+	@Override
     public void registerNew(VehicleRecord vehicleRecord) {
         LOGGER.info("Registering {} for insert in context.", vehicleRecord.getLpr());
         register(vehicleRecord, IUnitOfWork.INSERT);
@@ -92,6 +104,8 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
             LOGGER.info("Modifying {} to database.", vehicleRecord.getLpr());
             vehicleRecordDataMapper.update(vehicleRecord);
         }
+        
+        this.dirtyFlag = true;
     }
 
     private void commitDelete() {

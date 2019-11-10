@@ -419,6 +419,9 @@ public class MainController {
 		//		model.setViewName("vehicleEdit");
 		//
 		//		model.addObject("vehcileRecord", vehicleCatalog.searchVehicle(lpr));
+		
+		vehicleCatalog.persistData();
+		
 		VehicleRecord vr= vehicleCatalog.searchVehicle(lpr);
 		//		model.addAllObjects(modelMap)
 		model.addAttribute("lpr",vr.getLpr());
