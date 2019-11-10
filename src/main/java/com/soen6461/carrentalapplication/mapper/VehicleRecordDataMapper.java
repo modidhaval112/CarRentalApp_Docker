@@ -1,3 +1,4 @@
+ @@ -1,77 +1,77 @@
 package com.soen6461.carrentalapplication.mapper;
 
 import java.sql.SQLException;
@@ -26,6 +27,7 @@ public class VehicleRecordDataMapper {
 	 */
 	public boolean insert(VehicleRecord vehicleRecordToInsert) {
 		return vehicleRecordTdg.insert(vehicleRecordToInsert.getId(), vehicleRecordToInsert.getRecordVersion(),
+		return vehicleRecordTdg.insert(vehicleRecordToInsert.getId(), vehicleRecordToInsert.getVersion(),
 				vehicleRecordToInsert.getLpr(), vehicleRecordToInsert.getCarType(), vehicleRecordToInsert.getMake(),
 				vehicleRecordToInsert.getModel(), vehicleRecordToInsert.getYear(), vehicleRecordToInsert.getColor());
 	}
@@ -38,6 +40,7 @@ public class VehicleRecordDataMapper {
 	 */
 	public boolean update(VehicleRecord objectToUpdate) {
 		return this.vehicleRecordTdg.update(objectToUpdate.getId(), objectToUpdate.getRecordVersion(),
+		return this.vehicleRecordTdg.update(objectToUpdate.getId(), objectToUpdate.getVersion(),
 				objectToUpdate.getLpr(), objectToUpdate.getCarType(), objectToUpdate.getMake(),
 				objectToUpdate.getModel(), objectToUpdate.getYear(), objectToUpdate.getColor());
 	}
@@ -75,3 +78,4 @@ public class VehicleRecordDataMapper {
 		return vehicleRecords;
 	}
 }
+No newline at end of file
