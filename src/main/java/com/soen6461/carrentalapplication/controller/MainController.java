@@ -1,3 +1,4 @@
+ @@ -1,738 +1,739 @@
 package com.soen6461.carrentalapplication.controller;
 
 import com.soen6461.carrentalapplication.config.Administrator;
@@ -427,6 +428,7 @@ public class MainController {
 		model.addAttribute("color",vr.getColor());
 		model.addAttribute("make",vr.getMake());
 		model.addAttribute("carType",vr.getCarType());
+		model.addAttribute("version",vr.getVersion());
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -451,11 +453,13 @@ public class MainController {
 	 */
 	@RequestMapping(value = "/update-vehicle/{id}", method = RequestMethod.POST)
 	public String updateVehicleRecord(@RequestParam("carType") String carType, @RequestParam("make") String make,
+	public String updateVehicleRecord(@RequestParam("version") String version, @RequestParam("carType") String carType, @RequestParam("make") String make,
 			@RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") String year,
 			@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
 		redirectAttributes.addFlashAttribute("successMsg", "  Vehicle Record has been updated successfully.");
 		VehicleRecord vehicleRecord = new VehicleRecord(lpr, carType, make, model, Integer.parseInt(year), color);
+		VehicleRecord vehicleRecord = new VehicleRecord(1, Integer.parseInt(version),lpr, carType, make, model, Integer.parseInt(year), color);
 		vehicleCatalog.updateVehicleRecord(vehicleRecord, lpr);
 		return "redirect:/vehicle-register";
 	}
