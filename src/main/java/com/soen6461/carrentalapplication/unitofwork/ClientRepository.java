@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Component
 public class ClientRepository implements IUnitOfWork<ClientRecord> {
-    HashMap<String,List<ClientRecord>> context = new HashMap<String, List<ClientRecord>>();
+    HashMap<String, List<ClientRecord>> context = new HashMap<String, List<ClientRecord>>();
     /**
      * supports unit of work for client data.
      */
@@ -27,7 +28,6 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
     private ClientRecordDataMapper clientRecordDataMapper;
 
     public ClientRepository() {
-
     }
 
     @Override

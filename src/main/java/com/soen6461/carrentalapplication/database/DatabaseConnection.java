@@ -8,8 +8,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class DatabaseConnection {
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
 //	private static DatabaseConnection instance = new DatabaseConnection();
 
@@ -18,12 +18,11 @@ public class DatabaseConnection {
 //		return instance;
 //	}
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-	public Connection getConnection() throws SQLException
-	{
-		return dataSource.getConnection();
-	}
+    public Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
 }

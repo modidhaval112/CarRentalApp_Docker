@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class TransactionsTests {
 	@Autowired
 	VehicleCatalog vehicleCatalog;
+
 	@Test
 	public void vehiclesCurrentlyOut() throws ParseException
 	{
@@ -42,6 +43,7 @@ public class TransactionsTests {
 
 		Assert.assertFalse(beforeadd==afteradd);
 	}
+
 	@Test
 	public void vehiclesCurrentlyOutFalse() throws ParseException
 	{
@@ -59,6 +61,7 @@ public class TransactionsTests {
 
 		Assert.assertTrue(beforeadd==afteradd);
 	}
+
 	@Test
 	public void vehiclesCurrentlyAvailable() throws ParseException
 	{
@@ -94,6 +97,7 @@ public class TransactionsTests {
 
 		Assert.assertFalse(beforeadd==afteradd);
 	}
+
 	@Test
 	public void vehiclesOverDue() throws ParseException
 	{
@@ -110,7 +114,6 @@ public class TransactionsTests {
 		System.out.println(afteradd);
 
 		Assert.assertFalse(beforeadd==afteradd);
-
 	}
 	
 	@Test
@@ -129,8 +132,5 @@ public class TransactionsTests {
 		System.out.println(afteradd);
 
 		Assert.assertTrue(beforeadd==afteradd);
-		
-		
-
 	}
 }

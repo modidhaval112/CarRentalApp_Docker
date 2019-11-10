@@ -29,15 +29,17 @@ public class ClientController {
     private ClientRepository clientRepository;
 
     private static List<ClientRecord> clientRecordList = new ArrayList<>();
+
     /**
-     *  ClientRController class constructor.
+     * ClientRController class constructor.
      */
     private ClientController() {
     }
 
     public void loadClientRecords() throws ParseException, SQLException {
-        this.clientRecordList= this.clientRecordDataMapper.findAll();
+        this.clientRecordList = this.clientRecordDataMapper.findAll();
     }
+
     @PostMapping(value = "/search")
     public ClientRecord searchClient(@RequestParam("dl") String dl) {
         return this.search(dl);
@@ -46,12 +48,13 @@ public class ClientController {
     /**
      * Add a new client record.
      * //TODO: Protect this method against unauthorised access from administrator.
+     *
      * @param clientRecord The client record to add.
      */
     public void addClientRecord(ClientRecord clientRecord) {
 
-        for (ClientRecord existingClientRecord: this.clientRecordList) {
-            if(clientRecord.getDriversLicenseNumber() == existingClientRecord.getDriversLicenseNumber()) {
+        for (ClientRecord existingClientRecord : this.clientRecordList) {
+            if (clientRecord.getDriversLicenseNumber() == existingClientRecord.getDriversLicenseNumber()) {
                 // throw new Exception("There is already a client with drivers license: " + clientRecord.getDriversLicenseNumber() + " in the registry.");
                 return;
             }
@@ -59,8 +62,6 @@ public class ClientController {
 
         clientRecordList.add(clientRecord);
         clientRepository.registerNew(clientRecord);
-
-
     }
 
     @PostMapping(value = "/get-all-client-records")
@@ -88,10 +89,10 @@ public class ClientController {
      *
      * @param clientRecord the updated client record.
      */
-    public void updateClientRecord(ClientRecord clientRecord,String driversLicense) {
+    public void updateClientRecord(ClientRecord clientRecord, String driversLicense) {
         for (int i = 0; i < clientRecordList.size(); i++) {
             if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicense)) {
-                clientRecordList.set(i,clientRecord);
+                clientRecordList.set(i, clientRecord);
                 clientRepository.registerDirty(clientRecord);
             }
         }
@@ -113,7 +114,7 @@ public class ClientController {
         return null;
     }
 
-    public void persistData(){
+    public void persistData() {
         this.clientRepository.commit();
     }
 }

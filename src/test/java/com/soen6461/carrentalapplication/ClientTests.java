@@ -33,7 +33,6 @@ public class ClientTests {
 	@Test
 	public void checkClientSize() {
 		Assert.assertTrue(clientController.getAllClientRecord().size() == 5);
-
 	}
 
 	/**
@@ -59,7 +58,6 @@ public class ClientTests {
 		Assert.assertEquals("Johny", clientRecord.getFirstName());
 		Assert.assertEquals("Tester", clientRecord.getLastName());
 		Assert.assertEquals("(438) 566-9999", clientRecord.getPhoneNumber());
-		
 	}
 
 	/**

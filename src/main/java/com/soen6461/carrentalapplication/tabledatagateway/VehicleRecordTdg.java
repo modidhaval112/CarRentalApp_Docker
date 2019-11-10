@@ -28,9 +28,9 @@ public class VehicleRecordTdg {
     //	DatabaseConnection dc= DatabaseConnection.getInstance();
     //  Connection con;
     Statement stmt = null;
-    
+
     public void checkHikari() {
-    	HikariPool hikariPool = (HikariPool)
+        HikariPool hikariPool = (HikariPool)
                 new DirectFieldAccessor(dataSource).getPropertyValue("pool");
 
         //Getting pool connection info
@@ -40,17 +40,16 @@ public class VehicleRecordTdg {
         System.out.println(" hikariPool getThreadsAwaitingConnection : " + hikariPool.getThreadsAwaitingConnection());
 
         //Getting maximum pool size - set from properties
-        Integer t= new HikariDataSourcePoolMetadata((HikariDataSource) dataSource).getMax();
+        Integer t = new HikariDataSourcePoolMetadata((HikariDataSource) dataSource).getMax();
         System.out.println(" hikariPool Maximum Pool Size : " + t.toString());
     }
 
 
-    public List<Map<String, Object>> findAll(){
+    public List<Map<String, Object>> findAll() {
         String sql = "SELECT * FROM carrentaldb.vehicleRecord";
-    	Connection con = null;
+        Connection con = null;
         try {
-        	
-        	con = this.dataSource.getConnection();
+            con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData md = rs.getMetaData();
@@ -69,28 +68,27 @@ public class VehicleRecordTdg {
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return null;
-        }finally {
-        	try {
-				con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-        	
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
-    
+
     /**
      * Method gets particular vehicle based on lpr
+     *
      * @param lpr license plate
      * @return it returns the vehicle record
-     * @throws SQLException 
+     * @throws SQLException
      */
     public Map<String, Object> findVehicle(String lpr) {
-        String sql = "SELECT * FROM carrentaldb.vehicleRecord where licensePlateNumber=\"" + lpr +"\";";
+        String sql = "SELECT * FROM carrentaldb.vehicleRecord where licensePlateNumber=\"" + lpr + "\";";
         Connection con = null;
         try {
-        	
-        	con = this.dataSource.getConnection();
+            con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData md = rs.getMetaData();
@@ -104,48 +102,43 @@ public class VehicleRecordTdg {
                 }
             }
             return row;
-        } catch (Exception e) {        	
+        } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return null;
-        }finally {
-        	try {
-				con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-        	
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
-    
 
-    public boolean delete(String licensePlateNumber){
+
+    public boolean delete(String licensePlateNumber) {
         String statement = "DELETE FROM `carrentaldb`.`vehicleRecord` where `licensePlateNumber `=?";
         Connection con = null;
-		try {
-			
-			con = this.dataSource.getConnection();
-			PreparedStatement dbStatement = con.prepareStatement(statement);
-			dbStatement.setString(1 ,licensePlateNumber);
-			dbStatement.executeUpdate();
-			return true;
-		}catch(SQLException e){			
+        try {
+            con = this.dataSource.getConnection();
+            PreparedStatement dbStatement = con.prepareStatement(statement);
+            dbStatement.setString(1, licensePlateNumber);
+            dbStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
             System.out.println("Get object exception" + e.getMessage());
             return false;
-		}
-		finally {
-        	try {
-				con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-        	
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
-
     }
 
     public boolean insert(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
-			String color) {
-		String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + "vehicleRecord" + "` (" +
+                          String color) {
+        String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + "vehicleRecord" + "` (" +
                 "    `licensePlateNumber` VARCHAR(50) PRIMARY KEY," +
                 "    `id` INT," +
                 "    `version` INT," +
@@ -170,9 +163,9 @@ public class VehicleRecordTdg {
                 ");";
         Connection con = null;
         try {
-        	
-        	con = this.dataSource.getConnection();
-			Statement stmt = con.createStatement();
+
+            con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
             stmt.execute(sqlRecord);
             return true;
@@ -180,21 +173,20 @@ public class VehicleRecordTdg {
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
         }
-        finally {
-        	try {
-				con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-        	
-        }
-	}
+    }
 
     public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
-			String color){
-		String sql = " UPDATE  `carrentaldb`.`" + "vehicleRecord" + "` SET " +
-				"`id`=" + id + ", " +
+                          String color) {
+        String sql = " UPDATE  `carrentaldb`.`" + "vehicleRecord" + "` SET " +
+                "`id`=" + id + ", " +
                 "`version`=" + "version + 1" + ", " +
                 "`licensePlateNumber`= \"" + lpr + "\", " +
                 "`carType`=\"" + carType + "\", " +
@@ -203,10 +195,10 @@ public class VehicleRecordTdg {
                 "`year`=\"" + year + "\", " +
                 "`color`=\"" + color + "\" " +
                 " WHERE licensePlateNumber=\"" + lpr + "\";";
-		Connection con = null;
+        Connection con = null;
         try {
-        	
-        	con = this.dataSource.getConnection();
+
+            con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
             return true;
@@ -214,18 +206,14 @@ public class VehicleRecordTdg {
             System.out.println("Get object exception" + e.getMessage());
             return false;
 
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
-        
-        finally {
-        	try {
-				con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-        	
-        }
-	}
-
+    }
 }
 
 

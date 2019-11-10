@@ -204,14 +204,14 @@ public class VehicleRecord extends Record {
             this.lpr = lpr;
         }
     }
-    
+
     /**
      * Sets the license plate registration number.
      *
-     * @param lpr The license plate registration number.
+     * @param version The license plate registration number.
      */
     private void setVersion(int version) {
-    	this.version = version;
+        this.version = version;
     }
 
     /*

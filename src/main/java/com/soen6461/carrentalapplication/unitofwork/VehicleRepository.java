@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 
 import com.soen6461.carrentalapplication.mapper.VehicleRecordDataMapper;
 import com.soen6461.carrentalapplication.model.VehicleRecord;
+
 @Component
 public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
-    HashMap<String,List<VehicleRecord>> context = new HashMap<String, List<VehicleRecord>>();
+    HashMap<String, List<VehicleRecord>> context = new HashMap<String, List<VehicleRecord>>();
     /**
      * supports unit of work for vehicle data.
      */
@@ -28,17 +29,16 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
     public VehicleRepository() {
 
     }
-    
- 	public Map<String, Boolean> getDirtyMap() {
-		return dirtyMap;
-	}
 
-	public void setDirtyMap(Map<String, Boolean> dirtyMap) {
-		this.dirtyMap = dirtyMap;
-	}
+    public Map<String, Boolean> getDirtyMap() {
+        return dirtyMap;
+    }
 
+    public void setDirtyMap(Map<String, Boolean> dirtyMap) {
+        this.dirtyMap = dirtyMap;
+    }
 
-	@Override
+    @Override
     public void registerNew(VehicleRecord vehicleRecord) {
         LOGGER.info("Registering {} for insert in context.", vehicleRecord.getLpr());
         register(vehicleRecord, IUnitOfWork.INSERT);
@@ -103,7 +103,7 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
             LOGGER.info("Modifying {} to database.", vehicleRecord.getLpr());
             vehicleRecordDataMapper.update(vehicleRecord);
         }
-        
+
         this.dirtyMap = new HashMap<>();
     }
 

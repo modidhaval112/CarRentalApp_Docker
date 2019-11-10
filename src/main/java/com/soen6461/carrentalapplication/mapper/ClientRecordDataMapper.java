@@ -3,7 +3,6 @@ package com.soen6461.carrentalapplication.mapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 
 
-
 import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,24 +21,27 @@ public class ClientRecordDataMapper {
 
     /**
      * Insert a client record
+     *
      * @param clientRecordToInsert
      * @return
      */
     public boolean insert(ClientRecord clientRecordToInsert) {
-    	return clientRecordTdg.insert(clientRecordToInsert.getFirstName(),clientRecordToInsert.getLastName(),clientRecordToInsert.getPhoneNumber(),clientRecordToInsert.getExpirationDateObject(),clientRecordToInsert.getDriversLicenseNumber(),clientRecordToInsert.getRecordVersion());
+        return clientRecordTdg.insert(clientRecordToInsert.getFirstName(), clientRecordToInsert.getLastName(), clientRecordToInsert.getPhoneNumber(), clientRecordToInsert.getExpirationDateObject(), clientRecordToInsert.getDriversLicenseNumber(), clientRecordToInsert.getRecordVersion());
     }
 
     /**
      * Update a client record
+     *
      * @param objectToUpdate
      * @return
      */
     public boolean update(ClientRecord objectToUpdate) {
-        return this.clientRecordTdg.update(objectToUpdate.getFirstName(),objectToUpdate.getLastName(),objectToUpdate.getPhoneNumber(),objectToUpdate.getExpirationDateObject(),objectToUpdate.getDriversLicenseNumber(),objectToUpdate.getRecordVersion());
+        return this.clientRecordTdg.update(objectToUpdate.getFirstName(), objectToUpdate.getLastName(), objectToUpdate.getPhoneNumber(), objectToUpdate.getExpirationDateObject(), objectToUpdate.getDriversLicenseNumber(), objectToUpdate.getRecordVersion());
     }
 
     /**
      * Delete the client record
+     *
      * @param driversLicenseNumber
      * @return
      */
@@ -49,24 +51,24 @@ public class ClientRecordDataMapper {
 
     /**
      * Get all client records
+     *
      * @return
-     * @throws ParseException 
-     * @throws NumberFormatException 
+     * @throws ParseException
+     * @throws NumberFormatException
      */
     public List findAll() throws NumberFormatException, ParseException {
         List<ClientRecord> clientRecords = new ArrayList<>();
-        List<Map<String, Object>> records= clientRecordTdg.findAll();
-        
-        for(int i=0; i<records.size();i++)
-        {
-        	ClientRecord clientRecord=  new ClientRecord(
-        			records.get(i).get("driversLicenseNumber").toString(),
-        			Integer.parseInt(records.get(i).get("version").toString()),
-        			records.get(i).get("firstname").toString(),
-        			records.get(i).get("lastname").toString(),
-        			records.get(i).get("phoneNumber").toString(),
-        			new SimpleDateFormat("yyyy-MM-dd").parse(records.get(i).get("expirationDate").toString()))	;
-        	clientRecords.add(clientRecord);
+        List<Map<String, Object>> records = clientRecordTdg.findAll();
+
+        for (int i = 0; i < records.size(); i++) {
+            ClientRecord clientRecord = new ClientRecord(
+                    records.get(i).get("driversLicenseNumber").toString(),
+                    Integer.parseInt(records.get(i).get("version").toString()),
+                    records.get(i).get("firstname").toString(),
+                    records.get(i).get("lastname").toString(),
+                    records.get(i).get("phoneNumber").toString(),
+                    new SimpleDateFormat("yyyy-MM-dd").parse(records.get(i).get("expirationDate").toString()));
+            clientRecords.add(clientRecord);
         }
         return clientRecords;
     }

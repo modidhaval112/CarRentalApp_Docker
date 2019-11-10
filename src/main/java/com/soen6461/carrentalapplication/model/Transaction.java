@@ -96,7 +96,7 @@ public class Transaction {
      *
      * @return The start date.
      */
-    public String getStartDate () {
+    public String getStartDate() {
         return DataValidationHelper.dateFormat.format(this.startDate);
     }
 
@@ -105,7 +105,7 @@ public class Transaction {
      *
      * @return The start date.
      */
-    public Date getStartDateObject () {
+    public Date getStartDateObject() {
         return this.startDate;
     }
 
@@ -194,10 +194,10 @@ public class Transaction {
 
     /**
      * Override the toString method with transaction relevant information.
+     *
      * @return Transaction information.
      */
-    public String toString()
-    {
+    public String toString() {
         return "transaction:{ VehicleKey:" + this.vehicleRecord.getLpr() +
                 " clientKey:" + this.clientRecord.getDriversLicenseNumber() +
                 " startDate:" + this.getStartDate() +

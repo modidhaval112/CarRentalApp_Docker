@@ -33,8 +33,8 @@ public class ClientRecord {
     public ClientRecord(String driversLicenseNumber, String firstName, String lastName, String phoneNumber, String expirationDate) {
 
         // The usage properties allows to add some validation in the properties to validate the entries.
-    	System.out.println("First Comtroller Date : " + expirationDate);
-    	
+        System.out.println("First Comtroller Date : " + expirationDate);
+
         this.setDriversLicenseNumber(driversLicenseNumber);
         this.setFirstName(firstName);
         this.setLastName(lastName);
@@ -46,10 +46,10 @@ public class ClientRecord {
         }
     }
 
-    public ClientRecord( String driversLicenseNumber, int recordVersion, String firstName, String lastName, String phoneNumber, Date expirationDate) {
-    	
-    	System.out.println("Second Comtroller Date : " + expirationDate);
-    	
+    public ClientRecord(String driversLicenseNumber, int recordVersion, String firstName, String lastName, String phoneNumber, Date expirationDate) {
+
+        System.out.println("Second Comtroller Date : " + expirationDate);
+
         this.recordVersion = recordVersion;
         this.setDriversLicenseNumber(driversLicenseNumber);
         this.setFirstName(firstName);
@@ -172,6 +172,7 @@ public class ClientRecord {
 
     /**
      * Get the version of he record of client
+     *
      * @return
      */
     public int getRecordVersion() {
