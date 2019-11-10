@@ -386,10 +386,6 @@ public class VehicleCatalog {
 			return false;
 		}
 		
-		if(version_db == vehicleRecord.getVersion()) {
-			vehicleRecord.setVersion(vehicleRecord.getVersion() + 1);
-		}
-		
 		for (int i = 0; i < vehicleRecordList.size(); i++) {
 			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
 				vehicleRecordList.set(i,vehicleRecord);
