@@ -34,8 +34,10 @@ public class ClientRecordTdg {
 
     public List<Map<String, Object>> findAll()  {
         String sql = "SELECT * FROM carrentaldb.clientRecord";
+        Connection con = null;
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+        	con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
@@ -53,6 +55,12 @@ public class ClientRecordTdg {
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return null;
+        }finally {
+        	try {
+				con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}       	
         }
     }
 
@@ -64,8 +72,10 @@ public class ClientRecordTdg {
      */
     public Map<String, Object> findclient(String driversLicense)  {
         String sql = "SELECT * FROM carrentaldb.clientRecord WHERE driversLicense=" + driversLicense + ";";
+        Connection con = null;
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+        	con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
@@ -82,6 +92,12 @@ public class ClientRecordTdg {
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return null;
+        }finally {
+        	try {
+				con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}       	
         }
     }
 
@@ -105,14 +121,22 @@ public class ClientRecordTdg {
                 "`phoneNumber`=\"" + phoneNumber + "\", " +
                 "`expirationDate`=\"" + expirationDate + "\", " +
                 " WHERE driversLicense=" + driversLicense + ";";
+        Connection con = null;
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+        	con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
             return true;
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return false;
 
+        }finally {
+        	try {
+				con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}       	
         }
     }
 
@@ -137,8 +161,10 @@ public class ClientRecordTdg {
                 "\"" + expirationDate + "\", " +
                 ");";
 
+        Connection con = null;
         try {
-			Statement stmt = this.dataSource.getConnection().createStatement();
+        	con = this.dataSource.getConnection();
+			Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
             stmt.execute(sqlRecord);
             return true;
@@ -146,6 +172,12 @@ public class ClientRecordTdg {
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return false;
+        }finally {
+        	try {
+				con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}       	
         }
 
     }
@@ -153,15 +185,23 @@ public class ClientRecordTdg {
 
     public boolean delete(String driversLicense) {
         String statement = "DELETE FROM `carrentaldb`.`clientRecord` where `driversLicenseNumber`=?";
-		try {
-			PreparedStatement dbStatement = this.dataSource.getConnection().prepareStatement(statement);
+        Connection con = null;
+        try {
+        	con = this.dataSource.getConnection();
+			PreparedStatement dbStatement = con.prepareStatement(statement);
 			dbStatement.setString(1 ,driversLicense);
 			dbStatement.executeUpdate();
 			return true;
 		}catch(SQLException e){
             System.out.println("Get object exception" + e.getMessage());
             return false;
-		}
+		}finally {
+        	try {
+				con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}       	
+        }
 
     }
 
