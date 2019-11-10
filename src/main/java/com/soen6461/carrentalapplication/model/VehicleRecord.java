@@ -1,3 +1,4 @@
+ @@ -1,223 +1,232 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
@@ -8,6 +9,7 @@ public class VehicleRecord extends Record {
 
     private int id;
     private int recordVersion;
+    private int version;
     private String carType;
     private String make;
     private String model;
@@ -26,6 +28,7 @@ public class VehicleRecord extends Record {
      * @param color   The vehicle color.
      */
     public VehicleRecord(String lpr, String carType, String make, String model, int year, String color) {
+    /*public VehicleRecord(String lpr, String carType, String make, String model, int year, String color) {
 
         this.setCarType(carType);
         this.setMake(make);
@@ -34,6 +37,7 @@ public class VehicleRecord extends Record {
         this.setModel(model);
         this.setLpr(lpr);
     }
+    }*/
 
     /**
      * The vehicle record constructor
@@ -48,9 +52,11 @@ public class VehicleRecord extends Record {
      * @param color         The vehicle color.
      */
     public VehicleRecord(int id, int recordVersion, String lpr, String carType, String make, String model, int year, String color) {
+    public VehicleRecord(int id, int version, String lpr, String carType, String make, String model, int year, String color) {
 
         this.id = id;
         this.recordVersion = recordVersion;
+        this.setVersion(version);
         this.setCarType(carType);
         this.setMake(make);
         this.setYear(year);
@@ -70,6 +76,8 @@ public class VehicleRecord extends Record {
      */
     public int getRecordVersion() {
         return this.recordVersion;
+    public int getVersion() {
+        return this.version;
     }
 
     /**
@@ -200,6 +208,15 @@ public class VehicleRecord extends Record {
         if (DataValidationHelper.isLicenseRegistrationPlateValid(lpr)) {
             this.lpr = lpr;
         }
+    }
+    
+    /**
+     * Sets the license plate registration number.
+     *
+     * @param lpr The license plate registration number.
+     */
+    private void setVersion(int version) {
+    	this.version = version;
     }
 
     /*
