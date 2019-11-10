@@ -73,7 +73,7 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
         if (context.containsKey(IUnitOfWork.DELETE)) {
             commitDelete();
         }
-
+        context = new HashMap<String, List<VehicleRecord>>();
         LOGGER.info("Commit finished.");
         return true;
     }
