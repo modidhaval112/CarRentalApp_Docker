@@ -131,16 +131,16 @@ public class VehicleRecordTdg {
 
     public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
 			String color) {
-		String sql = " UPDATE  `carrentaldb`.`" + "`vehicleRecord`" + "` SET " +
+		String sql = " UPDATE  `carrentaldb`.`" + "vehicleRecord" + "` SET " +
 				"`id`=" + id + ", " +
-                "`version`=" + recordVersion + ", " +
+                "`version`=" + "version + 1" + ", " +
                 "`licensePlateNumber`= \"" + lpr + "\", " +
                 "`carType`=\"" + carType + "\", " +
                 "`make`=\"" + make + "\", " +
                 "`model`=\"" + model + "\", " +
                 "`year`=\"" + year + "\", " +
-                "`color`=\"" + color + "\", " +
-                " WHERE licensePlateNumber=" + lpr + ";";
+                "`color`=\"" + color + "\" " +
+                " WHERE licensePlateNumber=\"" + lpr + "\";";
         try {
             Statement stmt = this.dataSource.getConnection().createStatement();
             stmt.executeUpdate(sql);
