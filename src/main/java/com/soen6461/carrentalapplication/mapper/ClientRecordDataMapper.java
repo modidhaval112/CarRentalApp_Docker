@@ -60,16 +60,19 @@ public class ClientRecordDataMapper {
         List<ClientRecord> clientRecords = new ArrayList<>();
         List<Map<String, Object>> records = clientRecordTdg.findAll();
 
-        for (int i = 0; i < records.size(); i++) {
-            ClientRecord clientRecord = new ClientRecord(
-                    records.get(i).get("driversLicenseNumber").toString(),
-                    Integer.parseInt(records.get(i).get("version").toString()),
-                    records.get(i).get("firstname").toString(),
-                    records.get(i).get("lastname").toString(),
-                    records.get(i).get("phoneNumber").toString(),
-                    new SimpleDateFormat("yyyy-MM-dd").parse(records.get(i).get("expirationDate").toString()));
-            clientRecords.add(clientRecord);
+        if(records != null) {
+            for (int i = 0; i < records.size(); i++) {
+                ClientRecord clientRecord = new ClientRecord(
+                        records.get(i).get("driversLicenseNumber").toString(),
+                        Integer.parseInt(records.get(i).get("version").toString()),
+                        records.get(i).get("firstname").toString(),
+                        records.get(i).get("lastname").toString(),
+                        records.get(i).get("phoneNumber").toString(),
+                        new SimpleDateFormat("yyyy-MM-dd").parse(records.get(i).get("expirationDate").toString()));
+                clientRecords.add(clientRecord);
+            }
         }
+
         return clientRecords;
     }
 
