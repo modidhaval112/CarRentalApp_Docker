@@ -48,13 +48,18 @@ public class VehicleCatalog {
 	 * 
 	 * @return list of vehicles
 	 */
-	public List getAllVehicleRecord() {
+	public List<VehicleRecord> getAllVehicleRecord() {
 		// To protect the main vehicle record list, only a copy is provided.
 		// this avoids someone other than this class from adding or removing vehicles.
 
 		List<VehicleRecord> copy = new ArrayList<VehicleRecord>();
-		for (VehicleRecord vehicle : vehicleRecordList) {
-			copy.add(vehicle);
+		try {
+			for (VehicleRecord vehicle : this.vehicleRecordDataMapper.findAll()) {
+				copy.add(vehicle);
+			}
+		} catch (NumberFormatException | ParseException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return copy;
@@ -334,14 +339,15 @@ public class VehicleCatalog {
 	 * @return vehicle record
 	 */
 	public VehicleRecord searchVehicle(String lpr) {
-		VehicleRecord vehicle = null;
-		for (VehicleRecord v : vehicleRecordList) {
-			if (v.getLpr().equalsIgnoreCase(lpr)) {
-				vehicle = v;
-			}
-
+		VehicleRecord vehicleRecord = null;
+		try {
+			vehicleRecord =  this.vehicleRecordDataMapper.findVehicle(lpr);
+		} catch (NumberFormatException | ParseException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return vehicle;
+		
+		return vehicleRecord;
 	}
 
 	/**

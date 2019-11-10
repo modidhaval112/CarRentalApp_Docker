@@ -59,7 +59,7 @@ public class VehicleRecordDataMapper {
 	 * @throws ParseException
 	 * @throws NumberFormatException
 	 */
-	public List findAll() throws NumberFormatException, ParseException, SQLException {
+	public List<VehicleRecord> findAll() throws NumberFormatException, ParseException, SQLException {
 		List<VehicleRecord> vehicleRecords = new ArrayList<>();
 		List<Map<String, Object>> records = vehicleRecordTdg.findAll();
 
@@ -73,5 +73,25 @@ public class VehicleRecordDataMapper {
 		}
 
 		return vehicleRecords;
+	}
+	
+	
+	/**
+	 * Get all vehicle records
+	 * 
+	 * @return
+	 * @throws ParseException
+	 * @throws NumberFormatException
+	 */
+	public VehicleRecord findVehicle(String lpr) throws NumberFormatException, ParseException, SQLException {
+		Map<String, Object> record = vehicleRecordTdg.findVehicle(lpr);
+
+			VehicleRecord vehicleRecord = new VehicleRecord(1,
+					Integer.parseInt(record.get("version").toString()), record.get("licensePlateNumber").toString(),
+					record.get("carType").toString(), record.get("make").toString(),
+					record.get("model").toString(), Integer.parseInt(record.get("year").toString()),
+					record.get("color").toString());
+
+		return vehicleRecord;
 	}
 }

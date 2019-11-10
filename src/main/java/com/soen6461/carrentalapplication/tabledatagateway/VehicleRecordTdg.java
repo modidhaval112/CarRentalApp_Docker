@@ -55,7 +55,7 @@ public class VehicleRecordTdg {
      * @return it returns the vehicle record
      */
     public Map<String, Object> findVehicle(String lpr)  {
-        String sql = "SELECT * FROM carrentaldb.vehicleRecord where licensePlateNumber= " + lpr +";";
+        String sql = "SELECT * FROM carrentaldb.vehicleRecord where licensePlateNumber=\"" + lpr +"\";";
         try {
             Statement stmt = this.dataSource.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(sql);
