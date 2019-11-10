@@ -450,10 +450,12 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping(value = "/update-vehicle/{id}", method = RequestMethod.POST)
-	public String updateVehicleRecord(@ModelAttribute("vehicleRecord") VehicleRecord vehicleRecord,
+	public String updateVehicleRecord(@RequestParam("carType") String carType, @RequestParam("make") String make,
+			@RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") String year,
 			@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
 		redirectAttributes.addFlashAttribute("successMsg", "  Vehicle Record has been updated successfully.");
+		VehicleRecord vehicleRecord = new VehicleRecord(lpr, carType, make, model, Integer.parseInt(year), color);
 		vehicleCatalog.updateVehicleRecord(vehicleRecord, lpr);
 		return "redirect:/vehicle-register";
 	}
@@ -467,12 +469,13 @@ public class MainController {
 	 * @return redirection to client-register
 	 */
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
-	public String updateClientRecord(@ModelAttribute("clientRecord") ClientRecord clientRecord,
+	public String updateClientRecord(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("driversLicenseNumber") String driversLicenseNumber, @RequestParam("expirationDate") String expirationDate,
 			@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
 
 		redirectAttributes.addFlashAttribute("successMsg", "  Client Record has been updated successfully.");
 
-		clientController.updateClientRecord(clientRecord, driverslicense);
+		clientController.updateClientRecord(new ClientRecord(driversLicenseNumber, firstName, lastName, phoneNumber, expirationDate), driverslicense);
 		return "redirect:/client-register";
 	}
 
