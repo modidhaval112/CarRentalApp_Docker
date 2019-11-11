@@ -73,7 +73,7 @@ public class VehicleRecordDataMapper {
                 vehicleRecords.add(vehicleRecord);
             }
         }
-        
+
         return vehicleRecords;
     }
 

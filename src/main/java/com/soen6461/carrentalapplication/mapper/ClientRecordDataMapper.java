@@ -65,50 +65,16 @@ public class ClientRecordDataMapper {
                 ClientRecord clientRecord = new ClientRecord(
                         records.get(i).get("driversLicenseNumber").toString(),
                         Integer.parseInt(records.get(i).get("version").toString()),
-                        records.get(i).get("firstname").toString(),
-                        records.get(i).get("lastname").toString(),
+                        records.get(i).get("firstName").toString(),
+                        records.get(i).get("lastName").toString(),
                         records.get(i).get("phoneNumber").toString(),
-                        new SimpleDateFormat("yyyy-MM-dd").parse(records.get(i).get("expirationDate").toString()));
+                        new SimpleDateFormat("yyyy-mm-dd").parse(records.get(i).get("expirationDate").toString()));
                 clientRecords.add(clientRecord);
             }
         }
 
         return clientRecords;
     }
-
-    /**
-     * Maps the result set to client objects
-     * @param clientRecords
-     * @param rs
-     * @return
-     */
-//    public List FindAll() {
-//
-//        List<ClientRecord> clientRecords = new ArrayList<>();
-//        ResultSet rs= clientRecordTdg.getAllObjects();
-//
-//        try{
-//            List<ClientRecord> clientRecords = new ArrayList<>();
-//
-//            while (rs.next()) {
-//                // retrieve and print the values for the current row
-//                ClientRecord clientRecord=  new ClientRecord(
-//                        rs.getString("driversLicenseNumber"),
-//                        rs.getInt("version"),
-//                        rs.getString("firstname"),
-//                        rs.getString("lastname"),
-//                        rs.getString("phoneNumber"),
-//                        rs.getDate("expirationDate")
-//
-//                );
-//                clientRecords.add(clientRecord);
-//            }
-//        } catch(SQLException e){
-//            System.out.println("Sql exception at ResultSet:" );
-//            e.printStackTrace();
-//        }
-//        return clientRecords;
-//    }
 
     /**
      * Save the client Record

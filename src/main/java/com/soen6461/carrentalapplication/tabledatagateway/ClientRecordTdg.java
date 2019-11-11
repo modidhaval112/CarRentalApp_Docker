@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Repository;
 public class ClientRecordTdg {
     @Autowired
     DataSource dataSource;
-    //	DatabaseConnection dc= DatabaseConnection.getInstance();
     Connection con;
     Statement stmt = null;
 
@@ -31,8 +31,13 @@ public class ClientRecordTdg {
 //		this.con=dc.getConnection();
 //	}
 
+    /**
+     * Find all client records.
+     *
+     * @return All client records.
+     */
     public List<Map<String, Object>> findAll() {
-        String sql = "SELECT * FROM carrentaldb.clientRecord";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".clientRecord";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();
@@ -70,7 +75,7 @@ public class ClientRecordTdg {
      * @return returns particular client row
      */
     public Map<String, Object> findclient(String driversLicense) {
-        String sql = "SELECT * FROM carrentaldb.clientRecord WHERE driversLicense=" + driversLicense + ";";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".clientRecord WHERE driversLicense=" + driversLicense + ";";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();
@@ -103,21 +108,21 @@ public class ClientRecordTdg {
     /**
      * Updates the client table based on license number
      *
-     * @param firstname      first name of client
-     * @param lastname       last name of client
+     * @param firstName      first name of client
+     * @param lastName       last name of client
      * @param phoneNumber    phone number of client
      * @param expirationDate expiration date of client license
      * @param driversLicense license number
      * @param version        version
-     * @return true or false of vehcile updation
+     * @return True if the client record update succeeded, false otherwise.
      */
-    public boolean update(String firstname, String lastname, String phoneNumber, Date expirationDate, String driversLicense, int version) {
+    public boolean update(String firstName, String lastName, String phoneNumber, Date expirationDate, String driversLicense, int version) {
 
-        String sql = " UPDATE  `carrentaldb`.`" + "`clientRecord`" + "` SET " +
+        String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "`carRentalDb`" + "` SET " +
                 "`driversLicenseNumber`=" + driversLicense + ", " +
                 "`version`=" + version + ", " +
-                "`firstname`= \"" + firstname + "\", " +
-                "`lastname`=\"" + lastname + "\", " +
+                "`firstName`= \"" + firstName + "\", " +
+                "`lastName`=\"" + lastName + "\", " +
                 "`phoneNumber`=\"" + phoneNumber + "\", " +
                 "`expirationDate`=\"" + expirationDate + "\", " +
                 " WHERE driversLicense=" + driversLicense + ";";
@@ -140,8 +145,17 @@ public class ClientRecordTdg {
         }
     }
 
-    public boolean insert(String firstname, String lastname, String phoneNumber, Date expirationDate, String driversLicense, int version) {
-        String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + "`clientRecord`" + "` (" +
+    /**
+     * @param firstName
+     * @param lastName
+     * @param phoneNumber
+     * @param expirationDate
+     * @param driversLicense
+     * @param version
+     * @return True if the client record insert succeeded, false otherwise.
+     */
+    public boolean insert(String firstName, String lastName, String phoneNumber, Date expirationDate, String driversLicense, int version) {
+        String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`.`" + "`clientRecord`" + "` (" +
                 "    `driversLicenseNumber` VARCHAR(50) PRIMARY KEY," +
                 "    `version` INT," +
                 "    `firstname` VARCHAR(60)," +
@@ -150,13 +164,13 @@ public class ClientRecordTdg {
                 "    `expirationDate` Date" +
                 ");";
 
-        String sqlRecord = "INSERT INTO `carrentaldb`.`" + "`clientRecord`" + "`" +
+        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "`clientRecord`" + "`" +
                 "(`driversLicenseNumber`, `version`, `firstname`, `lastname`, `phoneNumber`, `expirationDate`) " +
                 "VALUES (" +
                 driversLicense + ", " +
                 version + ", " +
-                "\"" + firstname + "\", " +
-                "\"" + lastname + "\", " +
+                "\"" + firstName + "\", " +
+                "\"" + lastName + "\", " +
                 "\"" + phoneNumber + "\", " +
                 "\"" + expirationDate + "\", " +
                 ");";
@@ -181,8 +195,12 @@ public class ClientRecordTdg {
         }
     }
 
+    /**
+     * @param driversLicense
+     * @return True if the client record deletion succeeded, false otherwise.
+     */
     public boolean delete(String driversLicense) {
-        String statement = "DELETE FROM `carrentaldb`.`clientRecord` where `driversLicenseNumber`=?";
+        String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`clientRecord` where `driversLicenseNumber`=?";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();

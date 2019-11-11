@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.metadata.HikariDataSourcePoolMetadata;
@@ -46,7 +47,7 @@ public class VehicleRecordTdg {
 
 
     public List<Map<String, Object>> findAll() {
-        String sql = "SELECT * FROM carrentaldb.vehicleRecord";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".vehicleRecord";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();
@@ -85,7 +86,7 @@ public class VehicleRecordTdg {
      * @throws SQLException
      */
     public Map<String, Object> findVehicle(String lpr) {
-        String sql = "SELECT * FROM carrentaldb.vehicleRecord where licensePlateNumber=\"" + lpr + "\";";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".vehicleRecord where licensePlateNumber=\"" + lpr + "\";";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();
@@ -116,7 +117,7 @@ public class VehicleRecordTdg {
 
 
     public boolean delete(String licensePlateNumber) {
-        String statement = "DELETE FROM `carrentaldb`.`vehicleRecord` where `licensePlateNumber `=?";
+        String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`vehicleRecord` where `licensePlateNumber `=?";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();
@@ -138,7 +139,7 @@ public class VehicleRecordTdg {
 
     public boolean insert(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
                           String color) {
-        String sql = "CREATE TABLE IF NOT EXISTS `carrentaldb`.`" + "vehicleRecord" + "` (" +
+        String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`.`" + "vehicleRecord" + "` (" +
                 "    `licensePlateNumber` VARCHAR(50) PRIMARY KEY," +
                 "    `id` INT," +
                 "    `version` INT," +
@@ -149,7 +150,7 @@ public class VehicleRecordTdg {
                 "    `color` VARCHAR(50)" +
                 ");";
 
-        String sqlRecord = "INSERT INTO `carrentaldb`.`" + "vehicleRecord" + "`" +
+        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "vehicleRecord" + "`" +
                 "(`licensePlateNumber`, `id`, `version`, `carType`, `make`, `model`, `year`, `color`) " +
                 "VALUES (" +
                 "\"" + lpr + "\", " +
@@ -185,7 +186,7 @@ public class VehicleRecordTdg {
 
     public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
                           String color) {
-        String sql = " UPDATE  `carrentaldb`.`" + "vehicleRecord" + "` SET " +
+        String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "vehicleRecord" + "` SET " +
                 "`id`=" + id + ", " +
                 "`version`=" + "version + 1" + ", " +
                 "`licensePlateNumber`= \"" + lpr + "\", " +

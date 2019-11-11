@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,7 +39,7 @@ public class TransactionTdg {
      */
     public boolean insert(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
                           String driversLicenseNumber) {
-        String sql = "CREATE TABLE IF NOT EXISTS carrentaldb.  transaction   ( \n" +
+        String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".  transaction   ( \n" +
                 "                    transactionId VARCHAR(50) PRIMARY KEY, \n" +
                 "                    version INT, \n" +
                 "                    status VARCHAR(50), \n" +
@@ -52,7 +53,7 @@ public class TransactionTdg {
                 "\n" +
                 "                );";
 
-        String sqlRecord = "INSERT INTO `carrentaldb`.`transaction`" +
+        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`transaction`" +
                 "(`transactionId`," +
                 "`version`," +
                 "`status`," +
@@ -85,7 +86,7 @@ public class TransactionTdg {
     public boolean update(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
                           String driversLicenseNumber) {
 
-        String sql = " UPDATE  `carrentaldb`.`" + "`transaction`" + "` SET " +
+        String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "`transaction`" + "` SET " +
                 "`version`=" + recordVersion + ", " +
                 "`transactionId`=" + transactionId + ", " +
                 "`status`= \"" + status + "\", " +
@@ -105,7 +106,7 @@ public class TransactionTdg {
     }
 
     public boolean delete(String transactionId) {
-        String statement = "DELETE FROM `carrentaldb`.`vehicleRecord` where `licensePlateNumber`=?";
+        String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`vehicleRecord` where `licensePlateNumber`=?";
         try {
             PreparedStatement dbStatement = this.dataSource.getConnection().prepareStatement(statement);
             dbStatement.setString(1, transactionId);
@@ -118,7 +119,7 @@ public class TransactionTdg {
     }
 
     public List<Map<String, Object>> findAll() throws SQLException {
-        String sql = "SELECT * FROM carrentaldb.transaction";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction";
         try {
             Statement stmt = this.dataSource.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -143,7 +144,7 @@ public class TransactionTdg {
     }
 
     public Map<String, Object> findTransaction(String transactionid) throws SQLException {
-        String sql = "SELECT * FROM carrentaldb.transaction where transactionId=" + transactionid + ";";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=" + transactionid + ";";
         try {
             Statement stmt = this.dataSource.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(sql);

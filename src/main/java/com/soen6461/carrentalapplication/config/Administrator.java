@@ -5,8 +5,8 @@ public class Administrator extends User {
     /**
      * User class parameterised constructor.
      *
-     * @param username
-     * @param password
+     * @param username Administrator password.
+     * @param password Administrator username.
      */
     public Administrator(String username, String password) {
         super(username, password, RoleType.Administrator);

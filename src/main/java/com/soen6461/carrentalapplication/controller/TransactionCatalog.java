@@ -24,7 +24,7 @@ import com.soen6461.carrentalapplication.model.VehicleRecord;
 @RestController
 public class TransactionCatalog {
 
-    Record record = new Record();
+    private Record record = new Record();
     private List<TransactionHistory> transactionHistoryList = new ArrayList<TransactionHistory>();
 
     /**
@@ -91,12 +91,8 @@ public class TransactionCatalog {
      * @return transaction list
      */
     public List<TransactionHistory> getAllTransactionHistory() {
-        List<TransactionHistory> temp = new ArrayList<>();
-        for (TransactionHistory t : record.getAllTransactionHistory()) {
-            temp.add(t);
-        }
 
-        return temp;
+        return new ArrayList<>(record.getAllTransactionHistory());
     }
 
     /**
@@ -148,16 +144,16 @@ public class TransactionCatalog {
     /**
      * Method developed to filter out due transaction for particular day
      *
-     * @param vehicledate particular date
+     * @param vehicleDate particular date
      * @return filtered transaction list
      * @throws ParseException
      */
-    public List<VehicleRecord> getDueParticularDay(String vehicledate) throws ParseException {
+    public List<VehicleRecord> getDueParticularDay(String vehicleDate) throws ParseException {
         List<VehicleRecord> temp = new ArrayList<>();
         Date d1 = new Date();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d1 = sdf.parse(vehicledate);
+        d1 = sdf.parse(vehicleDate);
 
         for (Transaction t : record.getTransactionList()) {
             // check if end date is equal to today and check if the status is rented or reserved
@@ -172,16 +168,16 @@ public class TransactionCatalog {
     /**
      * Method developed to filter out overdue transaction for particular day
      *
-     * @param vehicledate particular date
+     * @param vehicleDate particular date
      * @return filtered transaction list
      * @throws ParseException
      */
-    public List<VehicleRecord> getOverDueParticularDay(String vehicledate) throws ParseException {
+    public List<VehicleRecord> getOverDueParticularDay(String vehicleDate) throws ParseException {
         List<VehicleRecord> temp = new ArrayList<>();
         Date d1 = new Date();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d1 = sdf.parse(vehicledate);
+        d1 = sdf.parse(vehicleDate);
 
 
         for (TransactionHistory t : record.getAllTransactionHistory()) {
@@ -192,6 +188,7 @@ public class TransactionCatalog {
         }
 
         return temp;
+    }
 
     }
 }
