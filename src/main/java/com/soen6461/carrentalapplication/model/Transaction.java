@@ -10,9 +10,7 @@ public class Transaction {
     private Date startDate;
     private Date endDate;
     private String transactionId;
-
-    Status status;
-
+    private Status status;
 
     /**
      * State of a vehicle with respect to the transaction.
