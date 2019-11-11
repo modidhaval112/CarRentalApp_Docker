@@ -6,13 +6,13 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-		ClientTests.class,
-		FrontendActionTest.class,
-		VehicleTests.class,
-		UserTests.class,
-		DataValidationHelperTests.class,
-		TransactionsTests.class
+        ClientTests.class,
+        FrontendActionTest.class,
+        VehicleTests.class,
+        UserTests.class,
+        DataValidationHelperTests.class,
+        TransactionsTests.class
 })
 
-public class JunitTestSuite  {   
+public class JunitTestSuite {
 }  	

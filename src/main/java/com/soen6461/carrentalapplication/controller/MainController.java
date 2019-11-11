@@ -560,7 +560,7 @@ public class MainController {
             vehicles = vehicleCatalog.getDueParticularDay(Only_Date);
 
         } else if (filter.equals("available")) {
-            vehicles = vehicleCatalog.getAvailablabilityBetweenDates(selectfromdate, selecttodate);
+            vehicles = vehicleCatalog.getAvailabilityBetweenDates(selectfromdate, selecttodate);
 
         } else if (filter.equals("currentlyout")) {
             vehicles = vehicleCatalog.getCurrentlyOutVehicles();

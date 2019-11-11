@@ -24,7 +24,7 @@ public class FrontendActionTest {
     @Test
     public void getVehicleTest() throws Exception {
         String result = this.restTemplate.getForObject("http://localhost:" + port + "/", String.class);
-        assertThat(result).contains("login");;
+        assertThat(result).contains("login");
 
         // TODO: Mock the user authentication to add more tests....
     }

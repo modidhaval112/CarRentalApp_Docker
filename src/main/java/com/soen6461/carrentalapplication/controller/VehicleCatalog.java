@@ -242,7 +242,6 @@ public class VehicleCatalog {
                 }
                 break;
             }
-
         }
 
         return redirectAttributes;
@@ -289,7 +288,7 @@ public class VehicleCatalog {
             }
         } else if (filter.equals("client")) {
             for (int i = 0; i < vehicleRecordList.size(); i++) {
-                List<Transaction> transList = new ArrayList<>();
+                List<Transaction> transList;
                 transList = vehicleRecordList.get(i).getTransactionList();
                 for (Transaction t : transList) {
                     String firstLast = t.getClientRecord().getFirstName().toLowerCase() + " " + t.getClientRecord().getLastName().toLowerCase();
@@ -341,10 +340,6 @@ public class VehicleCatalog {
      * @param lpr license plate number
      */
     public boolean deleteVehicleRecord(String lpr) {
-        //		for (int i = 0; i < vehicleRecordList.size(); i++) {
-        //			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
-
-
         LinkedList<String> deleteRecords = vehicleRepository.getDeleteRecords();
         LinkedList<String> deletedVehicleRecords = vehicleRepository.getDeletedVehicleRecords();
 
@@ -368,9 +363,6 @@ public class VehicleCatalog {
         }
 
         return false;
-
-        //			}
-        //		}
     }
 
     /**
@@ -381,7 +373,7 @@ public class VehicleCatalog {
      */
     public boolean updateVehicleRecord(VehicleRecord vehicleRecord, String lpr) {
 
-        Integer version_db = 0;
+        int version_db = 0;
         try {
             version_db = this.vehicleRecordDataMapper.findVehicle(lpr).getVersion();
         } catch (NumberFormatException | ParseException | SQLException e) {
@@ -412,12 +404,12 @@ public class VehicleCatalog {
     /**
      * This method is designed for fetching available vehicles between two dates
      *
-     * @param startdate start date
-     * @param enddate   end date
+     * @param startDate start date
+     * @param endDate   end date
      * @return list of vehicles
      * @throws ParseException
      */
-    public List<VehicleRecord> getAvailablabilityBetweenDates(String startdate, String enddate) throws ParseException {
+    public List<VehicleRecord> getAvailabilityBetweenDates(String startDate, String endDate) throws ParseException {
         List<VehicleRecord> temp = new ArrayList<>();
 
         for (int i = 0; i < vehicleRecordList.size(); i++) {
@@ -429,8 +421,8 @@ public class VehicleCatalog {
             boolean transflag = false;
 
             for (Transaction t : trans) {
-                sd = DataValidationHelper.dateFormat.parse(startdate);
-                ed = DataValidationHelper.dateFormat.parse(enddate);
+                sd = DataValidationHelper.dateFormat.parse(startDate);
+                ed = DataValidationHelper.dateFormat.parse(endDate);
                 if ((sd.compareTo(DataValidationHelper.dateFormat.parse(t.getEndDate())) > 0 || ed.compareTo(DataValidationHelper.dateFormat.parse(t.getStartDate())) < 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) || t.getStatus().equals(Transaction.Status.Available) || t.getStatus().equals(Transaction.Status.Cancelled) || t.getStatus().equals(Transaction.Status.Returned)) {
                     transflag = true;
                 } else {
@@ -462,9 +454,7 @@ public class VehicleCatalog {
      */
     public List<VehicleRecord> getOverDueParticularDay(String vehicleDate) throws ParseException {
         List<VehicleRecord> temp = new ArrayList<>();
-        Date d1 = new Date();
-
-        d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
+        Date d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
 
         for (int i = 0; i < vehicleRecordList.size(); i++) {
             for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
@@ -488,9 +478,7 @@ public class VehicleCatalog {
      */
     public List<VehicleRecord> getDueParticularDay(String vehicleDate) throws ParseException {
         List<VehicleRecord> temp = new ArrayList<>();
-        Date d1 = new Date();
-
-        d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
+        Date d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
 
         for (int i = 0; i < vehicleRecordList.size(); i++) {
             for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
