@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,28 +22,12 @@ public class UserRegister {
 
     @Autowired
     DataSource dataSource;
-//	DatabaseConnection dc = DatabaseConnection.getInstance();
 
     private List<User> userList = new ArrayList<User>();
 
-    /*
-     * public ResultSet getObject() { String sql =
-     * "SELECT * FROM carrentaldb.users"; Connection con = null; try { con =
-     * this.dataSource.getConnection(); Statement stmt = con.createStatement();
-     * ResultSet rs = stmt.executeQuery(sql);
-     *
-     * return rs;
-     *
-     * } catch (Exception e) { System.out.println("Get object exception" +
-     * e.getMessage()); } finally { try { con.close(); } catch (SQLException e) { //
-     * TODO Auto-generated catch block e.printStackTrace(); } }
-     *
-     * return null; }
-     */
-
     public void setUserRegisterObject() {
 
-        String sql = "SELECT * FROM carrentaldb.users";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".users";
         Connection con = null;
 
         try {
