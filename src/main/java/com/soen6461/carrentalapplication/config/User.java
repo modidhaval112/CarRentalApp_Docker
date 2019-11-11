@@ -4,11 +4,9 @@ public abstract class User {
 
     private String username;
 
-    // TODO: Encrypt the password when data persistence is used with the database in iteration 4.
     private String password;
 
     private RoleType role;
-
 
     public enum RoleType {
         Clerk,

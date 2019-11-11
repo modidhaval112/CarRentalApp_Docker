@@ -5,8 +5,8 @@ public class Clerk extends User {
     /**
      * User class parameterised constructor.
      *
-     * @param username username.
-     * @param password password.
+     * @param username Clerk username.
+     * @param password Clerk password.
      */
     public Clerk(String username, String password) {
         super(username, password, RoleType.Clerk);

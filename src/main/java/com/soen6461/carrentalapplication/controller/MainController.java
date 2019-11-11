@@ -564,7 +564,7 @@ public class MainController {
             vehicles = vehicleCatalog.getAvailablabilityBetweenDates(selectfromdate, selecttodate);
 
         } else if (filter.equals("currentlyout")) {
-            vehicles = vehicleCatalog.getCurrentlyOutVehciles();
+            vehicles = vehicleCatalog.getCurrentlyOutVehicles();
 
         }
 

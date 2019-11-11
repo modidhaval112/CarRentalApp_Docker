@@ -68,9 +68,9 @@ public class UserRegister {
     }
 
     /**
-     * method to fecth all clerks
+     * method to fetch all clerks.
      *
-     * @return
+     * @return All the clerks
      */
     public List<Clerk> getAllClerks() {
         List<Clerk> clerkList = new ArrayList<Clerk>();
@@ -87,7 +87,7 @@ public class UserRegister {
     /**
      * method to fetch all the admins
      *
-     * @return
+     * @return All the administrators
      */
     public List<Administrator> getAllAdministrators() {
         List<Administrator> administratorList = new ArrayList<Administrator>();
