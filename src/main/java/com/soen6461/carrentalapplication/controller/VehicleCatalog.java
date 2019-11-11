@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -428,10 +429,9 @@ public class VehicleCatalog {
             boolean transflag = false;
 
             for (Transaction t : trans) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                sd = sdf.parse(startdate);
-                ed = sdf.parse(enddate);
-                if ((sd.compareTo(sdf.parse(t.getEndDate())) > 0 || ed.compareTo(sdf.parse(t.getStartDate())) < 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) || t.getStatus().equals(Transaction.Status.Available) || t.getStatus().equals(Transaction.Status.Cancelled) || t.getStatus().equals(Transaction.Status.Returned)) {
+                sd = DataValidationHelper.dateFormat.parse(startdate);
+                ed = DataValidationHelper.dateFormat.parse(enddate);
+                if ((sd.compareTo(DataValidationHelper.dateFormat.parse(t.getEndDate())) > 0 || ed.compareTo(DataValidationHelper.dateFormat.parse(t.getStartDate())) < 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) || t.getStatus().equals(Transaction.Status.Available) || t.getStatus().equals(Transaction.Status.Cancelled) || t.getStatus().equals(Transaction.Status.Returned)) {
                     transflag = true;
                 } else {
                     transflag = false;
@@ -464,12 +464,11 @@ public class VehicleCatalog {
         List<VehicleRecord> temp = new ArrayList<>();
         Date d1 = new Date();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d1 = sdf.parse(vehicleDate);
+        d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
 
         for (int i = 0; i < vehicleRecordList.size(); i++) {
             for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
-                if (sdf.parse(t.getEndDate()).compareTo(d1) < 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+                if (DataValidationHelper.dateFormat.parse(t.getEndDate()).compareTo(d1) < 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
                     temp.add(t.getVehicleRecord());
                     break;
                 }
@@ -491,12 +490,11 @@ public class VehicleCatalog {
         List<VehicleRecord> temp = new ArrayList<>();
         Date d1 = new Date();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d1 = sdf.parse(vehicleDate);
+        d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
 
         for (int i = 0; i < vehicleRecordList.size(); i++) {
             for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
-                if (sdf.parse(t.getEndDate()).compareTo(d1) == 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+                if (DataValidationHelper.dateFormat.parse(t.getEndDate()).compareTo(d1) == 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
                     temp.add(t.getVehicleRecord());
                     break;
                 }
@@ -517,13 +515,11 @@ public class VehicleCatalog {
         Date d1 = new Date();
         Date cd = new Date();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-
-        cd = sdf.parse(sdf.format(cd));
+        cd = DataValidationHelper.dateFormat.parse(DataValidationHelper.dateFormat.format(cd));
 
         for (int i = 0; i < vehicleRecordList.size(); i++) {
             for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
-                if (sdf.parse(t.getEndDate()).compareTo(cd) >= 0 && sdf.parse(t.getStartDate()).compareTo(cd) <= 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
+                if (DataValidationHelper.dateFormat.parse(t.getEndDate()).compareTo(cd) >= 0 && DataValidationHelper.dateFormat.parse(t.getStartDate()).compareTo(cd) <= 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
                     temp.add(t.getVehicleRecord());
                     break;
                 }
