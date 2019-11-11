@@ -25,12 +25,6 @@ public class ClientRecordTdg {
     Connection con;
     Statement stmt = null;
 
-
-//	ClientTDG() throws SQLException
-//	{
-//		this.con=dc.getConnection();
-//	}
-
     /**
      * Find all client records.
      *

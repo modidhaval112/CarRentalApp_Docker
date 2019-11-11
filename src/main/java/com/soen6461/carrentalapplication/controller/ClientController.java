@@ -3,7 +3,6 @@ package com.soen6461.carrentalapplication.controller;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 
 /**
@@ -36,7 +34,7 @@ public class ClientController {
     private ClientController() {
     }
 
-    public void loadClientRecords() throws ParseException, SQLException {
+    void loadClientRecords() throws ParseException, SQLException {
         this.clientRecordList = this.clientRecordDataMapper.findAll();
     }
 

@@ -42,8 +42,8 @@ public class Transaction {
         this.setClientRecord(clientRecord);
         this.setVehicleRecord(vehicleRecord);
         try {
-            this.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
-            this.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+            this.setStartDate(DataValidationHelper.dateFormat.parse(startDate));
+            this.setEndDate(DataValidationHelper.dateFormat.parse(endDate));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -55,7 +55,6 @@ public class TransactionCatalog {
                     temp.add(record.getAllTransactionHistory().get(i));
                 }
             }
-
         } else if (filter.equals("car-type")) {
             for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
                 if (record.getAllTransactionHistory().get(i).getTransaction().getVehicleRecord().getCarType().equals(value)) {
@@ -68,7 +67,6 @@ public class TransactionCatalog {
                     temp.add(record.getAllTransactionHistory().get(i));
                 }
             }
-
         } else if (filter.equals("client")) {
 
             for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {

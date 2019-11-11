@@ -1,5 +1,6 @@
 package com.soen6461.carrentalapplication.mapper;
 
+import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 
 
@@ -68,7 +69,7 @@ public class ClientRecordDataMapper {
                         records.get(i).get("firstName").toString(),
                         records.get(i).get("lastName").toString(),
                         records.get(i).get("phoneNumber").toString(),
-                        new SimpleDateFormat("yyyy-mm-dd").parse(records.get(i).get("expirationDate").toString()));
+                        DataValidationHelper.dateFormat.parse(records.get(i).get("expirationDate").toString()));
                 clientRecords.add(clientRecord);
             }
         }

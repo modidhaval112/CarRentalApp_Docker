@@ -18,6 +18,8 @@ public class VehicleRecord extends Record {
     /**
      * The vehicle record constructor
      *
+     * @param id      The record id.
+     * @param version The record version.
      * @param lpr     The license plate registration number.
      * @param carType The car type.
      * @param make    The vehicle make.
@@ -25,31 +27,7 @@ public class VehicleRecord extends Record {
      * @param year    The vehicle year.
      * @param color   The vehicle color.
      */
-    /*public VehicleRecord(String lpr, String carType, String make, String model, int year, String color) {
-
-        this.setCarType(carType);
-        this.setMake(make);
-        this.setYear(year);
-        this.setColor(color);
-        this.setModel(model);
-        this.setLpr(lpr);
-    }
-    }*/
-
-    /**
-     * The vehicle record constructor
-     *
-     * @param id            The record id.
-     * @param recordVersion The record version.
-     * @param lpr           The license plate registration number.
-     * @param carType       The car type.
-     * @param make          The vehicle make.
-     * @param model         The vehicle model
-     * @param year          The vehicle year.
-     * @param color         The vehicle color.
-     */
     public VehicleRecord(int id, int version, String lpr, String carType, String make, String model, int year, String color) {
-
         this.id = id;
         this.version = version;
         this.setVersion(version);

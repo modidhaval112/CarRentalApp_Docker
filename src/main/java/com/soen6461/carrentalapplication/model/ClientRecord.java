@@ -3,7 +3,6 @@ package com.soen6461.carrentalapplication.model;
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -33,14 +32,14 @@ public class ClientRecord {
     public ClientRecord(String driversLicenseNumber, String firstName, String lastName, String phoneNumber, String expirationDate) {
 
         // The usage properties allows to add some validation in the properties to validate the entries.
-        System.out.println("First Comtroller Date : " + expirationDate);
+        System.out.println("First Controller Date : " + expirationDate);
 
         this.setDriversLicenseNumber(driversLicenseNumber);
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setPhoneNumber(phoneNumber);
         try {
-            this.setExpirationDate(new SimpleDateFormat("yyyy-MM-dd").parse(expirationDate));
+            this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +47,7 @@ public class ClientRecord {
 
     public ClientRecord(String driversLicenseNumber, int recordVersion, String firstName, String lastName, String phoneNumber, Date expirationDate) {
 
-        System.out.println("Second Comtroller Date : " + expirationDate);
+        System.out.println("Second Controller Date : " + expirationDate);
 
         this.recordVersion = recordVersion;
         this.setDriversLicenseNumber(driversLicenseNumber);
