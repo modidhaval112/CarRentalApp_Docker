@@ -520,7 +520,7 @@ public class VehicleCatalog {
      * This method is designed for fetching vehicles are not available
      *
      * @return list of vehicles
-     * @throws ParseException
+     * @throws ParseException Can throw an exception if an error occurred when parsing a date.
      */
     public List<VehicleRecord> getCurrentlyOutVehicles() throws ParseException {
         List<VehicleRecord> temp = new ArrayList<>();

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.soen6461.carrentalapplication.Helpers.ITableGatewayMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,46 +21,60 @@ import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 
 @Component
-public class TransactionDataMapper {
+public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
     @Autowired
     private TransactionTdg transactionTdg;
 
     /**
      * Transaction record insert mapper
      *
-     * @param transrecord transaction record type
-     * @return returns true or false
+     * @param transactionRecord The transaction record to insert in the database.
+     * @return True if the operation was a success, false otherwise.
      */
-    public boolean insert(Transaction transrecord) {
-        return transactionTdg.insert(1, transrecord.getTransactionId(), transrecord.getStatus().toString(), transrecord.getStartDateObject(), transrecord.getEndDateObject(), transrecord.getVehicleRecord().getLpr(), transrecord.getClientRecord().getDriversLicenseNumber());
-
-
+    public boolean insert(Transaction transactionRecord) {
+        return transactionTdg.insert(1, transactionRecord.getTransactionId(), transactionRecord.getStatus().toString(),
+                transactionRecord.getStartDateObject(), transactionRecord.getEndDateObject(), transactionRecord.getVehicleRecord().getLpr(),
+                transactionRecord.getClientRecord().getDriversLicenseNumber());
     }
 
     /**
-     * Update a Transaction record
+     * Delete the Transaction record.
      *
-     * @param objectToUpdate
-     * @return
+     * @param id The transaction id to delete.
+     * @return True if the operation was a success, false otherwise.
      */
-    public boolean update(Transaction transrecord) {
-        return transactionTdg.update(1, transrecord.getTransactionId(), transrecord.getStatus().toString(), transrecord.getStartDateObject(), transrecord.getEndDateObject(), transrecord.getVehicleRecord().getLpr(), transrecord.getClientRecord().getDriversLicenseNumber());
-    }
-
-    /**
-     * Delete the Transaction record
-     *
-     * @param driversLicenseNumber
-     * @return
-     */
-    public boolean delete() {
+    public boolean delete(int id) {
         return false;
     }
 
     /**
-     * Get all Transaction records
+     * Method to update an object data in the database.
      *
-     * @return
+     * @param id                Id of the object to map.
+     * @param transactionRecord Object to update.
+     */
+    @Override
+    public boolean update(int id, Transaction transactionRecord) {
+        return transactionTdg.update(id, transactionRecord.getTransactionId(), transactionRecord.getStatus().toString(),
+                transactionRecord.getStartDateObject(), transactionRecord.getEndDateObject(), transactionRecord.getVehicleRecord().getLpr(),
+                transactionRecord.getClientRecord().getDriversLicenseNumber());
+    }
+
+    /**
+     * Method to retrieve an object from the database.
+     *
+     * @param id The id of the object to retrieve from the database.
+     * @return The object mapping to the given id.
+     */
+    @Override
+    public Transaction getObject(int id) {
+        return null;
+    }
+
+    /**
+     * Get all Transaction records.
+     *
+     * @return True if the operation was a success, false otherwise.
      * @throws ParseException
      * @throws NumberFormatException
      */

@@ -8,6 +8,9 @@ public abstract class User {
 
     private RoleType role;
 
+    /**
+     * User roles.
+     */
     public enum RoleType {
         Clerk,
         Administrator

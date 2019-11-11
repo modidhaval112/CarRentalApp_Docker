@@ -26,9 +26,9 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
     /**
      * Class designed for redirection on successful login
      *
-     * @param arg0
-     * @param arg1
-     * @param authentication
+     * @param arg0           Http servlet request.
+     * @param arg1           Http servlet response.
+     * @param authentication Authentication.
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest arg0, HttpServletResponse arg1, Authentication authentication)

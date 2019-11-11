@@ -21,8 +21,8 @@ public class VehicleRecordDataMapper {
     /**
      * Insert a vehicle record
      *
-     * @param vehicleRecordToInsert
-     * @return
+     * @param vehicleRecordToInsert The vehicle record to insert in the database.
+     * @return True if the operation was a success, false otherwise.
      */
     public boolean insert(VehicleRecord vehicleRecordToInsert) {
         return vehicleRecordTdg.insert(vehicleRecordToInsert.getId(), vehicleRecordToInsert.getVersion(),
@@ -33,8 +33,8 @@ public class VehicleRecordDataMapper {
     /**
      * Update a vehicle record
      *
-     * @param objectToUpdate
-     * @return
+     * @param objectToUpdate Vehicle record to update
+     * @return True if the operation was a success, false otherwise.
      */
     public boolean update(VehicleRecord objectToUpdate) {
         return this.vehicleRecordTdg.update(objectToUpdate.getId(), objectToUpdate.getVersion(),
@@ -45,17 +45,17 @@ public class VehicleRecordDataMapper {
     /**
      * Delete the vehicle record
      *
-     * @param lpr
-     * @return
+     * @param lpr The license plate number.
+     * @return True if the operation was a success, false otherwise.
      */
     public boolean delete(String lpr) {
         return vehicleRecordTdg.delete(lpr);
     }
 
     /**
-     * Get all vehicle records
+     * Get all vehicle records.
      *
-     * @return
+     * @return True if the operation was a success, false otherwise.
      * @throws ParseException
      * @throws NumberFormatException
      */
@@ -81,7 +81,7 @@ public class VehicleRecordDataMapper {
     /**
      * Get all vehicle records
      *
-     * @return
+     * @return True if the operation was a success, false otherwise.
      * @throws ParseException
      * @throws NumberFormatException
      */

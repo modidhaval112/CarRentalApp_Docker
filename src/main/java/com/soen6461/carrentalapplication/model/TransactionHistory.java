@@ -11,8 +11,6 @@ public class TransactionHistory {
 
     /**
      * Constructor for an instance of a recorded transaction in history.
-     * <p>
-     * //TODO: Protect this method against unauthorised access from clerk.
      *
      * @param transaction The transaction.
      * @param status      The transaction status.
@@ -25,7 +23,7 @@ public class TransactionHistory {
     /**
      * Gets the transaction.
      *
-     * @return
+     * @return The transaction.
      */
     public Transaction getTransaction() {
         return transaction;
