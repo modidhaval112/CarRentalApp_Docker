@@ -515,7 +515,7 @@ public class MainController {
     public String deleteVehicleRecord(@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
         vehicleCatalog.persistData();
-        
+
         VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(lpr);
         List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
 
@@ -526,12 +526,11 @@ public class MainController {
             }
         }
 
-        if(vehicleCatalog.deleteVehicleRecord(lpr)) {		
-			redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
-		}
-		else {
-			redirectAttributes.addFlashAttribute("errorMsg", "  Vehicle Record has already been deleted.");
-		}
+        if (vehicleCatalog.deleteVehicleRecord(lpr)) {
+            redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMsg", "  Vehicle Record has already been deleted.");
+        }
 
         return "redirect:/vehicle-register";
     }
@@ -691,7 +690,7 @@ public class MainController {
         // Loading vehicle records
         vehicleCatalog.loadVehicleRecords();
 
-		// Loading client records.
+        // Loading client records.
         clientController.loadClientRecords();
 
 //

@@ -122,9 +122,9 @@ public class ClientRecord {
 
         if (DataValidationHelper.isPhoneNumberFormatValid(phoneNumber)) {
             this.phoneNumber = phoneNumber;
-        } else {
-            // throw new InvalidParameterException("Phone number format not valid: " + phoneNumber);
         }
+
+        // throw new InvalidParameterException("Phone number format not valid: " + phoneNumber);
     }
 
     /**

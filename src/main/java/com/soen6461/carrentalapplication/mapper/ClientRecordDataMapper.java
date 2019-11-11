@@ -76,17 +76,4 @@ public class ClientRecordDataMapper {
 
         return clientRecords;
     }
-
-    /**
-     * Save the client Record
-     * @param objectToInsert
-     * @return
-     */
-//    public boolean save(ClientRecord objectToInsert) {
-//
-//        if (this.clientRecordTdg.getObject(objectToInsert.getDriversLicenseNumber()) == null) {
-//            return this.clientRecordTdg.insert(objectToInsert);
-//        }
-//        return this.clientRecordTdg.update(objectToInsert);
-//    }
 }

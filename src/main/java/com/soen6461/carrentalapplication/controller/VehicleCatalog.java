@@ -53,7 +53,6 @@ public class VehicleCatalog {
     public List<VehicleRecord> getAllVehicleRecord() {
         // To protect the main vehicle record list, only a copy is provided.
         // this avoids someone other than this class from adding or removing vehicles.
-
         List<VehicleRecord> copy = new ArrayList<VehicleRecord>();
         try {
             copy.addAll(this.vehicleRecordDataMapper.findAll());
@@ -114,7 +113,6 @@ public class VehicleCatalog {
                     temp.add(vehicleRecordList.get(i));
                 }
             }
-
         } else if (filter.equals("model")) {
             for (int i = 0; i < vehicleRecordList.size(); i++) {
                 if (vehicleRecordList.get(i).getModel().equalsIgnoreCase(value)) {
@@ -133,17 +131,13 @@ public class VehicleCatalog {
                 if (vehicleRecordList.get(i).getColor().equalsIgnoreCase(value)) {
                     temp.add(vehicleRecordList.get(i));
                 }
-
             }
-
         } else if (filter.equals("greater")) {
             for (int i = 0; i < vehicleRecordList.size(); i++) {
                 if (vehicleRecordList.get(i).getYear() >= Integer.parseInt(value)) {
                     temp.add(vehicleRecordList.get(i));
                 }
-
             }
-
         } else if (filter.equals("lesser")) {
             for (int i = 0; i < vehicleRecordList.size(); i++) {
                 if (vehicleRecordList.get(i).getYear() <= Integer.parseInt(value)) {
@@ -197,23 +191,19 @@ public class VehicleCatalog {
      * @param endDate            end date
      * @param status             status
      */
-    public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate,
-                              String status) {
+    public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate, String status) {
 
         ClientRecord forClient = clientController.searchClient(driversLicense);
         VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 
         if (status.equals("Rented")) {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate,
-                    Transaction.Status.Rented);
+            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
             selectedVehicle.addTransaction(newTransaction);
         } else if (status.equals("Reserved")) {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate,
-                    Transaction.Status.Reserved);
+            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
             selectedVehicle.addTransaction(newTransaction);
         } else {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate,
-                    Transaction.Status.Available);
+            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Available);
             selectedVehicle.addTransaction(newTransaction);
         }
     }
@@ -264,7 +254,7 @@ public class VehicleCatalog {
      * @param value  value if that applies
      * @return list of transactions
      */
-    public List getFilteredTransactionList(@RequestParam(name = "filter") String filter,                                           @RequestParam(name = "value") String value) {
+    public List getFilteredTransactionList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
         return this.getTransactionSet(filter, value);
     }
 
@@ -322,7 +312,7 @@ public class VehicleCatalog {
         for (VehicleRecord v : vehicleRecordList) {
             transList.addAll(v.getTransactionList());
         }
-        
+
         return transList;
     }
 
@@ -350,37 +340,37 @@ public class VehicleCatalog {
      * @param lpr license plate number
      */
     public boolean deleteVehicleRecord(String lpr) {
-		//		for (int i = 0; i < vehicleRecordList.size(); i++) {
-		//			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
-		
+        //		for (int i = 0; i < vehicleRecordList.size(); i++) {
+        //			if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
 
-		LinkedList<String> deleteRecords = vehicleRepository.getDeleteRecords();
-		LinkedList<String> deletedVehicleRecords = vehicleRepository.getDeletedVehicleRecords();
-		
-		for (int i = 0; i < deleteRecords.size(); i++) {
-			System.out.println("List1 : " + deleteRecords.get(i));
-		}
 
-		if(!deleteRecords.contains(lpr) && !deletedVehicleRecords.contains(lpr)) {
-			VehicleRecord vehicleRecord = searchVehicle(lpr);
-			vehicleRecordList.remove(vehicleRecord);
-			vehicleRepository.registerDeleted(vehicleRecord);
-			
-			deleteRecords.add(lpr);
-			
-			for (int i = 0; i < deleteRecords.size(); i++) {
-				System.out.println("List2 : " + deleteRecords.get(i));
-			}
-			
-			vehicleRepository.setDeleteRecords(deleteRecords);
-			return true;
-		}
-		
-		return false;
+        LinkedList<String> deleteRecords = vehicleRepository.getDeleteRecords();
+        LinkedList<String> deletedVehicleRecords = vehicleRepository.getDeletedVehicleRecords();
 
-		//			}
-		//		}
-	}
+        for (int i = 0; i < deleteRecords.size(); i++) {
+            System.out.println("List1 : " + deleteRecords.get(i));
+        }
+
+        if (!deleteRecords.contains(lpr) && !deletedVehicleRecords.contains(lpr)) {
+            VehicleRecord vehicleRecord = searchVehicle(lpr);
+            vehicleRecordList.remove(vehicleRecord);
+            vehicleRepository.registerDeleted(vehicleRecord);
+
+            deleteRecords.add(lpr);
+
+            for (int i = 0; i < deleteRecords.size(); i++) {
+                System.out.println("List2 : " + deleteRecords.get(i));
+            }
+
+            vehicleRepository.setDeleteRecords(deleteRecords);
+            return true;
+        }
+
+        return false;
+
+        //			}
+        //		}
+    }
 
     /**
      * This method is designed for updating the vehicle record

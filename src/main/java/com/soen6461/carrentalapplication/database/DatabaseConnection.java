@@ -11,13 +11,6 @@ public class DatabaseConnection {
     @Autowired
     private DataSource dataSource;
 
-//	private static DatabaseConnection instance = new DatabaseConnection();
-
-//	private DatabaseConnection(){}
-//	public static DatabaseConnection getInstance(){
-//		return instance;
-//	}
-
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
