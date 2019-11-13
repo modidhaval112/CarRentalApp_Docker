@@ -1,515 +1,749 @@
 package com.soen6461.carrentalapplication.controller;
 
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.soen6461.carrentalapplication.mapper.VehicleRecordDataMapper;
+import com.soen6461.carrentalapplication.config.User;
+import com.soen6461.carrentalapplication.config.UserRegister;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.Transaction;
+import com.soen6461.carrentalapplication.model.TransactionHistory;
 import com.soen6461.carrentalapplication.model.VehicleRecord;
-import com.soen6461.carrentalapplication.unitofwork.VehicleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@RestController
-public class VehicleCatalog {
-    @Autowired
-    private ClientController clientController;
+import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
-    @Autowired
-    private VehicleRecordDataMapper vehicleRecordDataMapper;
+/**
+ * This class controls the UI of the application
+ */
+@Controller
+public class MainController {
 
-    @Autowired
-    private VehicleRepository vehicleRepository;
+	@Autowired
+	private ClientController clientController;
 
-    private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
-    private static VehicleCatalog instance = null;
+	@Autowired
+	private VehicleCatalog vehicleCatalog;
 
-    void loadVehicleRecords() throws ParseException, SQLException {
-        this.vehicleRecordList = this.vehicleRecordDataMapper.findAll();
-    }
+	@Autowired
+	private TransactionCatalog transactionCatalog;
 
-    /**
-     * Default class constructor
-     */
-    public VehicleCatalog() {
-    }
+	@Autowired
+	private UserRegister userRegister;
 
-    /**
-     * This method will fetch and return all the vehicle records
-     *
-     * @return list of vehicles
-     */
-    public List<VehicleRecord> getAllVehicleRecord() {
-        // To protect the main vehicle record list, only a copy is provided.
-        // this avoids someone other than this class from adding or removing vehicles.
-        List<VehicleRecord> copy = new ArrayList<VehicleRecord>();
-        try {
-            copy.addAll(this.vehicleRecordDataMapper.findAll());
-        } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+	@RequestMapping("/client-sign-up")
+	public String display() {
+		return "clientSignUp";
+	}
 
-        return copy;
-    }
+	/**
+	 * This method is designed for returning view that displays all vehicles
+	 *
+	 * @return vehicleAdd view
+	 */
+	@RequestMapping("/vehicle-add")
+	public ModelAndView vehicleDisplay() {
+		ModelAndView model = new ModelAndView("vehicleAdd");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-    /**
-     * This method will return filtered vehicle list
-     *
-     * @param filter filter name
-     * @param value  value if that applies
-     * @return list of filtered vehicles
-     */
-    public List getFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
-        return this.getResultSet(filter, value);
-    }
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
 
-    /**
-     * This method will return filtered vehicle for 'Greater than' scenario
-     *
-     * @param filter filter name
-     * @param value  value if that applies
-     * @return list of filtered vehicles
-     */
-    public List getGreaterThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
-        return this.getResultSet(filter, value);
-    }
+		return model;
+	}
 
-    /**
-     * This method will return filtered vehicle for 'Less than' scenario
-     *
-     * @param filter filter name
-     * @param value  value if that applies
-     * @return list of filtered vehicles
-     */
-    public List getLesserThanFilteredList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
-        return this.getResultSet(filter, value);
-    }
+	/**
+	 * This method is designed for returning view that displays online help
+	 *
+	 * @return onlineHelp view
+	 */
+	@RequestMapping("/online-help")
+	public ModelAndView displayOnlineHelp() {
+		ModelAndView model = new ModelAndView("onlineHelp");
 
-    /**
-     * This method will return filtered vehicle list.
-     *
-     * @param filter filter name
-     * @param value  value if that applies
-     * @return list of filtered vehicles
-     */
-    public List<VehicleRecord> getResultSet(String filter, String value) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        List<VehicleRecord> temp = new ArrayList<>();
-        if (filter.equals("make")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getMake().equalsIgnoreCase(value)) {
-                    temp.add(vehicleRecordList.get(i));
-                }
-            }
-        } else if (filter.equals("model")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getModel().equalsIgnoreCase(value)) {
-                    temp.add(vehicleRecordList.get(i));
-                }
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
 
-            }
-        } else if (filter.equals("carType")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getCarType().equals(value)) {
-                    temp.add(vehicleRecordList.get(i));
-                }
-            }
-        } else if (filter.equals("color")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getColor().equalsIgnoreCase(value)) {
-                    temp.add(vehicleRecordList.get(i));
-                }
-            }
-        } else if (filter.equals("greater")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getYear() >= Integer.parseInt(value)) {
-                    temp.add(vehicleRecordList.get(i));
-                }
-            }
-        } else if (filter.equals("lesser")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getYear() <= Integer.parseInt(value)) {
-                    temp.add(vehicleRecordList.get(i));
-                }
-            }
-        }
+		return model;
+	}
 
-        return temp;
-    }
+	/**
+	 * This method is designed for redirection based on authentication
+	 *
+	 * @return redirection to particular view
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String RedirectToDisplayVehicleCatalog() {
+		if (isAdministratorRole()) {
+			return "redirect:/trans-list";
+		} else {
+			return "redirect:/vehicle-catalog";
+		}
+	}
 
-    /**
-     * Gets a vehicle that has the give license plate number.
-     *
-     * @param licensePlateNumber The license plate number.
-     */
-    public VehicleRecord getVehicleRecord(String licensePlateNumber) {
-        for (int i = 0; i < vehicleRecordList.size(); i++) {
-            if (vehicleRecordList.get(i).getLpr().equals(licensePlateNumber)) {
-                return vehicleRecordList.get(i);
-            }
-        }
+	/**
+	 * Validates if logged in user is Admin or not
+	 *
+	 * @return true or false
+	 */
+	private boolean isAdministratorRole() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		for (GrantedAuthority authority : authentication.getAuthorities()) {
+			if (authority.toString().equals("ROLE_" + User.RoleType.Administrator)) {
+				return true;
+			}
+		}
 
-        return null;
-    }
+		return false;
+	}
 
-    /**
-     * Add vehicle records to the catalog //TODO: Protect this method against
-     * unauthorised access from clerk.
-     *
-     * @param vehicleRecord
-     */
-    public void addVehicleRecord(VehicleRecord vehicleRecord) {
-        for (VehicleRecord existingVehicleRecord : this.vehicleRecordList) {
-            if (vehicleRecord.getLpr() == existingVehicleRecord.getLpr()) {
-                // throw new Exception("There is already a vehicle with license registration plate: " + vehicleRecord.getLpr() + " in the catalog.");
-                return;
-            }
-        }
+	/**
+	 * Method for handling logging process
+	 *
+	 * @param model
+	 * @param error
+	 * @param logout
+	 * @return authentication message
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Model model, String error, String logout) {
+		if (error != null)
+			model.addAttribute("errorMsg", "Your username and password are invalid.");
+		if (logout != null) {
+			clientController.persistData();
+			vehicleCatalog.persistData();
+			model.addAttribute("msg", "You have been logged out successfully.");
+		}
+		return "/login";
+	}
 
-        this.vehicleRecordList.add(vehicleRecord);
-        vehicleRepository.registerNew(vehicleRecord);
-    }
+	/**
+	 * Method designed for displaying vehicle catalog
+	 *
+	 * @return vehicleCatalog view
+	 */
+	@RequestMapping("/vehicle-catalog")
+	public ModelAndView displayVehicleCatalog() {
+		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		List<ClientRecord> clients = clientController.getAllClientRecord();
 
-    /**
-     * This method is designed to assign vehicles to client
-     *
-     * @param driversLicense     driver's license
-     * @param licensePlateRecord vehicle's number plate
-     * @param startDate          start date
-     * @param endDate            end date
-     * @param status             status
-     */
-    public void assignVehicle(String driversLicense, String licensePlateRecord, String startDate, String endDate, String status) {
+		ModelAndView model = new ModelAndView("vehicleCatalog");
 
-        ClientRecord forClient = clientController.searchClient(driversLicense);
-        VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (status.equals("Rented")) {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
-            selectedVehicle.addTransaction(newTransaction);
-        } else if (status.equals("Reserved")) {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
-            selectedVehicle.addTransaction(newTransaction);
-        } else {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Available);
-            selectedVehicle.addTransaction(newTransaction);
-        }
-    }
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
 
-    /**
-     * This method is designed for handling return transactions
-     *
-     * @param transactionId
-     * @param licensePlateRecord
-     */
-    public void returnTransaction(String transactionId, String licensePlateRecord) {
-        VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
-        selectedVehicle.returnTransaction(transactionId);
-    }
+		model.addObject("vehicles", vehicles);
+		model.addObject("clients", clients);
+		return model;
+	}
 
-    /**
-     * This method is designed for handling cancel transactions
-     *
-     * @param licensePlateRecord
-     * @param transactionId
-     * @param redirectAttributes
-     * @return
-     */
-    public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes) {
-        VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
-        List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
-        for (int i = 0; i < transactionList.size(); i++) {
-            if (transactionList.get(i).getTransactionId().equalsIgnoreCase(transactionId)) {
-                if (transactionList.get(i).getStatus().toString().equals("Rented")) {
-                    redirectAttributes.addFlashAttribute("warningMsg",
-                            "  Transaction can not be cancelled as vehicle is already Rented.");
-                } else {
-                    selectedVehicle.removeTransaction(transactionId);
-                    redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
-                }
-                break;
-            }
-        }
+	/**
+	 * Method for assigning vehicle to the client
+	 *
+	 * @param driversLicense
+	 * @param licensePlateRecord
+	 * @param startDate
+	 * @param endDate
+	 * @param status
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-catalog
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/assign-vehicle/{lpr}", method = RequestMethod.POST)
+	public String assignVehicle(@RequestParam("forClient") String driversLicense,
+			@PathVariable("lpr") String licensePlateRecord, @RequestParam("fromDate2") String startDate,
+			@RequestParam("toDate2") String endDate, @RequestParam("status2") String status,
+			RedirectAttributes redirectAttributes) throws ParseException {
 
-        return redirectAttributes;
-    }
+		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
+		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
 
-    /**
-     * This method will return filtered transaction list
-     *
-     * @param filter filter name
-     * @param value  value if that applies
-     * @return list of transactions
-     */
-    public List getFilteredTransactionList(@RequestParam(name = "filter") String filter, @RequestParam(name = "value") String value) {
-        return this.getTransactionSet(filter, value);
-    }
+		Date tempStartDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+		Date tempEndDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
 
-    public List<Transaction> getTransactionSet(String filter, String value) {
+		boolean overlap = false;
+		for (int i = 0; i < transactionList.size(); i++) {
 
-        List<Transaction> temp = new ArrayList<>();
-        if (filter.equals("vehicle-make")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getMake().equalsIgnoreCase(value)) {
-                    temp = (vehicleRecordList.get(i).getTransactionList());
-                }
-            }
-        } else if (filter.equals("vehicle-model")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getModel().equalsIgnoreCase(value)) {
-                    temp = (vehicleRecordList.get(i).getTransactionList());
-                }
+			if ((transactionList.get(i).getStatus().equals(Transaction.Status.Reserved))
+					|| (transactionList.get(i).getStatus().equals(Transaction.Status.Rented))) {
+				overlap = (tempStartDate.getTime() <= transactionList.get(i).getEndDateObject().getTime())
+						&& (transactionList.get(i).getStartDateObject().getTime() <= tempEndDate.getTime());
 
-            }
-        } else if (filter.equals("car-type")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getCarType().equalsIgnoreCase(value)) {
-                    temp = (vehicleRecordList.get(i).getTransactionList());
-                }
-            }
-        } else if (filter.equals("car-color")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getColor().equalsIgnoreCase(value)) {
-                    temp = (vehicleRecordList.get(i).getTransactionList());
-                }
-            }
-        } else if (filter.equals("client")) {
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                List<Transaction> transList;
-                transList = vehicleRecordList.get(i).getTransactionList();
-                for (Transaction t : transList) {
-                    String firstLast = t.getClientRecord().getFirstName().toLowerCase() + " " + t.getClientRecord().getLastName().toLowerCase();
-                    if (t.getClientRecord().getFirstName().toLowerCase().contains(value) || t.getClientRecord().getLastName().toLowerCase().contains(value) || firstLast.contains(value)) {
-                        temp.add(t);
-                    }
-                }
-            }
-        }
+				if (overlap) {
+					redirectAttributes.addFlashAttribute("errorMsg",
+							"  Sorry, this car is already booked for the given period of time.");
+					break;
+				}
+			}
+		}
 
-        return temp;
-    }
+		if (!overlap) {
+			redirectAttributes.addFlashAttribute("successMsg", "  Congratulations, You have booked the Car !!!");
+			vehicleCatalog.assignVehicle(driversLicense, licensePlateRecord, startDate, endDate, status);
+		}
+		return "redirect:/vehicle-catalog";
+	}
 
-    /**
-     * THis method will return all the transactions
-     *
-     * @return list of transactions
-     */
-    public List<Transaction> getAllTransactions() {
-        List<Transaction> transList = new ArrayList<>();
-        for (VehicleRecord v : vehicleRecordList) {
-            transList.addAll(v.getTransactionList());
-        }
+	/**
+	 * Method for cancelling the transaction
+	 *
+	 * @param transactionId
+	 * @param licensePlateRecord
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-catalog
+	 */
+	@RequestMapping(value = "/cancel-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
+	public String cancelTransaction(@PathVariable("transactionId") String transactionId,
+			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
 
-        return transList;
-    }
+		vehicleCatalog.cancelTransaction(licensePlateRecord, transactionId, redirectAttributes);
 
-    /**
-     * This method is designed for searching the vehicle
-     *
-     * @param lpr
-     * @return vehicle record
-     */
-    public VehicleRecord searchVehicle(String lpr) {
-        VehicleRecord vehicleRecord = null;
-        try {
-            vehicleRecord = this.vehicleRecordDataMapper.findVehicle(lpr);
-        } catch (NumberFormatException | ParseException | SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+		return "redirect:/vehicle-catalog";
+	}
 
-        return vehicleRecord;
-    }
+	/**
+	 * Method for return transaction
+	 *
+	 * @param transactionId
+	 * @param licensePlateRecord
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-catalog
+	 */
+	@RequestMapping(value = "/return-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
+	public String returnTransaction(@PathVariable("transactionId") String transactionId,
+			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
+		vehicleCatalog.returnTransaction(transactionId, licensePlateRecord);
+		redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
+		return "redirect:/vehicle-catalog";
+	}
 
-    /**
-     * This method is designed for deleting the vehicle
-     *
-     * @param lpr license plate number
-     */
-    public boolean deleteVehicleRecord(String lpr) {
-        LinkedList<String> deleteRecords = vehicleRepository.getDeleteRecords();
-        LinkedList<String> deletedVehicleRecords = vehicleRepository.getDeletedVehicleRecords();
+	/**
+	 * Method for editing transaction
+	 *
+	 * @param driversLicenseNumber
+	 * @param licensePlateRecord
+	 * @param startDate
+	 * @param endDate
+	 * @param status
+	 * @return redirection to vehicle-catalog
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/edit-transaction/{clientDriversLicense}", method = RequestMethod.POST)
+	public String editTransaction(@PathVariable("clientDriversLicense") String driversLicenseNumber,
+			@RequestParam("licensePlateRecord") String licensePlateRecord, @RequestParam("fromDate") String startDate,
+			@RequestParam("toDate") String endDate, @RequestParam("status") String status) throws ParseException {
+		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(licensePlateRecord);
+		ClientRecord selectedClient = clientController.searchClient(driversLicenseNumber);
+		List<Transaction> buffer = selectedVehicle.getVehicleTransactionList();
+		if (status.equals("Rented")) {
+			Transaction updatedTransaction = new Transaction(selectedClient, selectedVehicle, startDate, endDate,
+					Transaction.Status.Rented);
+			for (int i = 0; i < buffer.size(); i++) {
+				if (buffer.get(i).getTransactionId().equals(updatedTransaction.getTransactionId())) {
+					buffer.set(i, updatedTransaction);
+				}
+			}
+		} else if (status.equals("Reserved")) {
+			Transaction updatedTransaction = new Transaction(selectedClient, selectedVehicle, startDate, endDate,
+					Transaction.Status.Rented);
+			for (int i = 0; i < buffer.size(); i++) {
+				if (buffer.get(i).getTransactionId().equals(updatedTransaction.getTransactionId())) {
+					buffer.set(i, updatedTransaction);
+				}
+			}
+		}
 
-        if (!deleteRecords.contains(lpr) && !deletedVehicleRecords.contains(lpr)) {
-            VehicleRecord vehicleRecord = searchVehicle(lpr);
-            vehicleRecordList.remove(vehicleRecord);
-            vehicleRepository.registerDeleted(vehicleRecord);
+		return "redirect:/vehicle-catalog";
+	}
 
-            deleteRecords.add(lpr);
-            vehicleRepository.setDeleteRecords(deleteRecords);
-            
-            return true;
-        }
+	/**
+	 * Method for registering clients
+	 *
+	 * @return clientRegister view
+	 */
+	@RequestMapping("/client-register")
+	public ModelAndView displayClientRegister() {
 
-        return false;
-    }
+		clientController.persistData();
 
-    /**
-     * This method is designed for updating the vehicle record
-     *
-     * @param vehicleRecord vehicle record
-     * @param lpr           license plate number
-     */
-    public boolean updateVehicleRecord(VehicleRecord vehicleRecord, String lpr) {
+		List<ClientRecord> clients = clientController.getAllClientRecord();
+		ModelAndView model = new ModelAndView("clientRegister");
+		model.addObject("clients", clients);
 
-        int version_db = 0;
-        try {
-            version_db = this.vehicleRecordDataMapper.findVehicle(lpr).getVersion();
-        } catch (NumberFormatException | ParseException | SQLException e) {
-            e.printStackTrace();
-        }
+		if (this.isAdministratorRole()) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
 
-        System.out.println("Version_db : " + version_db);
-        System.out.println("Version : " + vehicleRecord.getVersion());
-        if (version_db == vehicleRecord.getVersion() && !vehicleRepository.getDirtyMap().containsKey(vehicleRecord.getLpr())) {
+		return model;
+	}
 
-            for (int i = 0; i < vehicleRecordList.size(); i++) {
-                if (vehicleRecordList.get(i).getLpr().equals(lpr)) {
-                    vehicleRecordList.set(i, vehicleRecord);
-                    vehicleRepository.registerDirty(vehicleRecord);
-                }
-            }
+	/**
+	 * Method for registering vehicles
+	 *
+	 * @return vehicleDisplay view
+	 */
+	@RequestMapping("/vehicle-register")
+	public ModelAndView displayVehicleRegister() {
+		vehicleCatalog.persistData();
+		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		ModelAndView model = new ModelAndView("vehicleDisplay");
+		model.addObject("vehicles", vehicles);
 
-            Map<String, Boolean> dirtyMap = vehicleRepository.getDirtyMap();
-            dirtyMap.put(vehicleRecord.getLpr(), false);
-            vehicleRepository.setDirtyMap(dirtyMap);
-            return true;
-        }
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        return false;
-    }
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
+
+	/**
+	 * Method for adding new client
+	 *
+	 * @param clientRecord
+	 * @param redirectAttributes
+	 * @return redirection to client-register
+	 */
+	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
+	public String addClientRecord(@RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName, @RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam("driversLicenseNumber") String driversLicenseNumber,
+			@RequestParam("expirationDate") String expirationDate, RedirectAttributes redirectAttributes) {
+
+		List<ClientRecord> clientRecordList = clientController.getAllClientRecord();
+		boolean recordExists = false;
+		for (int i = 0; i < clientRecordList.size(); i++) {
+			if (clientRecordList.size() != 0 && !(clientRecordList.isEmpty())
+					&& clientRecordList.get(i).getDriversLicenseNumber().equalsIgnoreCase(driversLicenseNumber)) {
+				recordExists = true;
+				break;
+			}
+		}
+
+		if (recordExists) {
+			redirectAttributes.addFlashAttribute("errorMsg",
+					"  Sorry, Client Record already exists with this Driver's License Number.");
+		} else {
+			redirectAttributes.addFlashAttribute("successMsg", "  Client has been added successfully.");
+			clientController.addClientRecord(
+					new ClientRecord(driversLicenseNumber, firstName, lastName, phoneNumber, expirationDate));
+
+		}
+
+		return "redirect:/client-register";
+	}
+
+	/**
+	 * Method for adding new vehicle record
+	 *
+	 * @param vehicleRecord
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-register
+	 */
+	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
+	public String addVehicleRecord(@RequestParam("carType") String carType, @RequestParam("make") String make,
+			@RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") String year,
+			@RequestParam("lpr") String lpr, RedirectAttributes redirectAttributes) {
+
+		List<VehicleRecord> vehicleRecordList = vehicleCatalog.getAllVehicleRecord();
+		VehicleRecord vehicleRecord = new VehicleRecord(1, 1, lpr, carType, make, model, Integer.parseInt(year), color);
+		boolean recordExists = checkIfVehicleExists(vehicleRecordList, vehicleRecord);
+
+		if (recordExists) {
+			redirectAttributes.addFlashAttribute("errorMsg",
+					"  Sorry, Vehicle Record already exists with this Vehicle Registration Number.");
+		} else {
+			redirectAttributes.addFlashAttribute("successMsg", "  Vehicle has been added successfully.");
+			vehicleCatalog.addVehicleRecord(vehicleRecord);
+
+		}
+
+		return "redirect:/vehicle-register";
+	}
+
+	
+	/**
+	 * This Url is used when the edit button is pressed in the vehicle register page
+	 *
+	 * @param lpr
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequestMapping(value = "/edit-vehicle/{id}", method = RequestMethod.GET)
+	public String vehicleEdit(@PathVariable("id") String lpr, ModelMap model, RedirectAttributes redirectAttributes) {
+		// model.setViewName("vehicleEdit");
+		//
+		// model.addObject("vehcileRecord", vehicleCatalog.searchVehicle(lpr));
+
+		vehicleCatalog.persistData();
+
+		VehicleRecord vr = vehicleCatalog.searchVehicle(lpr);
+		// model.addAllObjects(modelMap)
+		model.addAttribute("lpr", vr.getLpr());
+		model.addAttribute("year", vr.getYear());
+		model.addAttribute("model", vr.getModel());
+		model.addAttribute("color", vr.getColor());
+		model.addAttribute("make", vr.getMake());
+		model.addAttribute("carType", vr.getCarType());
+		model.addAttribute("version", vr.getVersion());
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addAttribute("disableButton", 0);
+		} else {
+			model.addAttribute("disableButton", 1);
+		}
+
+		return "/vehicleEdit";
+	}
+
+	/**
+	 * This Url is used when the update button is pressed in the Vehicle update page
+	 *
+	 * @param vehicleRecord
+	 * @param lpr
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequestMapping(value = "/update-vehicle/{id}", method = RequestMethod.POST)
+	public String updateVehicleRecord(@RequestParam("version") String version, @RequestParam("carType") String carType,
+			@RequestParam("make") String make, @RequestParam("model") String model, @RequestParam("color") String color,
+			@RequestParam("year") String year, @PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
+
+		VehicleRecord vehicleRecord = new VehicleRecord(1, Integer.parseInt(version), lpr, carType, make, model,
+				Integer.parseInt(year), color);
+		if (vehicleCatalog.updateVehicleRecord(vehicleRecord, lpr)) {
+			redirectAttributes.addFlashAttribute("successMsg", "  Vehicle Record has been updated successfully.");
+		} else {
+			redirectAttributes.addFlashAttribute("errorMsg",
+					"  This is an older version of record you have. Please try again.");
+		}
+		return "redirect:/vehicle-register";
+	}
+	
+	
+	/**
+	 * Method for editing client record
+	 *
+	 * @param driverslicense
+	 * @param model
+	 * @param redirectAttributes
+	 * @return clientUpdate view
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ModelAndView editClientRecord(@PathVariable("id") String driverslicense, ModelAndView model,
+			RedirectAttributes redirectAttributes) throws Exception {
+		
+		clientController.persistData();
+		
+		model.setViewName("clientUpdate");
+
+		model.addObject("clientRecord", clientController.searchClient(driverslicense));
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
 
 
-    /**
-     * This method is designed for fetching available vehicles between two dates
-     *
-     * @param startDate start date
-     * @param endDate   end date
-     * @return list of vehicles
-     * @throws ParseException
-     */
-    public List<VehicleRecord> getAvailabilityBetweenDates(String startDate, String endDate) throws ParseException {
-        List<VehicleRecord> temp = new ArrayList<>();
+	/**
+	 * Method for updating client record
+	 *
+	 * @param clientRecord
+	 * @param driverslicense
+	 * @param redirectAttributes
+	 * @return redirection to client-register
+	 */
+	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
+	public String updateClientRecord(@RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName, @RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam("driversLicenseNumber") String driversLicenseNumber,
+			@RequestParam("expirationDate") String expirationDate, @PathVariable("id") String driverslicense,
+			RedirectAttributes redirectAttributes) {
 
-        for (int i = 0; i < vehicleRecordList.size(); i++) {
-            HashMap<String, String> vehStatus = new HashMap<String, String>();
+		redirectAttributes.addFlashAttribute("successMsg", "  Client Record has been updated successfully.");
 
-            List<Transaction> trans = vehicleRecordList.get(i).getTransactionList();
-            Date sd = new Date();
-            Date ed = new Date();
-            boolean transflag = false;
+		ClientRecord clientRecord = new ClientRecord(driversLicenseNumber, firstName, lastName, phoneNumber, expirationDate);
+				
+		clientController.updateClientRecord(clientRecord, driverslicense);
+		return "redirect:/client-register";
+	}
 
-            for (Transaction t : trans) {
-                sd = DataValidationHelper.dateFormat.parse(startDate);
-                ed = DataValidationHelper.dateFormat.parse(endDate);
-                if ((sd.compareTo(DataValidationHelper.dateFormat.parse(t.getEndDate())) > 0 || ed.compareTo(DataValidationHelper.dateFormat.parse(t.getStartDate())) < 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) || t.getStatus().equals(Transaction.Status.Available) || t.getStatus().equals(Transaction.Status.Cancelled) || t.getStatus().equals(Transaction.Status.Returned)) {
-                    transflag = true;
-                } else {
-                    transflag = false;
-                    break;
-                }
-            }
-            if (trans.size() == 0) {
-                transflag = true;
-            }
-            if (transflag) {
-                vehStatus.put(vehicleRecordList.get(i).getLpr(), "Available");
-                temp.add(vehicleRecordList.get(i));
-            } else {
-                vehStatus.put(vehicleRecordList.get(i).getLpr(), "NotAvailable");
-            }
-        }
+	/**
+	 * Method for deleting client record
+	 *
+	 * @param driverslicense
+	 * @param redirectAttributes
+	 * @return redirection to client-register
+	 */
+	@RequestMapping(value = "/delete-client-record/{id}", method = RequestMethod.GET)
+	public String deleteClientRecord(@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
 
-        return temp;
-    }
+		clientController.persistData();
+		if (clientController.deleteClientRecord(driverslicense)) {
+			redirectAttributes.addFlashAttribute("warningMsg", "  Client Record has been deleted.");
+		} else {
+			redirectAttributes.addFlashAttribute("errorMsg", "  Client Record has ALREADY been deleted.");
+		}
 
-    /**
-     * This method is designed for fetching overdue vehicles after
-     * particular date
-     *
-     * @param vehicleDate particular date
-     * @return list of vehicle
-     * @throws ParseException
-     */
-    public List<VehicleRecord> getOverDueParticularDay(String vehicleDate) throws ParseException {
-        List<VehicleRecord> temp = new ArrayList<>();
-        Date d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
+		return "redirect:/client-register";
+	}
 
-        for (int i = 0; i < vehicleRecordList.size(); i++) {
-            for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
-                if (DataValidationHelper.dateFormat.parse(t.getEndDate()).compareTo(d1) < 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
-                    temp.add(t.getVehicleRecord());
-                    break;
-                }
-            }
-        }
+	/**
+	 * Method for deleting vehicle record
+	 *
+	 * @param lpr
+	 * @param redirectAttributes
+	 * @return redirection to vehicle-register
+	 */
+	@RequestMapping(value = "/delete-vehicle-record/{id}", method = RequestMethod.GET)
+	public String deleteVehicleRecord(@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
-        return temp;
-    }
+		vehicleCatalog.persistData();
 
-    /**
-     * This method is designed for fetching due vehicles on
-     * particular date
-     *
-     * @param vehicleDate particular date
-     * @return list of vehicle
-     * @throws ParseException
-     */
-    public List<VehicleRecord> getDueParticularDay(String vehicleDate) throws ParseException {
-        List<VehicleRecord> temp = new ArrayList<>();
-        Date d1 = DataValidationHelper.dateFormat.parse(vehicleDate);
+		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(lpr);
+		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
 
-        for (int i = 0; i < vehicleRecordList.size(); i++) {
-            for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
-                if (DataValidationHelper.dateFormat.parse(t.getEndDate()).compareTo(d1) == 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
-                    temp.add(t.getVehicleRecord());
-                    break;
-                }
-            }
-        }
+		for (int i = 0; i < transactionList.size(); i++) {
+			if (transactionList.get(i).getStatus().equals(Transaction.Status.Rented)
+					|| (transactionList.get(i).getStatus().equals(Transaction.Status.Reserved))) {
+				redirectAttributes.addFlashAttribute("errorMsg",
+						"  To delete vehicle record all the transactions status must be 'Returned' or 'Cancelled'.");
+				return "redirect:/vehicle-register";
+			}
+		}
 
-        return temp;
-    }
+		if (vehicleCatalog.deleteVehicleRecord(lpr)) {
+			redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
+		} else {
+			redirectAttributes.addFlashAttribute("errorMsg", "  Vehicle Record has already been deleted.");
+		}
 
-    /**
-     * This method is designed for fetching vehicles are not available
-     *
-     * @return list of vehicles
-     * @throws ParseException Can throw an exception if an error occurred when parsing a date.
-     */
-    public List<VehicleRecord> getCurrentlyOutVehicles() throws ParseException {
-        List<VehicleRecord> temp = new ArrayList<>();
-        Date d1 = new Date();
-        Date cd = new Date();
+		return "redirect:/vehicle-register";
+	}
 
-        cd = DataValidationHelper.dateFormat.parse(DataValidationHelper.dateFormat.format(cd));
+	/**
+	 * Method for filtering vehicles
+	 *
+	 * @param filter
+	 * @param value
+	 * @param selectfromdate
+	 * @param selecttodate
+	 * @param Only_Date
+	 * @return vehicleCatalog view
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/vehicle-catalog-filter", method = RequestMethod.GET)
+	public ModelAndView getFilteredVehicleList(@RequestParam("filter") String filter,
+			@RequestParam("value") String value, @RequestParam("selectfromdate") String selectfromdate,
+			@RequestParam("selecttodate") String selecttodate, @RequestParam("Only_Date") String Only_Date)
+			throws ParseException {
+		List<VehicleRecord> vehicles = vehicleCatalog.getFilteredList(filter, value);
+		List<ClientRecord> clients = clientController.getAllClientRecord();
+		ModelAndView model = new ModelAndView("vehicleCatalog");
 
-        for (int i = 0; i < vehicleRecordList.size(); i++) {
-            for (Transaction t : vehicleRecordList.get(i).getVehicleTransactionList()) {
-                if (DataValidationHelper.dateFormat.parse(t.getEndDate()).compareTo(cd) >= 0 && DataValidationHelper.dateFormat.parse(t.getStartDate()).compareTo(cd) <= 0 && (t.getStatus().equals(Transaction.Status.Rented) || t.getStatus().equals(Transaction.Status.Reserved))) {
-                    temp.add(t.getVehicleRecord());
-                    break;
-                }
-            }
-        }
+		if (filter.equals("overdue")) {
+			vehicles = vehicleCatalog.getOverDueParticularDay(Only_Date);
+		} else if (filter.equals("due")) {
+			vehicles = vehicleCatalog.getDueParticularDay(Only_Date);
 
-        return temp;
-    }
+		} else if (filter.equals("available")) {
+			vehicles = vehicleCatalog.getAvailabilityBetweenDates(selectfromdate, selecttodate);
 
-    public void persistData() {
-        this.vehicleRepository.commit();
-    }
+		} else if (filter.equals("currentlyout")) {
+			vehicles = vehicleCatalog.getCurrentlyOutVehicles();
+
+		}
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+		model.addObject("vehicles", vehicles);
+		model.addObject("clients", clients);
+		return model;
+	}
+
+	/**
+	 * Method for filtering transaction history
+	 *
+	 * @param filter
+	 * @param value
+	 * @return
+	 */
+	@RequestMapping(value = "/translist-filter", method = RequestMethod.GET)
+	public ModelAndView getFilteredTransactionHistory(@RequestParam("filter") String filter,
+			@RequestParam("value") String value) {
+		System.out.println(filter + " " + value);
+		List<TransactionHistory> transactionsList = transactionCatalog.getFilteredTransactionHistory(filter, value);
+		ModelAndView model = new ModelAndView("transactions");
+		model.addObject("transactionsList", transactionsList);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
+
+	/**
+	 * Method for displaying all transaction history
+	 *
+	 * @return transactions view
+	 */
+	@RequestMapping("/trans-list")
+	public ModelAndView displayAllTransactions() {
+
+		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		List<TransactionHistory> transactionsList = transactionCatalog.getAllTransactionHistory();
+		ModelAndView model = new ModelAndView("transactions");
+		model.addObject("transactionsList", transactionsList);
+		model.addObject("vehicles", vehicles);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
+
+	/**
+	 * This Url is used to get the overdue transactions from the history
+	 *
+	 * @return
+	 */
+	@RequestMapping("/overdue-trans-list")
+	public ModelAndView displayAllOverdueTransactions() {
+		List<TransactionHistory> transactionsList = transactionCatalog.getOverDueTransactionHistory();
+		ModelAndView model = new ModelAndView("transactions");
+		model.addObject("transactionsList", transactionsList);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
+
+	/**
+	 * Url used to fetch the transactions due today
+	 *
+	 * @return
+	 */
+	@RequestMapping("/due-today-trans-list")
+	public ModelAndView displayAllDueTodayTransactions() {
+		List<TransactionHistory> transactionsList = transactionCatalog.getDueTodayTransactionHistory();
+		ModelAndView model = new ModelAndView("transactions");
+		model.addObject("transactionsList", transactionsList);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
+			model.addObject("disableButton", 0);
+		} else {
+			model.addObject("disableButton", 1);
+		}
+
+		return model;
+	}
+
+	/**
+	 * Method used to populate the views with hard coded values. TODO: Remove this
+	 * method when data persistence is added.
+	 *
+	 * @throws Exception
+	 */
+	@PostConstruct
+	private void AddingHardCodedValues() throws Exception {
+
+		// Loading users.
+		userRegister.setUserRegisterObject();
+
+		// Loading vehicle records
+		vehicleCatalog.loadVehicleRecords();
+
+		// Loading client records.
+		clientController.loadClientRecords();
+
+//
+//		this.vehicleCatalog.addVehicleRecord(new VehicleRecord("UDF_126", "SUV", "Jeep", "Hummer", 2019, "Yellow"));
+//		// Adding some hard coded transactions to populate the views.
+//		v1.addTransaction(new Transaction(c1, v1, "2019-11-01", "2019-11-15", Transaction.Status.Reserved));
+//		v1.addTransaction(new Transaction(c2, v1, "2019-10-10", "2019-12-30", Transaction.Status.Rented));
+//		v1.addTransaction(new Transaction(c2, v1, "2019-08-10", "2019-10-22", Transaction.Status.Rented));
+//
+//		v2.addTransaction(new Transaction(c2, v2, "2020-02-1", "2020-02-14", Transaction.Status.Reserved));
+//		v2.addTransaction(new Transaction(c1, v2, "2019-09-1", "2019-10-30", Transaction.Status.Reserved));
+
+	}
+
+	/**
+	 * Checks if vehicle exists in the list
+	 
+	 * @param vehicleRecordList
+	 * @param vehicleRecord
+	 * @return
+	 */
+	public boolean checkIfVehicleExists(List<VehicleRecord> vehicleRecordList, VehicleRecord vehicleRecord) {
+		boolean recordExists = false;
+		for (int i = 0; i < vehicleRecordList.size(); i++) {
+			if (vehicleRecordList.get(i).getLpr().equals(vehicleRecord.getLpr())) {
+				recordExists = true;
+				break;
+			}
+		}
+
+		return recordExists;
+	}
 }
