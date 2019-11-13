@@ -3,6 +3,7 @@ package com.soen6461.carrentalapplication.controller;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
@@ -72,14 +73,24 @@ public class ClientController {
      *
      * @param driversLicenseNumber the drivers license number to use to identify the client record to remove.
      */
-    public void deleteClientRecord(String driversLicenseNumber) {
+    public boolean deleteClientRecord(String driversLicenseNumber) {
+    	
+    	LinkedList<String> deleteRecords = clientRepository.getDeleteRecords();
+        LinkedList<String> deletedClientRecords = clientRepository.getDeletedClientRecords();
+    	
         for (int i = 0; i < clientRecordList.size(); i++) {
-            if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicenseNumber)) {
+            if (clientRecordList.get(i).getDriversLicenseNumber().equalsIgnoreCase(driversLicenseNumber)) {
                 clientRepository.registerDeleted(clientRecordList.get(i));
                 clientRecordList.remove(clientRecordList.get(i));
-//                clientRepository.commit();
+
+                deleteRecords.add(driversLicenseNumber);
+                clientRepository.setDeleteRecords(deleteRecords);
+                
+                return true;
             }
         }
+        
+        return false;
     }
 
     /**
