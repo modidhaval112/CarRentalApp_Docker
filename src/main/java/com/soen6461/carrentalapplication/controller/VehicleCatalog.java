@@ -343,22 +343,14 @@ public class VehicleCatalog {
         LinkedList<String> deleteRecords = vehicleRepository.getDeleteRecords();
         LinkedList<String> deletedVehicleRecords = vehicleRepository.getDeletedVehicleRecords();
 
-        for (int i = 0; i < deleteRecords.size(); i++) {
-            System.out.println("List1 : " + deleteRecords.get(i));
-        }
-
         if (!deleteRecords.contains(lpr) && !deletedVehicleRecords.contains(lpr)) {
             VehicleRecord vehicleRecord = searchVehicle(lpr);
             vehicleRecordList.remove(vehicleRecord);
             vehicleRepository.registerDeleted(vehicleRecord);
 
             deleteRecords.add(lpr);
-
-            for (int i = 0; i < deleteRecords.size(); i++) {
-                System.out.println("List2 : " + deleteRecords.get(i));
-            }
-
             vehicleRepository.setDeleteRecords(deleteRecords);
+            
             return true;
         }
 
