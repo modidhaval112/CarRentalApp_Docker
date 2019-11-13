@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS transaction   (
 # Users  
 #----------------------------------------              
 insert into users(username, password, role)values('admin','admin','ADMINISTRATOR');
+insert into users(username, password, role)values('admin1','admin1','ADMINISTRATOR');
 insert into users(username, password, role)values('clerk','clerk','USER');
 
 # Clients

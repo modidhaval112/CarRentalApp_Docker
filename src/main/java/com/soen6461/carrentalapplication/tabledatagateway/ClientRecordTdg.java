@@ -14,15 +14,16 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 
 @Repository
 public class ClientRecordTdg {
     @Autowired
     DataSource dataSource;
-    Connection con;
+    
     Statement stmt = null;
 
     /**
@@ -149,7 +150,11 @@ public class ClientRecordTdg {
      * @return True if the client record insert succeeded, false otherwise.
      */
     public boolean insert(String firstName, String lastName, String phoneNumber, Date expirationDate, String driversLicense, int version) {
-        String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`.`" + "`clientRecord`" + "` (" +
+    	
+        Connection con = null;
+
+        try {
+        String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "` (" +
                 "    `driversLicenseNumber` VARCHAR(50) PRIMARY KEY," +
                 "    `version` INT," +
                 "    `firstname` VARCHAR(60)," +
@@ -157,20 +162,20 @@ public class ClientRecordTdg {
                 "    `phoneNumber` VARCHAR(50)," +
                 "    `expirationDate` Date" +
                 ");";
+        
+        java.sql.Date dateDB = new java.sql.Date(expirationDate.getTime());
 
-        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "`clientRecord`" + "`" +
+        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "`" +
                 "(`driversLicenseNumber`, `version`, `firstname`, `lastname`, `phoneNumber`, `expirationDate`) " +
                 "VALUES (" +
-                driversLicense + ", " +
+                "\"" + driversLicense + "\", " +
                 version + ", " +
                 "\"" + firstName + "\", " +
                 "\"" + lastName + "\", " +
                 "\"" + phoneNumber + "\", " +
-                "\"" + expirationDate + "\", " +
+                "\"" + dateDB + "\" " +
                 ");";
 
-        Connection con = null;
-        try {
             con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
