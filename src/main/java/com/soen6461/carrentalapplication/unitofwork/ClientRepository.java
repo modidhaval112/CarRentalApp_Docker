@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +24,32 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
      */
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRecordDataMapper.class);
+    private LinkedList<String> deleteRecords = new LinkedList<>();
+    private LinkedList<String> deletedClientRecords = new LinkedList<>();
 
     @Autowired
     private ClientRecordDataMapper clientRecordDataMapper;
 
     public ClientRepository() {
     }
+    
+    public LinkedList<String> getDeleteRecords() {
+		return deleteRecords;
+	}
 
-    @Override
+	public void setDeleteRecords(LinkedList<String> deleteRecords) {
+		this.deleteRecords = deleteRecords;
+	}
+	
+    public LinkedList<String> getDeletedClientRecords() {
+		return deletedClientRecords;
+	}
+
+	public void setDeletedClientRecords(LinkedList<String> deletedClientRecords) {
+		this.deletedClientRecords = deletedClientRecords;
+	}
+
+	@Override
     public void registerNew(ClientRecord clientRecord) {
         LOGGER.info("Registering {} for insert in context.", clientRecord.getFirstName());
         register(clientRecord, IUnitOfWork.INSERT);
@@ -103,6 +122,7 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
             LOGGER.info("Deleting {} to database.", clientRecord.getFirstName());
             clientRecordDataMapper.delete(clientRecord.getDriversLicenseNumber());
         }
+        this.deleteRecords = new LinkedList<>();
     }
 
     //Todo: Implement rollback
