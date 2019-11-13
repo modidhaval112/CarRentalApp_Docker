@@ -1,20 +1,18 @@
 package com.soen6461.carrentalapplication.unitofwork;
 
-import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
-import com.soen6461.carrentalapplication.model.ClientRecord;
-import com.soen6461.carrentalapplication.model.VehicleRecord;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
+import com.soen6461.carrentalapplication.model.ClientRecord;
 
 @Component
 public class ClientRepository implements IUnitOfWork<ClientRecord> {
@@ -24,6 +22,7 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
      */
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRecordDataMapper.class);
+    private Map<String, Boolean> dirtyMap = new HashMap<>();
     private LinkedList<String> deleteRecords = new LinkedList<>();
     private LinkedList<String> deletedClientRecords = new LinkedList<>();
 
@@ -31,6 +30,14 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
     private ClientRecordDataMapper clientRecordDataMapper;
 
     public ClientRepository() {
+    }
+    
+    public Map<String, Boolean> getDirtyMap() {
+        return dirtyMap;
+    }
+
+    public void setDirtyMap(Map<String, Boolean> dirtyMap) {
+        this.dirtyMap = dirtyMap;
     }
     
     public LinkedList<String> getDeleteRecords() {
@@ -114,6 +121,8 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
             LOGGER.info("Modifying {} to database.", clientRecord.getFirstName());
             clientRecordDataMapper.update(clientRecord);
         }
+        
+        this.dirtyMap = new HashMap<>();
     }
 
     private void commitDelete() {
