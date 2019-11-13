@@ -75,8 +75,8 @@ public class ClientController {
     public void deleteClientRecord(String driversLicenseNumber) {
         for (int i = 0; i < clientRecordList.size(); i++) {
             if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicenseNumber)) {
-                clientRecordList.remove(clientRecordList.get(i));
                 clientRepository.registerDeleted(clientRecordList.get(i));
+                clientRecordList.remove(clientRecordList.get(i));
 //                clientRepository.commit();
             }
         }

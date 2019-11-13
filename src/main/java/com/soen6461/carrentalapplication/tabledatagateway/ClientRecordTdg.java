@@ -113,14 +113,16 @@ public class ClientRecordTdg {
      */
     public boolean update(String firstName, String lastName, String phoneNumber, Date expirationDate, String driversLicense, int version) {
 
-        String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "`carRentalDb`" + "` SET " +
-                "`driversLicenseNumber`=" + driversLicense + ", " +
-                "`version`=" + version + ", " +
+        java.sql.Date dateDB = new java.sql.Date(expirationDate.getTime());
+    	
+        String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "` SET " +
+                "`driversLicenseNumber`=\"" + driversLicense + "\", " +
+                "`version`=\"" + version + "\", " +
                 "`firstName`= \"" + firstName + "\", " +
                 "`lastName`=\"" + lastName + "\", " +
                 "`phoneNumber`=\"" + phoneNumber + "\", " +
-                "`expirationDate`=\"" + expirationDate + "\", " +
-                " WHERE driversLicense=" + driversLicense + ";";
+                "`expirationDate`=\"" + dateDB + "\" " +
+                " WHERE driversLicenseNumber=\"" + driversLicense + "\"; ";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();
