@@ -354,7 +354,7 @@ public class MainController {
 		} else {
 			redirectAttributes.addFlashAttribute("successMsg", "  Client has been added successfully.");
 			clientController.addClientRecord(
-					new ClientRecord(driversLicenseNumber, firstName, lastName, phoneNumber, expirationDate));
+					new ClientRecord(driversLicenseNumber, 1, firstName, lastName, phoneNumber, expirationDate));
 
 		}
 
@@ -369,7 +369,7 @@ public class MainController {
 	 * @return redirection to vehicle-register
 	 */
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
-	public String addVehicleRecord(@RequestParam("carType") String carType, @RequestParam("make") String make,
+	public String addVehicleRecord(@RequestParam("version") String carType, @RequestParam("make") String make,
 			@RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") String year,
 			@RequestParam("lpr") String lpr, RedirectAttributes redirectAttributes) {
 
@@ -491,17 +491,22 @@ public class MainController {
 	 * @return redirection to client-register
 	 */
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
-	public String updateClientRecord(@RequestParam("firstName") String firstName,
+	public String updateClientRecord(@RequestParam("version") String version, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName, @RequestParam("phoneNumber") String phoneNumber,
 			@RequestParam("driversLicenseNumber") String driversLicenseNumber,
 			@RequestParam("expirationDate") String expirationDate, @PathVariable("id") String driverslicense,
 			RedirectAttributes redirectAttributes) {
 
-		redirectAttributes.addFlashAttribute("successMsg", "  Client Record has been updated successfully.");
-
-		ClientRecord clientRecord = new ClientRecord(driversLicenseNumber, firstName, lastName, phoneNumber, expirationDate);
+		ClientRecord clientRecord = new ClientRecord(driversLicenseNumber, Integer.parseInt(version), firstName, lastName, phoneNumber, expirationDate);
 				
-		clientController.updateClientRecord(clientRecord, driverslicense);
+		if(clientController.updateClientRecord(clientRecord, driverslicense))
+		{
+			redirectAttributes.addFlashAttribute("successMsg", "  Client Record has been updated successfully.");
+		} 
+		else {
+			redirectAttributes.addFlashAttribute("errorMsg",
+					"  This is an older version of record you have. Please try again.");
+		}
 		return "redirect:/client-register";
 	}
 
