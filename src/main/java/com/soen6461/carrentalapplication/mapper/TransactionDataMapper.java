@@ -33,6 +33,7 @@ public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
      * @param id The transaction id to delete.
      * @return True if the operation was a success, false otherwise.
      */
+    @Override
     public boolean delete(int id) {
         return false;
     }

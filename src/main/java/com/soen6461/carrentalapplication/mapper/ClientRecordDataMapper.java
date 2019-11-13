@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Component
-public class ClientRecordDataMapper {
+public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
 
     @Autowired
     private ClientRecordTdg clientRecordTdg;
@@ -26,6 +25,7 @@ public class ClientRecordDataMapper {
      * @param clientRecordToInsert Client record to insert in the database.
      * @return True if the operation was a success, false otherwise.
      */
+    @Override
     public boolean insert(ClientRecord clientRecordToInsert) {
         return clientRecordTdg.insert(clientRecordToInsert.getFirstName(), clientRecordToInsert.getLastName(), clientRecordToInsert.getPhoneNumber(), clientRecordToInsert.getExpirationDateObject(), clientRecordToInsert.getDriversLicenseNumber(), clientRecordToInsert.getRecordVersion());
     }
@@ -36,6 +36,7 @@ public class ClientRecordDataMapper {
      * @param objectToUpdate Client record to update in the database.
      * @return True if the operation was a success, false otherwise.
      */
+    @Override
     public boolean update(ClientRecord objectToUpdate) {
         return this.clientRecordTdg.update(objectToUpdate.getFirstName(), objectToUpdate.getLastName(), objectToUpdate.getPhoneNumber(), objectToUpdate.getExpirationDateObject(), objectToUpdate.getDriversLicenseNumber(), objectToUpdate.getRecordVersion());
     }
@@ -46,6 +47,7 @@ public class ClientRecordDataMapper {
      * @param driversLicenseNumber The client drivers license number.
      * @return True if the operation was a success, false otherwise.
      */
+    @Override
     public boolean delete(String driversLicenseNumber) {
         return clientRecordTdg.delete(driversLicenseNumber);
     }
@@ -57,6 +59,7 @@ public class ClientRecordDataMapper {
      * @throws ParseException Can throw exception if an error occur when parsing an element from the database.
      * @throws NumberFormatException Can throw exception if an error occur when parsing a numeric element from the database.
      */
+    @Override
     public List findAll() throws NumberFormatException, ParseException {
         List<ClientRecord> clientRecords = new ArrayList<>();
         List<Map<String, Object>> records = clientRecordTdg.findAll();
@@ -75,5 +78,28 @@ public class ClientRecordDataMapper {
         }
 
         return clientRecords;
+    }
+
+    /**
+     * Save the data in the database to persist it.
+     *
+     * @param objectToInsert Object to save in the database.
+     */
+    @Override
+    public boolean save(ClientRecord objectToInsert) {
+        // TODO: Not implemented.
+        return false;
+    }
+
+    /**
+     * Method to retrieve an object from the database.
+     *
+     * @param id The id of the object to retrieve from the database.
+     * @return The object mapping to the given id.
+     */
+    @Override
+    public ClientRecord find(String id) {
+        // TODO: Not implemented.
+        return null;
     }
 }

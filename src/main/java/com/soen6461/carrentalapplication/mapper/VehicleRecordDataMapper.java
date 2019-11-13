@@ -13,10 +13,21 @@ import com.soen6461.carrentalapplication.model.VehicleRecord;
 import com.soen6461.carrentalapplication.tabledatagateway.VehicleRecordTdg;
 
 @Component
-public class VehicleRecordDataMapper {
+public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord>{
 
     @Autowired
     private VehicleRecordTdg vehicleRecordTdg;
+
+    /**
+     * Save the data in the database to persist it.
+     *
+     * @param objectToSave Object to save in the database.
+     * @return True if the operation was a success, false otherwise.
+     */
+    @Override
+    public boolean save(VehicleRecord objectToSave) {
+        return false;
+    }
 
     /**
      * Insert a vehicle record
@@ -24,6 +35,7 @@ public class VehicleRecordDataMapper {
      * @param vehicleRecordToInsert The vehicle record to insert in the database.
      * @return True if the operation was a success, false otherwise.
      */
+    @Override
     public boolean insert(VehicleRecord vehicleRecordToInsert) {
         return vehicleRecordTdg.insert(vehicleRecordToInsert.getId(), vehicleRecordToInsert.getVersion(),
                 vehicleRecordToInsert.getLpr(), vehicleRecordToInsert.getCarType(), vehicleRecordToInsert.getMake(),
@@ -36,6 +48,7 @@ public class VehicleRecordDataMapper {
      * @param objectToUpdate Vehicle record to update
      * @return True if the operation was a success, false otherwise.
      */
+    @Override
     public boolean update(VehicleRecord objectToUpdate) {
         return this.vehicleRecordTdg.update(objectToUpdate.getId(), objectToUpdate.getVersion(),
                 objectToUpdate.getLpr(), objectToUpdate.getCarType(), objectToUpdate.getMake(),
@@ -48,18 +61,30 @@ public class VehicleRecordDataMapper {
      * @param lpr The license plate number.
      * @return True if the operation was a success, false otherwise.
      */
+    @Override
     public boolean delete(String lpr) {
         return vehicleRecordTdg.delete(lpr);
+    }
+
+    /**
+     * Method to retrieve an object from the database.
+     *
+     * @param id The id of the object to retrieve from the database.
+     * @return The vehicle record mapping to the given id.
+     */
+    @Override
+    public VehicleRecord find(String id) {
+        // TODO: Not Implemented.
+        return null;
     }
 
     /**
      * Get all vehicle records.
      *
      * @return True if the operation was a success, false otherwise.
-     * @throws ParseException
      * @throws NumberFormatException
      */
-    public List<VehicleRecord> findAll() throws NumberFormatException, ParseException, SQLException {
+    public List<VehicleRecord> findAll() throws NumberFormatException {
         List<VehicleRecord> vehicleRecords = new ArrayList<>();
         List<Map<String, Object>> records = vehicleRecordTdg.findAll();
 

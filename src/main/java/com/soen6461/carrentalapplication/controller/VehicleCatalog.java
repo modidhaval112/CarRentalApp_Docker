@@ -57,7 +57,7 @@ public class VehicleCatalog {
         List<VehicleRecord> copy = new ArrayList<VehicleRecord>();
         try {
             copy.addAll(this.vehicleRecordDataMapper.findAll());
-        } catch (NumberFormatException | ParseException | SQLException e) {
+        } catch (NumberFormatException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
