@@ -1,22 +1,12 @@
 package com.soen6461.carrentalapplication.mapper;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.soen6461.carrentalapplication.Helpers.ITableGatewayMapper;
+import com.soen6461.carrentalapplication.tabledatagateway.ITableGatewayMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 

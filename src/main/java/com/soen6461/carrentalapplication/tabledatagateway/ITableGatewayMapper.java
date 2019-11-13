@@ -1,4 +1,4 @@
-package com.soen6461.carrentalapplication.Helpers;
+package com.soen6461.carrentalapplication.tabledatagateway;
 
 public interface ITableGatewayMapper<T> {
 
