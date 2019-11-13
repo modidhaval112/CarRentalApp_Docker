@@ -70,7 +70,7 @@ public class ClientRecordTdg {
      * @return returns particular client row
      */
     public Map<String, Object> findclient(String driversLicense) {
-        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".clientRecord WHERE driversLicense=" + driversLicense + ";";
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".clientRecord WHERE driversLicenseNumber=\"" + driversLicense + "\";";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();
@@ -117,7 +117,7 @@ public class ClientRecordTdg {
     	
         String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "` SET " +
                 "`driversLicenseNumber`=\"" + driversLicense + "\", " +
-                "`version`=\"" + version + "\", " +
+                "`version`=" + "version + 1" + ", " +
                 "`firstName`= \"" + firstName + "\", " +
                 "`lastName`=\"" + lastName + "\", " +
                 "`phoneNumber`=\"" + phoneNumber + "\", " +
