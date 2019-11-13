@@ -3,6 +3,7 @@ package com.soen6461.carrentalapplication.model;
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  */
 @Component
 public class ClientRecord {
-    private int recordVersion;
+    private int version;
     private String driversLicenseNumber;
     private String firstName;
     private String lastName;
@@ -29,32 +30,35 @@ public class ClientRecord {
      * @param phoneNumber          the clients phone number.
      * @param expirationDate       the clients drivers license expiration date.
      */
-    public ClientRecord(String driversLicenseNumber, String firstName, String lastName, String phoneNumber, String expirationDate) {
+	/*
+	 * public ClientRecord(String driversLicenseNumber, String firstName, String
+	 * lastName, String phoneNumber, String expirationDate) {
+	 * 
+	 * // The usage properties allows to add some validation in the properties to
+	 * validate the entries. System.out.println("First Controller Date : " +
+	 * expirationDate);
+	 * 
+	 * this.setDriversLicenseNumber(driversLicenseNumber);
+	 * this.setFirstName(firstName); this.setLastName(lastName);
+	 * this.setPhoneNumber(phoneNumber); try {
+	 * this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate))
+	 * ; } catch (Exception e) { e.printStackTrace(); } }
+	 */
 
-        // The usage properties allows to add some validation in the properties to validate the entries.
-        System.out.println("First Controller Date : " + expirationDate);
+    public ClientRecord(String driversLicenseNumber, int version, String firstName, String lastName, String phoneNumber, String expirationDate) {
 
+        System.out.println("Second Controller Date : " + expirationDate);
+        this.version = version;
+        this.setVersion(version);
         this.setDriversLicenseNumber(driversLicenseNumber);
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setPhoneNumber(phoneNumber);
         try {
-            this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ClientRecord(String driversLicenseNumber, int recordVersion, String firstName, String lastName, String phoneNumber, Date expirationDate) {
-
-        System.out.println("Second Controller Date : " + expirationDate);
-
-        this.recordVersion = recordVersion;
-        this.setDriversLicenseNumber(driversLicenseNumber);
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setPhoneNumber(phoneNumber);
-        this.setExpirationDate(expirationDate);
+			this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -174,8 +178,17 @@ public class ClientRecord {
      *
      * @return
      */
-    public int getRecordVersion() {
-        return recordVersion;
+    public int getVersion() {
+        return version;
+    }
+    
+    /**
+     * Sets the version number.
+     *
+     * @param version
+     */
+    private void setVersion(int version) {
+        this.version = version;
     }
 
     /**
@@ -192,6 +205,3 @@ public class ClientRecord {
                 "}";
     }
 }
-
-
-

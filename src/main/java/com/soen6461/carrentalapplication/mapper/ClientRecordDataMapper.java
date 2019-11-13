@@ -1,17 +1,15 @@
 package com.soen6461.carrentalapplication.mapper;
 
-import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
-import com.soen6461.carrentalapplication.model.ClientRecord;
-
-
-import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.soen6461.carrentalapplication.model.ClientRecord;
+import com.soen6461.carrentalapplication.tabledatagateway.ClientRecordTdg;
 
 @Component
 public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
@@ -27,7 +25,7 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
      */
     @Override
     public boolean insert(ClientRecord clientRecordToInsert) {
-        return clientRecordTdg.insert(clientRecordToInsert.getFirstName(), clientRecordToInsert.getLastName(), clientRecordToInsert.getPhoneNumber(), clientRecordToInsert.getExpirationDateObject(), clientRecordToInsert.getDriversLicenseNumber(), clientRecordToInsert.getRecordVersion());
+        return clientRecordTdg.insert(clientRecordToInsert.getFirstName(), clientRecordToInsert.getLastName(), clientRecordToInsert.getPhoneNumber(), clientRecordToInsert.getExpirationDateObject(), clientRecordToInsert.getDriversLicenseNumber(), clientRecordToInsert.getVersion());
     }
 
     /**
@@ -38,7 +36,7 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
      */
     @Override
     public boolean update(ClientRecord objectToUpdate) {
-        return this.clientRecordTdg.update(objectToUpdate.getFirstName(), objectToUpdate.getLastName(), objectToUpdate.getPhoneNumber(), objectToUpdate.getExpirationDateObject(), objectToUpdate.getDriversLicenseNumber(), objectToUpdate.getRecordVersion());
+        return this.clientRecordTdg.update(objectToUpdate.getFirstName(), objectToUpdate.getLastName(), objectToUpdate.getPhoneNumber(), objectToUpdate.getExpirationDateObject(), objectToUpdate.getDriversLicenseNumber(), objectToUpdate.getVersion());
     }
 
     /**
@@ -72,7 +70,7 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
                         records.get(i).get("firstName").toString(),
                         records.get(i).get("lastName").toString(),
                         records.get(i).get("phoneNumber").toString(),
-                        DataValidationHelper.dateFormat.parse(records.get(i).get("expirationDate").toString()));
+                        records.get(i).get("expirationDate").toString());
                 clientRecords.add(clientRecord);
             }
         }
@@ -97,9 +95,22 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
      * @param id The id of the object to retrieve from the database.
      * @return The object mapping to the given id.
      */
-    @Override
-    public ClientRecord find(String id) {
-        // TODO: Not implemented.
-        return null;
+    public ClientRecord findclient(String id) {
+    	Map<String, Object> record = clientRecordTdg.findclient(id);
+
+        ClientRecord clientRecord = new ClientRecord(record.get("driversLicenseNumber").toString(),
+                Integer.parseInt(record.get("version").toString()),
+                record.get("firstName").toString(),
+                record.get("lastName").toString(),
+                record.get("phoneNumber").toString(),
+                record.get("expirationDate").toString());
+
+        return clientRecord;
     }
+
+	@Override
+	public ClientRecord find(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

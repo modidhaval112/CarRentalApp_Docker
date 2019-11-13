@@ -29,7 +29,6 @@ public class VehicleRecord extends Record {
      */
     public VehicleRecord(int id, int version, String lpr, String carType, String make, String model, int year, String color) {
         this.id = id;
-        this.version = version;
         this.setVersion(version);
         this.setCarType(carType);
         this.setMake(make);
