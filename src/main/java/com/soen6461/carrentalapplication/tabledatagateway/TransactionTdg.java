@@ -79,6 +79,7 @@ public class TransactionTdg {
 
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -164,6 +165,7 @@ public class TransactionTdg {
             return rows;
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

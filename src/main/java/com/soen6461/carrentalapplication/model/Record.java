@@ -17,7 +17,9 @@ public class Record extends Observable {
     public String transactionType;
     public Transaction transaction;
 
-    private TransactionRepository transactionRepository = new TransactionRepository();
+    @Autowired
+    private TransactionRepository transactionRepository;
+
     public HashMap<ClientRecord, Transaction> clientTransactions = new HashMap<ClientRecord, Transaction>();
     public static List<TransactionHistory> transactionHistory = new ArrayList<>();
     protected List<Transaction> transactionList = new ArrayList<Transaction>();

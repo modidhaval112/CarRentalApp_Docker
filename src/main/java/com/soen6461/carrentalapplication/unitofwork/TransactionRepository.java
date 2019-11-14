@@ -24,8 +24,8 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
     private LinkedList<String> deleteRecords = new LinkedList<>();
     private LinkedList<String> deletedTransactionRecords = new LinkedList<>();
     
-
-    private TransactionDataMapper transactionDataMapper = new TransactionDataMapper();
+    @Autowired
+    private TransactionDataMapper transactionDataMapper;
 
     public  TransactionRepository() {
 	}

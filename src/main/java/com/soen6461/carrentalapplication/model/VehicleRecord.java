@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class VehicleRecord extends Record {
 
-
-    private TransactionDataMapper transactionDataMapper = new TransactionDataMapper();
+    @Autowired
+    private TransactionDataMapper transactionDataMapper ;
     private int id;
     private int version;
     private String carType;
@@ -20,6 +20,7 @@ public class VehicleRecord extends Record {
     private String color;
     private String lpr;
 
+    public  VehicleRecord(){}
     /**
      * The vehicle record constructor
      *
