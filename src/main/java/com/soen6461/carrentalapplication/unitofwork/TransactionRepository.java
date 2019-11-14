@@ -64,13 +64,13 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
 
 	    @Override
 	    public void registerDirty(Transaction transaction) {
-	        LOGGER.info("Registering {} for modify in context.", transaction.getLpr());
+	        LOGGER.info("Registering {} for modify in context.", transaction.getTransactionId());
 	        register(transaction, IUnitOfWork.MODIFY);
 	    }
 
 	    @Override
 	    public void registerDeleted(Transaction transaction) {
-	        LOGGER.info("Registering {} for delete in context.", transaction.getLpr());
+	        LOGGER.info("Registering {} for delete in context.", transaction.getTransactionId());
 	        register(transaction, IUnitOfWork.DELETE);
 	    }
 
@@ -102,24 +102,24 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
         if (context.containsKey(IUnitOfWork.DELETE)) {
             commitDelete();
         }
-        context = new HashMap<String, List<TransactionRecord>>();
+        context = new HashMap<String, List<Transaction>>();
         LOGGER.info("Commit finished.");
         return true;
     }
 
     private void commitInsert() {
-        List<TransactionRecord> transactionsToBeInserted = context.get(IUnitOfWork.INSERT);
-        for (TransactionRecord transactionRecord : transactionsToBeInserted) {
-            LOGGER.info("Saving {} to database.", transactionRecord.getLpr());
-            transactionRecordDataMapper.insert(transactionRecord);
+        List<Transaction> transactionsToBeInserted = context.get(IUnitOfWork.INSERT);
+        for (Transaction transactionRecord : transactionsToBeInserted) {
+            LOGGER.info("Saving {} to database.", transactionRecord.getTransactionId());
+            transactionDataMapper.insert(transactionRecord);
         }
     }
 
     private void commitModify() {
-        List<TransactionRecord> modifiedClients = context.get(IUnitOfWork.MODIFY);
-        for (TransactionRecord transactionRecord : modifiedClients) {
-            LOGGER.info("Modifying {} to database.", transactionRecord.getLpr());
-            transactionRecordDataMapper.update(transactionRecord);
+        List<Transaction> modifiedTransactions = context.get(IUnitOfWork.MODIFY);
+        for (Transaction transactionRecord : modifiedTransactions) {
+            LOGGER.info("Modifying {} to database.", transactionRecord.getTransactionId());
+            transactionDataMapper.update(transactionRecord);
         }
 
         this.dirtyMap = new HashMap<>();
@@ -128,12 +128,24 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
     private void commitDelete() {
         List<Transaction> deletedTransactions = context.get(IUnitOfWork.DELETE);
         for (Transaction transactionRecord : deletedTransactions) {
-            LOGGER.info("Deleting {} to database.", transactionRecord.getLpr());
+            LOGGER.info("Deleting {} to database.", transactionRecord.getTransactionId());
             transactionDataMapper.delete(transactionRecord.getTransactionId());
-            deletedTransactionRecords.add(transactionRecord.getLpr());
+            deletedTransactionRecords.add(transactionRecord.getTransactionId());
         }
         this.deleteRecords = new LinkedList<>();
     }
+
+	@Override
+	public void registerClean(Transaction obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean rollback() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	
 
