@@ -66,7 +66,7 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
 	 * @return True if the operation was a success, false otherwise.
 	 * @throws ParseException
 	 */
-	public List findAll() throws ParseException {
+	public List findAll()  {
 		List<Transaction> transactions = new ArrayList<>();
 		List<Map<String, Object>> records = transactionTdg.findAll();
 
@@ -95,5 +95,6 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
 	public Transaction find(String id) {
 		// TODO Auto-generated method stub
 		return null;
-	}    }
+	}
+}
 

@@ -6,20 +6,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
+import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
 import com.soen6461.carrentalapplication.observer.view.TransactionObserver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Record extends Observable {
     public String transactionType;
     public Transaction transaction;
+    @Autowired
+    private TransactionDataMapper transactionDataMapper;
     public HashMap<ClientRecord, Transaction> clientTransactions = new HashMap<ClientRecord, Transaction>();
     public static List<TransactionHistory> transactionHistory = new ArrayList<>();
+    protected List<Transaction> transactionList = new ArrayList<Transaction>();
 
     public Record() {
+        this.loadTransactions();
         TransactionObserver to = new TransactionObserver();
         this.addObserver(to);
     }
 
-    protected List<Transaction> transactionList = new ArrayList<Transaction>();
+
 
     /**
      * Adds a given transaction.
@@ -114,12 +122,17 @@ public class Record extends Observable {
 	 * @param message
 	 * @param transaction
 	 */
-	void setObserver(String message, Transaction transaction) {
+	public void setObserver(String message, Transaction transaction) {
         transactionType = message;
         this.transaction = transaction;
 
         setChanged();
         notifyObservers();
     }
+
+    private void loadTransactions(){
+	    this.transactionList = transactionDataMapper.findAll();
+    }
+
 }
 
