@@ -33,7 +33,7 @@ public class Transaction {
 	 * @param endDate       End date of the transaction.
 	 * @param vehicleStatus Status of the transaction.
 	 */
-	public Transaction(ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) {
+	public Transaction(int version,ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) {
 		this.setVersion(version);
 
 		this.setClientRecord(clientRecord);
@@ -48,7 +48,7 @@ public class Transaction {
 		this.setTransactionId(Id++ + "_" + clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr());
 	}
 
-	private int getVersion() {
+	public int getVersion() {
 		return this.version;		
 	}
 
@@ -128,6 +128,21 @@ public class Transaction {
 		return this.endDate;
 	}
 
+	public static Status getStatus(String status) {
+		
+		if(status.equalsIgnoreCase("available"))
+			return Status.Available;
+		else if(status.equalsIgnoreCase("cancelled"))
+			return Status.Cancelled;
+		else if(status.equalsIgnoreCase("returned"))
+			return Status.Returned;
+		else if(status.equalsIgnoreCase("rented"))
+			return Status.Rented;
+		else if(status.equalsIgnoreCase("reserved"))
+			return Status.Reserved;
+		return null;
+
+	}
 	/**
 	 * Sets the vehicle status.
 	 *
@@ -172,6 +187,8 @@ public class Transaction {
 	private void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	
 
 	/**
 	 * Sets the transaction id.
@@ -203,6 +220,8 @@ public class Transaction {
 		this.version=version;		
 	}
 
+	
+	
 	public String toString() {
 		return "transaction:{ VehicleKey:" + this.vehicleRecord.getLpr() +
 				" clientKey:" + this.clientRecord.getDriversLicenseNumber() +
