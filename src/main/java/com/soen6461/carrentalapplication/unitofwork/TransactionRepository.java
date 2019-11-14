@@ -9,16 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
-import com.soen6461.carrentalapplication.mapper.VehicleRecordDataMapper;
 import com.soen6461.carrentalapplication.model.Transaction;
-import com.soen6461.carrentalapplication.model.VehicleRecord;
 
 @Component
 public class TransactionRepository implements IUnitOfWork<Transaction> {
     HashMap<String, List<Transaction>> context = new HashMap<String, List<Transaction>>();
     private Map<String, Boolean> dirtyMap = new HashMap<>();
     private LinkedList<String> deleteRecords = new LinkedList<>();
-    private LinkedList<String> deletedVehicleRecords = new LinkedList<>();
+    private LinkedList<String> deletedTransactionRecords = new LinkedList<>();
     
     @Autowired
     private TransactionDataMapper transactionDataMapper;
@@ -36,6 +34,18 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
     
     public LinkedList<String> getDeleteRecords() {
 		return deleteRecords;
+	}
+    
+    public void setDeleteRecords(LinkedList<String> deleteRecords) {
+		this.deleteRecords = deleteRecords;
+	}
+	
+	public LinkedList<String> getDeletedTransactionRecords() {
+		return deletedTransactionRecords;
+	}
+
+	public void setDeletedTransactionRecords(LinkedList<String> deletedTransactionRecords) {
+		this.deletedTransactionRecords = deletedTransactionRecords;
 	}
 
 	@Override
