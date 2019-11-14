@@ -143,6 +143,11 @@ public class MainController {
 	@RequestMapping("/vehicle-catalog")
 	public ModelAndView displayVehicleCatalog() {
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		//Loading all transactions from db
+//		for(VehicleRecord vehicle: vehicles){
+//			vehicle.loadTransactions();
+//			System.out.println("DB:: "+ vehicle.getVehicleTransactionList().get(0));
+//		}
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 
 		ModelAndView model = new ModelAndView("vehicleCatalog");
@@ -309,8 +314,10 @@ public class MainController {
 	 */
 	@RequestMapping("/vehicle-register")
 	public ModelAndView displayVehicleRegister() {
+		//Loading all vehicles from db
 		vehicleCatalog.persistData();
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+
 		ModelAndView model = new ModelAndView("vehicleDisplay");
 		model.addObject("vehicles", vehicles);
 

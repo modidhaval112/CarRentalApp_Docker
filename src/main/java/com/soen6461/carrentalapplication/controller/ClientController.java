@@ -38,7 +38,7 @@ public class ClientController {
 	private ClientController() {
 	}
 
-	void loadClientRecords() throws ParseException, SQLException {
+	void loadClientRecords() throws ParseException{
 		this.clientRecordList = this.clientRecordDataMapper.findAll();
 	}
 

@@ -214,8 +214,7 @@ public class VehicleRecord extends Record {
                 "}";
     }
 
-    public void loadTransactions(String lpr){
-
-        this.transactionList = transactionDataMapper.findAll(lpr);
+    public void loadTransactions(){
+        this.transactionList = transactionDataMapper.findAll(this.getLpr());
     }
 }
