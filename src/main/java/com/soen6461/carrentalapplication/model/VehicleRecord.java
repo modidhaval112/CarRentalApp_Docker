@@ -3,13 +3,14 @@ package com.soen6461.carrentalapplication.model;
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 public class VehicleRecord extends Record {
 
-    @Autowired
-    private TransactionDataMapper transactionDataMapper;
+
+    private TransactionDataMapper transactionDataMapper = new TransactionDataMapper();
     private int id;
     private int version;
     private String carType;

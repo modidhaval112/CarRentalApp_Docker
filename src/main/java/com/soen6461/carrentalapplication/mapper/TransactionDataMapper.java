@@ -17,8 +17,8 @@ import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 
 @Component
 public class TransactionDataMapper implements IDataMapper<Transaction> {
-	@Autowired
-	private TransactionTdg transactionTdg;
+
+	private TransactionTdg transactionTdg = new TransactionTdg();
 	VehicleRecordDataMapper vrdm;
 	ClientRecordDataMapper crdm;
 	

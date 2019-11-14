@@ -144,10 +144,10 @@ public class MainController {
 	public ModelAndView displayVehicleCatalog() {
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
 		//Loading all transactions from db
-//		for(VehicleRecord vehicle: vehicles){
-//			vehicle.loadTransactions();
+		for(VehicleRecord vehicle: vehicles){
+			vehicle.loadTransactions();
 //			System.out.println("DB:: "+ vehicle.getVehicleTransactionList().get(0));
-//		}
+		}
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 
 		ModelAndView model = new ModelAndView("vehicleCatalog");
