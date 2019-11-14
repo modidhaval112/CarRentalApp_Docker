@@ -22,7 +22,7 @@ public class Record extends Observable {
     protected List<Transaction> transactionList = new ArrayList<Transaction>();
 
     public Record() {
-        this.loadTransactions();
+
         TransactionObserver to = new TransactionObserver();
         this.addObserver(to);
     }
@@ -130,9 +130,7 @@ public class Record extends Observable {
         notifyObservers();
     }
 
-    private void loadTransactions(){
-	    this.transactionList = transactionDataMapper.findAll();
-    }
+
 
 }
 

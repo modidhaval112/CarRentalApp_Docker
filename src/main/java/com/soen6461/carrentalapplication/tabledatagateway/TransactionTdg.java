@@ -143,6 +143,31 @@ public class TransactionTdg {
         }
     }
 
+    public List<Map<String, Object>> findAll(String lpr)  {
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction"+" WHERE licensePlateNumber='"+lpr+"'";
+        try {
+            Statement stmt = this.dataSource.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+
+            List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+            while (rs.next()) {
+
+                Map<String, Object> row = new HashMap<String, Object>(columns);
+                for (int i = 1; i <= columns; ++i) {
+                    row.put(md.getColumnName(i), rs.getObject(i));
+                }
+                rows.add(row);
+            }
+
+            return rows;
+        } catch (Exception e) {
+            System.out.println("Get object exception" + e.getMessage());
+            return null;
+        }
+    }
+
     public Map<String, Object> findTransaction(String transactionid) throws SQLException {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=" + transactionid + ";";
         try {

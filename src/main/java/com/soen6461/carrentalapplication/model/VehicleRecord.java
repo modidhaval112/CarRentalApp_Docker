@@ -1,11 +1,15 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class VehicleRecord extends Record {
 
+    @Autowired
+    private TransactionDataMapper transactionDataMapper;
     private int id;
     private int version;
     private String carType;
@@ -208,5 +212,10 @@ public class VehicleRecord extends Record {
                 " year:" + this.getYear() +
                 " color:" + this.getColor() +
                 "}";
+    }
+
+    public void loadTransactions(String lpr){
+
+        this.transactionList = transactionDataMapper.findAll(lpr);
     }
 }

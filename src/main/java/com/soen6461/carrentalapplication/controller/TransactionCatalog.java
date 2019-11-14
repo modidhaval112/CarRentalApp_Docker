@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soen6461.carrentalapplication.model.Record;
@@ -23,8 +24,8 @@ import com.soen6461.carrentalapplication.model.VehicleRecord;
  */
 @RestController
 public class TransactionCatalog {
-
-    private Record record = new Record();
+    @Autowired
+    private Record record;
     private List<TransactionHistory> transactionHistoryList = new ArrayList<TransactionHistory>();
 
     /**
