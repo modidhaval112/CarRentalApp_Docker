@@ -16,7 +16,7 @@ import com.soen6461.carrentalapplication.model.VehicleRecord;
 import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 
 @Component
-public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
+public class TransactionDataMapper implements IDataMapper<Transaction> {
 	@Autowired
 	private TransactionTdg transactionTdg;
 	VehicleRecordDataMapper vrdm;
@@ -42,7 +42,7 @@ public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
 	 * @return True if the operation was a success, false otherwise.
 	 */
 	@Override
-	public boolean delete(String string) {
+	public boolean delete(String id) {
 		return false;
 	}
 
@@ -59,26 +59,14 @@ public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
 				transactionRecord.getClientRecord().getDriversLicenseNumber());
 	}
 
-	/**
-	 * Method to retrieve an object from the database.
-	 *
-	 * @param id The id of the object to retrieve from the database.
-	 * @return The object mapping to the given id.
-	 */
-	@Override
-	public Transaction getObject(int id) {
-		return null;
-	}
-
+	
 	/**
 	 * Get all Transaction records.
 	 *
 	 * @return True if the operation was a success, false otherwise.
 	 * @throws ParseException
-	 * @throws NumberFormatException
-	 * @throws SQLException 
 	 */
-	public List findAll() throws NumberFormatException, ParseException, SQLException {
+	public List findAll() throws ParseException {
 		List<Transaction> transactions = new ArrayList<>();
 		List<Map<String, Object>> records = transactionTdg.findAll();
 
@@ -95,5 +83,17 @@ public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
 		}
 
 		return transactions;
+	}
+
+	@Override
+	public boolean save(Transaction objectToSave) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Transaction find(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}    }
 

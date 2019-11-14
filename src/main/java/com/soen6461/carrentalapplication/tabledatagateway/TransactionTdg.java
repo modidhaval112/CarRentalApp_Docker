@@ -118,7 +118,7 @@ public class TransactionTdg {
         }
     }
 
-    public List<Map<String, Object>> findAll() throws SQLException {
+    public List<Map<String, Object>> findAll()  {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction";
         try {
             Statement stmt = this.dataSource.getConnection().createStatement();

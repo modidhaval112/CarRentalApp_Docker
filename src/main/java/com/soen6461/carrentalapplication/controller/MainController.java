@@ -259,7 +259,7 @@ public class MainController {
 		ClientRecord selectedClient = clientController.searchClient(driversLicenseNumber);
 		List<Transaction> buffer = selectedVehicle.getVehicleTransactionList();
 		if (status.equals("Rented")) {
-			Transaction updatedTransaction = new Transaction(selectedClient, selectedVehicle, startDate, endDate,
+			Transaction updatedTransaction = new Transaction(1,selectedClient, selectedVehicle, startDate, endDate,
 					Transaction.Status.Rented);
 			for (int i = 0; i < buffer.size(); i++) {
 				if (buffer.get(i).getTransactionId().equals(updatedTransaction.getTransactionId())) {
@@ -267,7 +267,7 @@ public class MainController {
 				}
 			}
 		} else if (status.equals("Reserved")) {
-			Transaction updatedTransaction = new Transaction(selectedClient, selectedVehicle, startDate, endDate,
+			Transaction updatedTransaction = new Transaction(1,selectedClient, selectedVehicle, startDate, endDate,
 					Transaction.Status.Rented);
 			for (int i = 0; i < buffer.size(); i++) {
 				if (buffer.get(i).getTransactionId().equals(updatedTransaction.getTransactionId())) {

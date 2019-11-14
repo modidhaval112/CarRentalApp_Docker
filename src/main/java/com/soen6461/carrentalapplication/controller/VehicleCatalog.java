@@ -198,13 +198,13 @@ public class VehicleCatalog {
         VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
 
         if (status.equals("Rented")) {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
+            Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
             selectedVehicle.addTransaction(newTransaction);
         } else if (status.equals("Reserved")) {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
+            Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
             selectedVehicle.addTransaction(newTransaction);
         } else {
-            Transaction newTransaction = new Transaction(forClient, selectedVehicle, startDate, endDate, Transaction.Status.Available);
+            Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Available);
             selectedVehicle.addTransaction(newTransaction);
         }
     }
