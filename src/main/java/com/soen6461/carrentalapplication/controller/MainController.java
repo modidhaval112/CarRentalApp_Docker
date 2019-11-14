@@ -208,6 +208,7 @@ public class MainController {
 		if (!overlap) {
 			redirectAttributes.addFlashAttribute("successMsg", "  Congratulations, You have booked the Car !!!");
 			vehicleCatalog.assignVehicle(driversLicense, licensePlateRecord, startDate, endDate, status);
+
 		}
 		return "redirect:/vehicle-catalog";
 	}

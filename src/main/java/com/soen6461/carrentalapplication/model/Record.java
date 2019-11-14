@@ -8,6 +8,7 @@ import java.util.Observable;
 
 import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
 import com.soen6461.carrentalapplication.observer.view.TransactionObserver;
+import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Component;
 public class Record extends Observable {
     public String transactionType;
     public Transaction transaction;
-    @Autowired
-    private TransactionDataMapper transactionDataMapper;
+
+    private TransactionRepository transactionRepository = new TransactionRepository();
     public HashMap<ClientRecord, Transaction> clientTransactions = new HashMap<ClientRecord, Transaction>();
     public static List<TransactionHistory> transactionHistory = new ArrayList<>();
     protected List<Transaction> transactionList = new ArrayList<Transaction>();
@@ -36,6 +37,8 @@ public class Record extends Observable {
      */
     public void addTransaction(Transaction transaction) {
         this.transactionList.add(transaction);
+        //Updating unit of work
+        transactionRepository.registerNew(transaction);
         if (transaction.getStatus() == Transaction.Status.Rented) {
             setObserver("Rented", transaction);
         } else if (transaction.getStatus() == Transaction.Status.Reserved) {
@@ -59,6 +62,7 @@ public class Record extends Observable {
                 setObserver("Cancelled", t);
                 t.setStatus(Transaction.Status.Cancelled);
                 //iterator.remove();
+                transactionRepository.registerDirty(t);
             }
         }
     }
@@ -78,6 +82,8 @@ public class Record extends Observable {
                 setObserver("Returned", t);
                 t.setStatus(Transaction.Status.Returned);
                 //iterator.remove();
+                //Add it to unit of work
+                transactionRepository.registerDirty(t);
             }
         }
     }

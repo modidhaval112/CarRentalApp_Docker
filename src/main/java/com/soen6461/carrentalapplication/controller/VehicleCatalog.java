@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,9 @@ public class VehicleCatalog {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
     private static VehicleCatalog instance = null;
@@ -200,6 +204,7 @@ public class VehicleCatalog {
         if (status.equals("Rented")) {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
             selectedVehicle.addTransaction(newTransaction);
+
         } else if (status.equals("Reserved")) {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
             selectedVehicle.addTransaction(newTransaction);
@@ -511,5 +516,6 @@ public class VehicleCatalog {
 
     public void persistData() {
         this.vehicleRepository.commit();
+        this.transactionRepository.commit();
     }
 }
