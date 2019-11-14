@@ -38,11 +38,11 @@ public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
 	/**
 	 * Delete the Transaction record.
 	 *
-	 * @param id The transaction id to delete.
+	 * @param string The transaction id to delete.
 	 * @return True if the operation was a success, false otherwise.
 	 */
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(String string) {
 		return false;
 	}
 
@@ -53,8 +53,8 @@ public class TransactionDataMapper implements ITableGatewayMapper<Transaction> {
 	 * @param transactionRecord Object to update.
 	 */
 	@Override
-	public boolean update(int id, Transaction transactionRecord) {
-		return transactionTdg.update(id, transactionRecord.getTransactionId(), transactionRecord.getStatus().toString(),
+	public boolean update( Transaction transactionRecord) {
+		return transactionTdg.update(transactionRecord.getVersion(), transactionRecord.getTransactionId(), transactionRecord.getStatus().toString(),
 				transactionRecord.getStartDateObject(), transactionRecord.getEndDateObject(), transactionRecord.getVehicleRecord().getLpr(),
 				transactionRecord.getClientRecord().getDriversLicenseNumber());
 	}
