@@ -142,8 +142,10 @@ public class MainController {
 	 */
 	@RequestMapping("/vehicle-catalog")
 	public ModelAndView displayVehicleCatalog() {
-		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
-		vehicleCatalog.loadTransactions();
+		//List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		List<VehicleRecord> vehicles = vehicleCatalog.loadTransactions();
+		
+		System.out.println("Lenght of transaction : ");
 		//Loading all transactions from db
 //		for(VehicleRecord vehicle: vehicles){
 //			vehicle.loadTransactions();

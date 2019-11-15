@@ -48,10 +48,13 @@ public class VehicleCatalog {
         this.vehicleRecordList = this.vehicleRecordDataMapper.findAll();
     }
 
-    public void loadTransactions(){
+    public List<VehicleRecord> loadTransactions(){
         for(int i=0;i<vehicleRecordList.size();i++) {
-            vehicleRecordList.get(i).transactionList = transactionDataMapper.findAll(vehicleRecordList.get(i).getLpr());
+            vehicleRecordList.get(i).transactionList = transactionDataMapper.findAll(vehicleRecordList.get(i).getLpr());           
         }
+        
+        return vehicleRecordList;
+        
     }
     /**
      * Default class constructor
