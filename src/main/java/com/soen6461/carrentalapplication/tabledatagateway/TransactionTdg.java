@@ -94,14 +94,14 @@ public class TransactionTdg {
     public boolean update(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
                           String driversLicenseNumber) {
 
-        String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "`transaction`" + "` SET " +
-                "`version`=" + recordVersion + ", " +
-                "`transactionId`=" + transactionId + ", " +
+        String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "transaction" + "` SET " +
+                "`version`=\"" + recordVersion + "\", " +
+                "`transactionId`=\"" + transactionId + "\", " +
                 "`status`= \"" + status + "\", " +
                 "`startDate`=\"" + startDate + "\", " +
                 "`endDate`=\"" + endDate + "\", " +
-                "`licensePlateNumber`=\"" + licensePlateNumber + "\", " +
-                " WHERE transactionId=" + transactionId + ";";
+                "`licensePlateNumber`=\"" + licensePlateNumber + "\" " +
+                " WHERE transactionId=\"" + transactionId + "\";";
         try {
             con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();

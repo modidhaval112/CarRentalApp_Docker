@@ -47,7 +47,6 @@ public class ClientRecord {
 
     public ClientRecord(String driversLicenseNumber, int version, String firstName, String lastName, String phoneNumber, String expirationDate) {
 
-        System.out.println("Second Controller Date : " + expirationDate);
         this.version = version;
         this.setVersion(version);
         this.setDriversLicenseNumber(driversLicenseNumber);
