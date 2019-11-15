@@ -143,6 +143,8 @@ public class MainController {
 	@RequestMapping("/vehicle-catalog")
 	public ModelAndView displayVehicleCatalog() {
 		//List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		
+		vehicleCatalog.persistData();
 		List<VehicleRecord> vehicles = vehicleCatalog.loadTransactions();
 		
 		//Loading all transactions from db

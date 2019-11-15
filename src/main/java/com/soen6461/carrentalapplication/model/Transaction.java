@@ -1,9 +1,11 @@
 package com.soen6461.carrentalapplication.model;
 
-import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 @Component
 public class Transaction {
 	private static int Id = 0;
@@ -48,7 +50,7 @@ public class Transaction {
 			e.printStackTrace();
 		}
 		this.setStatus(vehicleStatus);
-		this.setTransactionId(Id++ + "_" + clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr());
+		this.setTransactionId(Id++ + "_" + clientRecord.getDriversLicenseNumber() + "_" + vehicleRecord.getLpr() + "_" + Calendar.getInstance().getTime().toString().replace(" ", "_"));
 	}
 	
 	public Transaction(String transactionId, int version,ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) {
