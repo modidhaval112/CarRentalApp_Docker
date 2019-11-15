@@ -11,10 +11,13 @@ import com.soen6461.carrentalapplication.observer.view.TransactionObserver;
 import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class Record extends Observable {
+
     public String transactionType;
+
     public Transaction transaction;
 
     @Autowired
@@ -22,15 +25,13 @@ public class Record extends Observable {
 
     public HashMap<ClientRecord, Transaction> clientTransactions = new HashMap<ClientRecord, Transaction>();
     public static List<TransactionHistory> transactionHistory = new ArrayList<>();
-    protected List<Transaction> transactionList = new ArrayList<Transaction>();
+    public List<Transaction> transactionList = new ArrayList<Transaction>();
 
     public Record() {
 
         TransactionObserver to = new TransactionObserver();
         this.addObserver(to);
     }
-
-
 
     /**
      * Adds a given transaction.
@@ -40,7 +41,7 @@ public class Record extends Observable {
     public void addTransaction(Transaction transaction) {
         this.transactionList.add(transaction);
         //Updating unit of work
-        transactionRepository.registerNew(transaction);
+
         if (transaction.getStatus() == Transaction.Status.Rented) {
             setObserver("Rented", transaction);
         } else if (transaction.getStatus() == Transaction.Status.Reserved) {
@@ -53,7 +54,7 @@ public class Record extends Observable {
      *
      * @param transactionId The transaction to remove.
      */
-    public void removeTransaction(String transactionId) {
+    public Transaction removeTransaction(String transactionId) {
 
         Iterator<Transaction> iterator = this.transactionList.iterator();
 
@@ -64,9 +65,10 @@ public class Record extends Observable {
                 setObserver("Cancelled", t);
                 t.setStatus(Transaction.Status.Cancelled);
                 //iterator.remove();
-                transactionRepository.registerDirty(t);
+               return t;
             }
         }
+        return null;
     }
 
     /**
@@ -74,7 +76,7 @@ public class Record extends Observable {
      *
      * @param transactionId The transaction to remove.
      */
-   public void returnTransaction(String transactionId) {
+   public Transaction returnTransaction(String transactionId) {
 
         Iterator<Transaction> iterator = this.transactionList.iterator();
 
@@ -85,9 +87,11 @@ public class Record extends Observable {
                 t.setStatus(Transaction.Status.Returned);
                 //iterator.remove();
                 //Add it to unit of work
-                transactionRepository.registerDirty(t);
+                return t;
             }
+
         }
+        return null;
     }
 
 	/**
@@ -137,8 +141,6 @@ public class Record extends Observable {
         setChanged();
         notifyObservers();
     }
-
-
 
 }
 

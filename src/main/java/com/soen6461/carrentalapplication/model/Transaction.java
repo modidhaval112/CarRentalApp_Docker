@@ -1,8 +1,10 @@
 package com.soen6461.carrentalapplication.model;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
-import java.util.Date;
+import org.springframework.stereotype.Component;
 
+import java.util.Date;
+@Component
 public class Transaction {
 	private static int Id = 0;
 	private ClientRecord clientRecord;
@@ -23,7 +25,7 @@ public class Transaction {
 		Returned,
 		Cancelled
 	}
-
+	public  Transaction(){}
 	/**
 	 * Transaction done by the clerk.
 	 *
@@ -33,6 +35,7 @@ public class Transaction {
 	 * @param endDate       End date of the transaction.
 	 * @param vehicleStatus Status of the transaction.
 	 */
+
 	public Transaction(int version,ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) {
 		this.setVersion(version);
 

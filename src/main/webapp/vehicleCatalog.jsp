@@ -211,7 +211,7 @@
 										data-parent="#${listValue.lpr}" colspan="7">
 										<div>
 											<c:set var="listVehicleTransactionList"
-												value="${listValue.vehicleTransactionList}" />
+												value="${listValue.transactionList}" />
 											<c:choose>
 												<c:when test="${not empty listVehicleTransactionList}">
 													<Table class="table table-striped dataTable"
@@ -233,7 +233,7 @@
 														</thead>
 														<tbody>
 															<c:forEach var="transactionListValue"
-																items="${listValue.vehicleTransactionList}">
+																items="${listValue.transactionList}">
 
 
 																<c:choose>

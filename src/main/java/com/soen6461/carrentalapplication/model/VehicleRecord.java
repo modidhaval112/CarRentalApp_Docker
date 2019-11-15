@@ -10,7 +10,8 @@ import java.util.List;
 public class VehicleRecord extends Record {
 
     @Autowired
-    private TransactionDataMapper transactionDataMapper ;
+    private TransactionDataMapper transactionDataMapper;
+
     private int id;
     private int version;
     private String carType;
@@ -216,7 +217,5 @@ public class VehicleRecord extends Record {
                 "}";
     }
 
-    public void loadTransactions(){
-        this.transactionList = transactionDataMapper.findAll(this.getLpr());
-    }
+
 }

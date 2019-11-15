@@ -53,26 +53,27 @@ public class TransactionTdg {
                 "\n" +
                 "                );";
 
-        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`transaction`" +
+        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "transaction" + "`" +
                 "(`transactionId`," +
                 "`version`," +
                 "`status`," +
                 "`startDate`," +
                 "`endDate`," +
                 "`licensePlateNumber`," +
-                "`driversLicenseNumber`)" +
-                "VALUES" +
-                "(" + transactionId + "," +
-                recordVersion +
-                status + "," +
-                startDate + "," +
-                endDate + "," +
-                licensePlateNumber + "," +
-                driversLicenseNumber + ");";
+                "`driversLicenseNumber`) " +
+                "VALUES " +
+                "(\"" +  transactionId + "\"," +
+                "\"" + recordVersion +"\","+
+                "\"" + status + "\"," +
+                "\"" + new java.sql.Date(startDate.getTime()) + "\"," +
+                "\"" + new java.sql.Date(endDate.getTime()) + "\"," +
+                "\"" + licensePlateNumber + "\"," +
+                "\"" + driversLicenseNumber + "\");";
 
 
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+            con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
             stmt.execute(sqlRecord);
             return true;
@@ -81,6 +82,12 @@ public class TransactionTdg {
             System.out.println("Get object exception" + e.getMessage());
             e.printStackTrace();
             return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -96,33 +103,48 @@ public class TransactionTdg {
                 "`licensePlateNumber`=\"" + licensePlateNumber + "\", " +
                 " WHERE transactionId=" + transactionId + ";";
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+            con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             stmt.executeUpdate(sql);
             return true;
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return false;
 
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
     public boolean delete(String transactionId) {
         String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`vehicleRecord` where `licensePlateNumber`=?";
         try {
-            PreparedStatement dbStatement = this.dataSource.getConnection().prepareStatement(statement);
+            con = this.dataSource.getConnection();
+            PreparedStatement dbStatement = con.prepareStatement(statement);
             dbStatement.setString(1, transactionId);
             dbStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             System.out.println("Get object exception" + e.getMessage());
             return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
-    public List<Map<String, Object>> findAll()  {
+    public List<Map<String, Object>> findAll() {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction";
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+            con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
@@ -141,13 +163,20 @@ public class TransactionTdg {
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return null;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
-    public List<Map<String, Object>> findAll(String lpr)  {
-        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction"+" WHERE licensePlateNumber='"+lpr+"'";
+    public List<Map<String, Object>> findAll(String lpr) {
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction" + " WHERE licensePlateNumber='" + lpr + "'";
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+            con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
@@ -167,13 +196,19 @@ public class TransactionTdg {
             System.out.println("Get object exception" + e.getMessage());
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
-
     public Map<String, Object> findTransaction(String transactionid) throws SQLException {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=" + transactionid + ";";
         try {
-            Statement stmt = this.dataSource.getConnection().createStatement();
+            con = this.dataSource.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
@@ -191,6 +226,13 @@ public class TransactionTdg {
         } catch (Exception e) {
             System.out.println("Get object exception" + e.getMessage());
             return null;
-        }
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
     }
+    }
+
 }
