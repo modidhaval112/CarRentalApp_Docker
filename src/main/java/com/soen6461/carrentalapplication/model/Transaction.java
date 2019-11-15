@@ -67,21 +67,6 @@ public class Transaction {
 		this.setStatus(vehicleStatus);
 		this.setTransactionId(transactionId);
 	}
-	
-	public Transaction(String transactionId, int version,ClientRecord clientRecord, VehicleRecord vehicleRecord, String startDate, String endDate, Status vehicleStatus) {
-		this.setVersion(version);
-
-		this.setClientRecord(clientRecord);
-		this.setVehicleRecord(vehicleRecord);
-		try {
-			this.setStartDate(DataValidationHelper.dateFormat.parse(startDate));
-			this.setEndDate(DataValidationHelper.dateFormat.parse(endDate));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		this.setStatus(vehicleStatus);
-		this.setTransactionId(transactionId);
-	}
 
 	public int getVersion() {
 		return this.version;		
