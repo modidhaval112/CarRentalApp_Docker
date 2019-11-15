@@ -40,7 +40,7 @@ public class TransactionTdg {
     public boolean insert(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
                           String driversLicenseNumber) {
         String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".  transaction   ( \n" +
-                "                    transactionId VARCHAR(50) PRIMARY KEY, \n" +
+                "                    transactionId VARCHAR(100) PRIMARY KEY, \n" +
                 "                    version INT, \n" +
                 "                    status VARCHAR(50), \n" +
                 "                    startDate Date ,\n" +
