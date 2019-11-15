@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 
 public class DataValidationHelper {
 
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public static SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
     /**
