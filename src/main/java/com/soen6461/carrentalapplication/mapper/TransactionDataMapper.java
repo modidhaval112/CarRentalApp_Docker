@@ -19,7 +19,9 @@ import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 public class TransactionDataMapper implements IDataMapper<Transaction> {
 	@Autowired
 	private TransactionTdg transactionTdg;
+	@Autowired
 	VehicleRecordDataMapper vrdm;
+	@Autowired
 	ClientRecordDataMapper crdm;
 	
 
@@ -86,22 +88,28 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
 	}
 
 	public List findAll(String lpr)  {
-		List<Transaction> transactions = new ArrayList<>();
-		List<Map<String, Object>> records = transactionTdg.findAll(lpr);
+		try {
+			List<Transaction> transactions = new ArrayList<>();
+			List<Map<String, Object>> records = transactionTdg.findAll(lpr);
 
-		if(records != null) {
-			for (int i = 0; i < records.size(); i++) {
-				Transaction transaction = new Transaction(Integer.parseInt(records.get(i).get("version").toString()),
-						crdm.find(records.get(i).get("driversLicenseNumber").toString()),
-						vrdm.find(records.get(i).get("licensePlateNumber").toString()),
-						records.get(i).get("startDate").toString(),
-						records.get(i).get("endDate").toString(),
-						Transaction.getStatus((records.get(i).get("status").toString())));
-				transactions.add(transaction);
+			if (records != null) {
+				for (int i = 0; i < records.size(); i++) {
+
+					Transaction transaction = new Transaction(Integer.parseInt(records.get(i).get("version").toString()),
+							crdm.findclient(records.get(i).get("driversLicenseNumber").toString()),
+							vrdm.findVehicle(records.get(i).get("licensePlateNumber").toString()),
+							records.get(i).get("startDate").toString(),
+							records.get(i).get("endDate").toString(),
+							Transaction.getStatus((records.get(i).get("status").toString())));
+					transactions.add(transaction);
+				}
 			}
-		}
 
-		return transactions;
+			return transactions;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

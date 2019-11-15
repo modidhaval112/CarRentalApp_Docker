@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
+import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
 import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +38,9 @@ public class VehicleCatalog {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private TransactionDataMapper transactionDataMapper;
+
     private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
     private static VehicleCatalog instance = null;
 
@@ -44,6 +48,11 @@ public class VehicleCatalog {
         this.vehicleRecordList = this.vehicleRecordDataMapper.findAll();
     }
 
+    public void loadTransactions(){
+        for(int i=0;i<vehicleRecordList.size();i++) {
+            vehicleRecordList.get(i).transactionList = transactionDataMapper.findAll(vehicleRecordList.get(i).getLpr());
+        }
+    }
     /**
      * Default class constructor
      */
@@ -204,13 +213,16 @@ public class VehicleCatalog {
         if (status.equals("Rented")) {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
             selectedVehicle.addTransaction(newTransaction);
+            transactionRepository.registerNew(newTransaction);
 
         } else if (status.equals("Reserved")) {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
             selectedVehicle.addTransaction(newTransaction);
+            transactionRepository.registerNew(newTransaction);
         } else {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Available);
             selectedVehicle.addTransaction(newTransaction);
+            transactionRepository.registerNew(newTransaction);
         }
     }
 
@@ -222,7 +234,7 @@ public class VehicleCatalog {
      */
     public void returnTransaction(String transactionId, String licensePlateRecord) {
         VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
-        selectedVehicle.returnTransaction(transactionId);
+        transactionRepository.registerDirty(selectedVehicle.returnTransaction(transactionId));
     }
 
     /**
@@ -242,7 +254,7 @@ public class VehicleCatalog {
                     redirectAttributes.addFlashAttribute("warningMsg",
                             "  Transaction can not be cancelled as vehicle is already Rented.");
                 } else {
-                    selectedVehicle.removeTransaction(transactionId);
+                    transactionRepository.registerDirty(selectedVehicle.removeTransaction(transactionId));
                     redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
                 }
                 break;

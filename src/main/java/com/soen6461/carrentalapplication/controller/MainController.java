@@ -143,11 +143,12 @@ public class MainController {
 	@RequestMapping("/vehicle-catalog")
 	public ModelAndView displayVehicleCatalog() {
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		vehicleCatalog.loadTransactions();
 		//Loading all transactions from db
-		for(VehicleRecord vehicle: vehicles){
-			vehicle.loadTransactions();
-//			System.out.println("DB:: "+ vehicle.getVehicleTransactionList().get(0));
-		}
+//		for(VehicleRecord vehicle: vehicles){
+//			vehicle.loadTransactions();
+////			System.out.println("DB:: "+ vehicle.getVehicleTransactionList().get(0));
+//		}
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 
 		ModelAndView model = new ModelAndView("vehicleCatalog");
