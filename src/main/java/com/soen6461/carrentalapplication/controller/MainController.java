@@ -145,7 +145,6 @@ public class MainController {
 		//List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
 		List<VehicleRecord> vehicles = vehicleCatalog.loadTransactions();
 		
-		System.out.println("Lenght of transaction : ");
 		//Loading all transactions from db
 //		for(VehicleRecord vehicle: vehicles){
 //			vehicle.loadTransactions();
@@ -199,7 +198,7 @@ public class MainController {
 					|| (transactionList.get(i).getStatus().equals(Transaction.Status.Rented))) {
 				overlap = (tempStartDate.getTime() <= transactionList.get(i).getEndDateObject().getTime())
 						&& (transactionList.get(i).getStartDateObject().getTime() <= tempEndDate.getTime());
-
+				
 				if (overlap) {
 					redirectAttributes.addFlashAttribute("errorMsg",
 							"  Sorry, this car is already booked for the given period of time.");
