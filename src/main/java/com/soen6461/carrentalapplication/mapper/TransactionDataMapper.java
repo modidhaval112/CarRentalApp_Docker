@@ -95,7 +95,7 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
 			if (records != null) {
 				for (int i = 0; i < records.size(); i++) {
 
-					Transaction transaction = new Transaction(Integer.parseInt(records.get(i).get("version").toString()),
+					Transaction transaction = new Transaction(records.get(i).get("transactionId").toString() , Integer.parseInt(records.get(i).get("version").toString()),
 							crdm.findclient(records.get(i).get("driversLicenseNumber").toString()),
 							vrdm.findVehicle(records.get(i).get("licensePlateNumber").toString()),
 							records.get(i).get("startDate").toString(),

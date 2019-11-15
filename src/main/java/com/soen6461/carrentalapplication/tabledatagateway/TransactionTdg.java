@@ -93,13 +93,16 @@ public class TransactionTdg {
 
     public boolean update(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
                           String driversLicenseNumber) {
+    	
+        java.sql.Date startDateDB = new java.sql.Date(startDate.getTime());
+        java.sql.Date endDateDB = new java.sql.Date(startDate.getTime());
 
         String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "transaction" + "` SET " +
                 "`version`=\"" + recordVersion + "\", " +
                 "`transactionId`=\"" + transactionId + "\", " +
                 "`status`= \"" + status + "\", " +
-                "`startDate`=\"" + startDate + "\", " +
-                "`endDate`=\"" + endDate + "\", " +
+                "`startDate`=\"" + startDateDB + "\", " +
+                "`endDate`=\"" + endDateDB + "\", " +
                 "`licensePlateNumber`=\"" + licensePlateNumber + "\" " +
                 " WHERE transactionId=\"" + transactionId + "\";";
         try {
