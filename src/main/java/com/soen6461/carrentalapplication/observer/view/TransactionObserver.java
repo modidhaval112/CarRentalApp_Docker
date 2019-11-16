@@ -27,6 +27,7 @@ public class TransactionObserver implements Observer {
 
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	LocalDateTime now = LocalDateTime.now();
+	
     @Autowired
     TransactionHistoryRepository transactionHistoryRepository;
     /**

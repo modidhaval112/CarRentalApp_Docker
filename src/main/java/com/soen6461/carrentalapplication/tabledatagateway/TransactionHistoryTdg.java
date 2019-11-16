@@ -39,9 +39,7 @@ public class TransactionHistoryTdg {
 		String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".transactionHistory   ( \n" +
 				"                    transactionId VARCHAR(100) , \n" +
 				"                    status VARCHAR(60), \n" +
-				"                    timestamp VARCHAR(60),\n" +
-				"\n" +
-				"\n" +
+				"                    timestamp VARCHAR(60)\n" +
 				"                );";
 
 		String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "transactionHistory" + "`" +

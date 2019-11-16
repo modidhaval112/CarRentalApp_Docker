@@ -1,5 +1,6 @@
 package com.soen6461.carrentalapplication.mapper;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +61,14 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
 
 		if(records != null) {
 			for (int i = 0; i < records.size(); i++) {
-				TransactionHistory transactionHistory = new TransactionHistory(
-						tdm.find(records.get(i).get("transactionId").toString()),
-						records.get(i).get("status").toString(), records.get(i).get("timestamp").toString());
+				TransactionHistory transactionHistory = null;
+				try {
+					transactionHistory = new TransactionHistory(
+							tdm.findTransaction(records.get(i).get("transactionId").toString()),
+							records.get(i).get("status").toString(), records.get(i).get("timestamp").toString());
+				} catch (NumberFormatException | ParseException | SQLException e) {
+					e.printStackTrace();
+				}
 				transactionsHistory.add(transactionHistory);
 			}
 		}
