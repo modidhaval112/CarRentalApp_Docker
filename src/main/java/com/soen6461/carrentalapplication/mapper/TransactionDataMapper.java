@@ -118,10 +118,29 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
 		return false;
 	}
 
+	public Transaction findTransaction(String transactionid) throws NumberFormatException, ParseException, SQLException {
+		
+			Map<String, Object> record= transactionTdg.findTransaction(transactionid);
+
+			
+
+					Transaction transaction = new Transaction(record.get("transactionId").toString() , Integer.parseInt(record.get("version").toString()),
+							crdm.findclient(record.get("driversLicenseNumber").toString()),
+							vrdm.findVehicle(record.get("licensePlateNumber").toString()),
+							record.get("startDate").toString(),
+							record.get("endDate").toString(),
+							Transaction.getStatus((record.get("status").toString())));
+					return transaction;
+
+				}
+
 	@Override
 	public Transaction find(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+			
+
+		
 }
 

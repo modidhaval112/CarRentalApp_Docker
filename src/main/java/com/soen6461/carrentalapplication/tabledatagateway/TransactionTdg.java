@@ -96,9 +96,9 @@ public class TransactionTdg {
     	
         java.sql.Date startDateDB = new java.sql.Date(startDate.getTime());
         java.sql.Date endDateDB = new java.sql.Date(startDate.getTime());
-
+        
         String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "transaction" + "` SET " +
-                "`version`=\"" + recordVersion + "\", " +
+                "`version`=" + "version + 1" + ", " +
                 "`transactionId`=\"" + transactionId + "\", " +
                 "`status`= \"" + status + "\", " +
                 "`startDate`=\"" + startDateDB + "\", " +
@@ -207,8 +207,8 @@ public class TransactionTdg {
             }
         }
     }
-    public Map<String, Object> findTransaction(String transactionid) throws SQLException {
-        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=" + transactionid + ";";
+    public Map<String, Object> findTransaction(String transactionid)  {
+        String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=\"" + transactionid + "\";";
         try {
             con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();

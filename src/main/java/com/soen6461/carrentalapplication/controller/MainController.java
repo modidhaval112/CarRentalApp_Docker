@@ -225,11 +225,12 @@ public class MainController {
 	 * @param redirectAttributes
 	 * @return redirection to vehicle-catalog
 	 */
-	@RequestMapping(value = "/cancel-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
+	@RequestMapping(value = "/cancel-transaction/{transactionId}/{lpr}/{version}", method = RequestMethod.GET)
 	public String cancelTransaction(@PathVariable("transactionId") String transactionId,
-			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
-
-		vehicleCatalog.cancelTransaction(licensePlateRecord, transactionId, redirectAttributes);
+			@PathVariable("lpr") String licensePlateRecord, @PathVariable("version") String version, 
+			RedirectAttributes redirectAttributes) {
+		
+		vehicleCatalog.cancelTransaction(licensePlateRecord, transactionId, redirectAttributes, version);
 
 		return "redirect:/vehicle-catalog";
 	}
@@ -242,11 +243,19 @@ public class MainController {
 	 * @param redirectAttributes
 	 * @return redirection to vehicle-catalog
 	 */
-	@RequestMapping(value = "/return-transaction/{transactionId}/{lpr}", method = RequestMethod.GET)
+	@RequestMapping(value = "/return-transaction/{transactionId}/{lpr}/{version}", method = RequestMethod.GET)
 	public String returnTransaction(@PathVariable("transactionId") String transactionId,
-			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes) {
-		vehicleCatalog.returnTransaction(transactionId, licensePlateRecord);
-		redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
+			@PathVariable("lpr") String licensePlateRecord, RedirectAttributes redirectAttributes,
+			@PathVariable("version") String version) {
+		
+		
+		if (vehicleCatalog.returnTransaction(transactionId, licensePlateRecord, version)) {
+			redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
+		} else {
+			redirectAttributes.addFlashAttribute("errorMsg",
+					"  This transaction has already been returned or cancelled");
+		}
+		
 		return "redirect:/vehicle-catalog";
 	}
 

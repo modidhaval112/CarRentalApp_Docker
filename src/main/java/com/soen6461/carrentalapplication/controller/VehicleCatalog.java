@@ -235,9 +235,24 @@ public class VehicleCatalog {
      * @param transactionId
      * @param licensePlateRecord
      */
-    public void returnTransaction(String transactionId, String licensePlateRecord) {
-        VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
-        transactionRepository.registerDirty(selectedVehicle.returnTransaction(transactionId));
+    public boolean returnTransaction(String transactionId, String licensePlateRecord, String version) {
+    	
+    	
+        int version_db = 0;
+        try {
+            version_db = this.transactionDataMapper.findTransaction(transactionId).getVersion();
+        } catch (NumberFormatException | ParseException | SQLException e) {
+            e.printStackTrace();
+        }
+        
+        if (version_db == Integer.parseInt(version)){
+        	VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
+            transactionRepository.registerDirty(selectedVehicle.returnTransaction(transactionId));
+            return true;
+        }
+    	
+        return false;
+        
     }
 
     /**
@@ -248,22 +263,35 @@ public class VehicleCatalog {
      * @param redirectAttributes
      * @return
      */
-    public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes) {
-        VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
-        List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
-        for (int i = 0; i < transactionList.size(); i++) {
-            if (transactionList.get(i).getTransactionId().equalsIgnoreCase(transactionId)) {
-                if (transactionList.get(i).getStatus().toString().equals("Rented")) {
-                    redirectAttributes.addFlashAttribute("warningMsg",
-                            "  Transaction can not be cancelled as vehicle is already Rented.");
-                } else {
-                    transactionRepository.registerDirty(selectedVehicle.removeTransaction(transactionId));
-                    redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
+    public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes, String version) {
+    	
+    	int version_db = 0;
+        try {
+            version_db = this.transactionDataMapper.findTransaction(transactionId).getVersion();
+        } catch (NumberFormatException | ParseException | SQLException e) {
+            e.printStackTrace();
+        }
+        
+        if (version_db == Integer.parseInt(version)){
+        	VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
+            List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
+            for (int i = 0; i < transactionList.size(); i++) {
+                if (transactionList.get(i).getTransactionId().equalsIgnoreCase(transactionId)) {
+                    if (transactionList.get(i).getStatus().toString().equals("Rented")) {
+                        redirectAttributes.addFlashAttribute("warningMsg",
+                                "  Transaction can not be cancelled as vehicle is already Rented.");
+                    } else {
+                        transactionRepository.registerDirty(selectedVehicle.removeTransaction(transactionId));
+                        redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
+                    }
+                    break;
                 }
-                break;
             }
         }
-
+        else {
+        	redirectAttributes.addFlashAttribute("errorMsg", "  Transaction has been already returned or cancelled.");
+        }
+    	
         return redirectAttributes;
     }
 
