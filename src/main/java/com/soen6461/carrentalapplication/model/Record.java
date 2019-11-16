@@ -1,30 +1,30 @@
 package com.soen6461.carrentalapplication.model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
-import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
+
 import com.soen6461.carrentalapplication.observer.view.TransactionObserver;
-import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
+import com.soen6461.carrentalapplication.unitofwork.TransactionHistoryRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 @Component
 public class Record extends Observable {
 
     public String transactionType;
-
     public Transaction transaction;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
     TransactionObserver to;
 
     public HashMap<ClientRecord, Transaction> clientTransactions = new HashMap<ClientRecord, Transaction>();
@@ -34,14 +34,11 @@ public class Record extends Observable {
 
 
     public Record() {
-
-
-    }
-
-    @PostConstruct
-    private void postConstruct(){
+        to= new TransactionObserver();
         this.addObserver(to);
     }
+
+
 
     /**
      * Adds a given transaction.
@@ -54,6 +51,7 @@ public class Record extends Observable {
 
         if (transaction.getStatus() == Transaction.Status.Rented) {
             setObserver("Rented", transaction);
+
         } else if (transaction.getStatus() == Transaction.Status.Reserved) {
             setObserver("Reserved", transaction);
         }

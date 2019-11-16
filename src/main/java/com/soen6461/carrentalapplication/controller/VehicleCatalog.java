@@ -3,6 +3,8 @@ package com.soen6461.carrentalapplication.controller;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +14,8 @@ import java.util.Map;
 
 import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
+import com.soen6461.carrentalapplication.model.TransactionHistory;
+import com.soen6461.carrentalapplication.unitofwork.TransactionHistoryRepository;
 import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +43,13 @@ public class VehicleCatalog {
     private TransactionRepository transactionRepository;
 
     @Autowired
+    private TransactionHistoryRepository transactionHistoryRepository;
+
+    @Autowired
     private TransactionDataMapper transactionDataMapper;
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
 
     private List<VehicleRecord> vehicleRecordList = new ArrayList<VehicleRecord>();
     private static VehicleCatalog instance = null;
@@ -217,15 +227,21 @@ public class VehicleCatalog {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
             selectedVehicle.addTransaction(newTransaction);
             transactionRepository.registerNew(newTransaction);
+            TransactionHistory transactionHistory = new TransactionHistory(newTransaction, newTransaction.getStatus().toString(),dtf.format(now).toString());
+            transactionHistoryRepository.registerNew(transactionHistory);
 
         } else if (status.equals("Reserved")) {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
             selectedVehicle.addTransaction(newTransaction);
             transactionRepository.registerNew(newTransaction);
+            TransactionHistory transactionHistory = new TransactionHistory(newTransaction, newTransaction.getStatus().toString(),dtf.format(now).toString());
+            transactionHistoryRepository.registerNew(transactionHistory);
         } else {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Available);
             selectedVehicle.addTransaction(newTransaction);
             transactionRepository.registerNew(newTransaction);
+            TransactionHistory transactionHistory = new TransactionHistory(newTransaction, newTransaction.getStatus().toString(),dtf.format(now).toString());
+            transactionHistoryRepository.registerNew(transactionHistory);
         }
     }
 
@@ -239,9 +255,10 @@ public class VehicleCatalog {
     	
     	
     	int version_db = 0;
+    	Transaction reference= null;
         try {
             Transaction transaction = this.transactionDataMapper.findTransaction(transactionId);
-            
+            reference= transaction;
             if(transaction == null) {
                 return false;
             }
@@ -254,7 +271,9 @@ public class VehicleCatalog {
         
         if (version_db == Integer.parseInt(version)){
         	VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
-            transactionRepository.registerDirty(selectedVehicle.returnTransaction(transactionId));
+            transactionRepository.registerDirty(selectedVehicle.returnTransaction(transactionId));//TODO: Make it register Delete
+            TransactionHistory transactionHistory = new TransactionHistory(reference, "Returned",dtf.format(now).toString());
+            transactionHistoryRepository.registerNew(transactionHistory);
             return true;
         }
     	
@@ -273,9 +292,10 @@ public class VehicleCatalog {
     public RedirectAttributes cancelTransaction(String licensePlateRecord, String transactionId, RedirectAttributes redirectAttributes, String version) {
     	
     	int version_db = 0;
+    	Transaction reference = null;
         try {
             Transaction transaction = this.transactionDataMapper.findTransaction(transactionId);
-            
+            reference = transaction;
             if(transaction == null) {
             	redirectAttributes.addFlashAttribute("errorMsg", "  Transaction has been already returned or cancelled by another Admin.");
                 return redirectAttributes;
@@ -296,6 +316,8 @@ public class VehicleCatalog {
                         redirectAttributes.addFlashAttribute("warningMsg",
                                 "  Transaction can not be cancelled as vehicle is already Rented.");
                     } else {
+                        TransactionHistory transactionHistory = new TransactionHistory(reference, "Cancelled",dtf.format(now).toString());
+                        transactionHistoryRepository.registerNew(transactionHistory);
                         transactionRepository.registerDirty(selectedVehicle.removeTransaction(transactionId));
                         redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
                     }

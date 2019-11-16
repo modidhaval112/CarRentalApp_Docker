@@ -48,8 +48,8 @@ public class TransactionHistoryTdg {
 				"`timestamp`) " +
 				"VALUES " +
 				"(\"" +  transactionId + "\"," +
-				"\"" + timeStamp +"\","+
-				"\"" + status + "\");";
+				"\"" + status +"\","+
+				"\"" + timeStamp + "\");";
 
 
 		try {

@@ -14,7 +14,6 @@ import com.soen6461.carrentalapplication.model.TransactionHistory;
 import com.soen6461.carrentalapplication.tabledatagateway.TransactionHistoryTdg;
 import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 @Component
-
 public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>{
 	
 	@Autowired

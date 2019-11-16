@@ -21,15 +21,14 @@ import org.springframework.stereotype.Service;
  *
  * @author Admin
  */
-@Component
+
 public class TransactionObserver implements Observer {
 
 
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	LocalDateTime now = LocalDateTime.now();
 	
-    @Autowired
-    TransactionHistoryRepository transactionHistoryRepository;
+
     /**
      * This method will be notified whenever there is any changes in states
      * of observable classes
@@ -44,7 +43,7 @@ public class TransactionObserver implements Observer {
 
         TransactionHistory transactionHistory = new TransactionHistory(r.transaction, r.transactionType,dtf.format(now).toString());
         r.transactionHistory.add(transactionHistory);
-        transactionHistoryRepository.registerNew(transactionHistory);
+
 
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("Transaction Observer View :" +
