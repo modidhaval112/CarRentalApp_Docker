@@ -52,7 +52,12 @@ CREATE TABLE IF NOT EXISTS transaction   (
 
 # "Creation table for transaction logs."
 #---------------------------------------------------------------------------------------------------------------------
-
+CREATE TABLE IF NOT EXISTS transactionHistory   ( 
+                    transactionId VARCHAR(100) , 
+                    timestamp VARCHAR(60), 
+                    status VARCHAR(60)
+                    
+                );
 #----------------------------------------------------------------------------------------------------------------------
 # Inserting default data in tables.
 #----------------------------------------------------------------------------------------------------------------------                
