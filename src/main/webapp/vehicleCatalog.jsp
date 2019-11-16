@@ -222,13 +222,14 @@
 																<td>From</td>
 																<td>To</td>
 																<td>State</td>
-
+																<td>Version</td>
 																<c:set var="inputDisplay" value="${disableButton}" />
 																<c:choose>
 																	<c:when test="${inputDisplay == 1}">
 																		<td>Actions</td>
 																	</c:when>
 																</c:choose>
+																
 															</tr>
 														</thead>
 														<tbody>
@@ -255,7 +256,7 @@
 																				<td>
 																					<p>${transactionListValue.status}</p>
 																				</td>
-
+																				<td><p>${transactionListValue.version}</p>
 																				<td>
 																					<div class="row">
 																						<c:set var="inputDisplay" value="${disableButton}" />
@@ -263,13 +264,13 @@
 																							<c:when test="${inputDisplay == 1}">
 																								<div class="col-md-auto">
 																									<a
-																										href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																										href="${pageContext.request.contextPath}/return-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}/${transactionListValue.version}"
 																										onclick="return confirm('Are you sure?')"
 																										class="btn btn-outline-info">Return</a>
 																								</div>
 																								<div class="col-md-auto">
 																									<a
-																										href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}"
+																										href="${pageContext.request.contextPath}/cancel-transaction/${transactionListValue.transactionId}/${transactionListValue.vehicleRecord.lpr}/${transactionListValue.version}"
 																										onclick="return confirm('Are you sure?')"
 																										class="btn btn-outline-danger">Cancel</a>
 																								</div>
@@ -278,6 +279,7 @@
 
 																					</div>
 																				</td>
+
 																			</tr>
 																		</form>
 
