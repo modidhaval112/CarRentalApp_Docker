@@ -391,7 +391,7 @@ public class MainController {
 	 * @return redirection to vehicle-register
 	 */
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
-	public String addVehicleRecord(@RequestParam("version") String carType, @RequestParam("make") String make,
+	public String addVehicleRecord(@RequestParam("carType") String carType, @RequestParam("make") String make,
 			@RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") String year,
 			@RequestParam("lpr") String lpr, RedirectAttributes redirectAttributes) {
 
