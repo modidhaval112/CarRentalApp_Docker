@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+import javax.annotation.PostConstruct;
+
+@Component
 public class Record extends Observable {
 
     public String transactionType;
@@ -22,14 +24,22 @@ public class Record extends Observable {
 
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    TransactionObserver to;
 
     public HashMap<ClientRecord, Transaction> clientTransactions = new HashMap<ClientRecord, Transaction>();
     public static List<TransactionHistory> transactionHistory = new ArrayList<>();
     public List<Transaction> transactionList = new ArrayList<Transaction>();
 
+
+
     public Record() {
 
-        TransactionObserver to = new TransactionObserver();
+
+    }
+
+    @PostConstruct
+    private void postConstruct(){
         this.addObserver(to);
     }
 

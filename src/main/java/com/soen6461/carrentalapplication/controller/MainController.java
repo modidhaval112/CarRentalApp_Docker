@@ -130,6 +130,7 @@ public class MainController {
 		if (logout != null) {
 			clientController.persistData();
 			vehicleCatalog.persistData();
+			transactionCatalog.persistData();
 			model.addAttribute("msg", "You have been logged out successfully.");
 		}
 		return "/login";
@@ -664,6 +665,7 @@ public class MainController {
 	public ModelAndView displayAllTransactions() {
 
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
+		transactionCatalog.loadTransactionHistory();
 		List<TransactionHistory> transactionsList = transactionCatalog.getAllTransactionHistory();
 		ModelAndView model = new ModelAndView("transactions");
 		model.addObject("transactionsList", transactionsList);

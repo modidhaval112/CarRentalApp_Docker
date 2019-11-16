@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
+import com.soen6461.carrentalapplication.mapper.TransactionHistoryMapper;
+import com.soen6461.carrentalapplication.unitofwork.TransactionHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +29,13 @@ import com.soen6461.carrentalapplication.model.VehicleRecord;
 public class TransactionCatalog {
     @Autowired
     private Record record;
-    private List<TransactionHistory> transactionHistoryList = new ArrayList<TransactionHistory>();
+    @Autowired
+    private TransactionHistoryMapper transactionHistoryMapper;
+    @Autowired
+    private TransactionHistoryRepository transactionHistoryRepository;
+
+    public TransactionCatalog() {
+    }
 
     /**
      * This method will return filtered transaction list
@@ -187,6 +196,16 @@ public class TransactionCatalog {
         }
 
         return temp;
+    }
+
+    public void loadTransactionHistory(){
+        System.out.println("In find all --------------------------------------");
+        Record.transactionHistory = transactionHistoryMapper.findAll();
+
+    }
+
+    public  void persistData(){
+        transactionHistoryRepository.commit();
     }
 
 }

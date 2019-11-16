@@ -21,6 +21,9 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
 	@Autowired
 	private TransactionDataMapper tdm;
 
+	public TransactionHistoryMapper() {
+	}
+
 	@Override
 	public boolean save(TransactionHistory objectToSave) {
 		// TODO Auto-generated method stub

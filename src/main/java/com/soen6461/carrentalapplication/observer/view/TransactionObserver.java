@@ -7,6 +7,13 @@ import java.util.Observer;
 
 import com.soen6461.carrentalapplication.model.Record;
 import com.soen6461.carrentalapplication.model.TransactionHistory;
+import com.soen6461.carrentalapplication.unitofwork.TransactionHistoryRepository;
+import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 
 /**
@@ -14,10 +21,14 @@ import com.soen6461.carrentalapplication.model.TransactionHistory;
  *
  * @author Admin
  */
-
+@Component
 public class TransactionObserver implements Observer {
+
+
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	LocalDateTime now = LocalDateTime.now();
+    @Autowired
+    TransactionHistoryRepository transactionHistoryRepository;
     /**
      * This method will be notified whenever there is any changes in states
      * of observable classes
@@ -32,6 +43,7 @@ public class TransactionObserver implements Observer {
 
         TransactionHistory transactionHistory = new TransactionHistory(r.transaction, r.transactionType,dtf.format(now).toString());
         r.transactionHistory.add(transactionHistory);
+        transactionHistoryRepository.registerNew(transactionHistory);
 
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("Transaction Observer View :" +

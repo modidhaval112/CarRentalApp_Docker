@@ -36,7 +36,7 @@ public class TransactionHistoryTdg {
 	 */
 	public boolean insert(String transactionId, String timeStamp,String status
 			) {
-		String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".  transactionHistory   ( \n" +
+		String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".transactionHistory   ( \n" +
 				"                    transactionId VARCHAR(100) , \n" +
 				"                    status VARCHAR(60), \n" +
 				"                    timestamp VARCHAR(60),\n" +

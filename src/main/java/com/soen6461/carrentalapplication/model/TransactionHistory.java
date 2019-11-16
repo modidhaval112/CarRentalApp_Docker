@@ -1,5 +1,8 @@
 package com.soen6461.carrentalapplication.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TransactionHistory {
 
     private Transaction transaction;
@@ -9,6 +12,9 @@ public class TransactionHistory {
     // A timestamp does not need a very comprehensible number. It simply needs to mark a moment in time very precisely.
     private String timeStamp;
 
+    public TransactionHistory (){
+
+    }
     /**
      * Constructor for an instance of a recorded transaction in history.
      *
