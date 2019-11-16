@@ -56,9 +56,17 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
 	 */
 	@Override
 	public boolean update( Transaction transactionRecord) {
-		return transactionTdg.update(transactionRecord.getVersion(), transactionRecord.getTransactionId(), transactionRecord.getStatus().toString(),
-				transactionRecord.getStartDateObject(), transactionRecord.getEndDateObject(), transactionRecord.getVehicleRecord().getLpr(),
-				transactionRecord.getClientRecord().getDriversLicenseNumber());
+		return transactionTdg.delete(transactionRecord.getTransactionId());
+		
+		//changed for foreign key constraints
+		/*
+		 * return transactionTdg.update(transactionRecord.getVersion(),
+		 * transactionRecord.getTransactionId(),
+		 * transactionRecord.getStatus().toString(),
+		 * transactionRecord.getStartDateObject(), transactionRecord.getEndDateObject(),
+		 * transactionRecord.getVehicleRecord().getLpr(),
+		 * transactionRecord.getClientRecord().getDriversLicenseNumber());
+		 */
 	}
 
 	

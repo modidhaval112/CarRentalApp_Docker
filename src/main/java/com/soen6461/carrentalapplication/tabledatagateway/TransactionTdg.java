@@ -124,7 +124,7 @@ public class TransactionTdg {
     }
 
     public boolean delete(String transactionId) {
-        String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`vehicleRecord` where `licensePlateNumber`=?";
+        String statement = "DELETE FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=?";
         try {
             con = this.dataSource.getConnection();
             PreparedStatement dbStatement = con.prepareStatement(statement);
