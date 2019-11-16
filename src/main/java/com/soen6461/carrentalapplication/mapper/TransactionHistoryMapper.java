@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.TransactionHistory;
 import com.soen6461.carrentalapplication.tabledatagateway.TransactionHistoryTdg;
 import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
+@Component
 
 public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>{
 	

@@ -1,7 +1,6 @@
 package com.soen6461.carrentalapplication.unitofwork;
 
 import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
-import com.soen6461.carrentalapplication.mapper.TransactionHistoryDataMapper;
 import com.soen6461.carrentalapplication.mapper.TransactionHistoryMapper;
 import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.TransactionHistory;

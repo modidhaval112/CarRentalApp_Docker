@@ -14,9 +14,12 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 
+
+@Repository
 public class TransactionHistoryTdg {
 
 	@Autowired
