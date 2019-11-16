@@ -238,9 +238,16 @@ public class VehicleCatalog {
     public boolean returnTransaction(String transactionId, String licensePlateRecord, String version) {
     	
     	
-        int version_db = 0;
+    	int version_db = 0;
         try {
-            version_db = this.transactionDataMapper.findTransaction(transactionId).getVersion();
+            Transaction transaction = this.transactionDataMapper.findTransaction(transactionId);
+            
+            if(transaction == null) {
+                return false;
+            }
+            
+            version_db = transaction.getVersion();
+            
         } catch (NumberFormatException | ParseException | SQLException e) {
             e.printStackTrace();
         }
@@ -267,7 +274,15 @@ public class VehicleCatalog {
     	
     	int version_db = 0;
         try {
-            version_db = this.transactionDataMapper.findTransaction(transactionId).getVersion();
+            Transaction transaction = this.transactionDataMapper.findTransaction(transactionId);
+            
+            if(transaction == null) {
+            	redirectAttributes.addFlashAttribute("errorMsg", "  Transaction has been already returned or cancelled by another Admin.");
+                return redirectAttributes;
+            }
+            
+            version_db = transaction.getVersion();
+            
         } catch (NumberFormatException | ParseException | SQLException e) {
             e.printStackTrace();
         }

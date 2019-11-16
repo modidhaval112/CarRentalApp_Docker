@@ -129,6 +129,10 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
 	public Transaction findTransaction(String transactionid) throws NumberFormatException, ParseException, SQLException {
 		
 			Map<String, Object> record= transactionTdg.findTransaction(transactionid);
+			
+			if(record == null || record.isEmpty()) {
+				return null;
+			}
 
 			
 

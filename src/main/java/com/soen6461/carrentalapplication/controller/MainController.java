@@ -254,7 +254,7 @@ public class MainController {
 			redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
 		} else {
 			redirectAttributes.addFlashAttribute("errorMsg",
-					"  This transaction has already been returned or cancelled");
+					"  This transaction has already been returned or cancelled by another Admin");
 		}
 		
 		return "redirect:/vehicle-catalog";
