@@ -1,11 +1,23 @@
 package com.soen6461.carrentalapplication.mapper;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.TransactionHistory;
+import com.soen6461.carrentalapplication.tabledatagateway.TransactionHistoryTdg;
+import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
 
 public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>{
+	
+	@Autowired
+	private TransactionHistoryTdg transactionHistoryTdg;
+	@Autowired
+	private TransactionDataMapper tdm;
 
 	@Override
 	public boolean save(TransactionHistory objectToSave) {
@@ -15,8 +27,7 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
 
 	@Override
 	public boolean insert(TransactionHistory objectToInsert) {
-		// TODO Auto-generated method stub
-		return false;
+		return transactionHistoryTdg.insert(objectToInsert.getTransaction().getTransactionId(), objectToInsert.getTimeStamp(), objectToInsert.getStatus());
 	}
 
 	@Override
@@ -38,9 +49,19 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
 	}
 
 	@Override
-	public List<TransactionHistory> findAll() throws ParseException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<TransactionHistory> findAll()  {
+		List<TransactionHistory> transactionsHistory = new ArrayList<>();
+		List<Map<String, Object>> records = transactionHistoryTdg.findAll();
 
+		if(records != null) {
+			for (int i = 0; i < records.size(); i++) {
+				TransactionHistory transactionHistory = new TransactionHistory(
+						tdm.find(records.get(i).get("transactionId").toString()),
+						records.get(i).get("status").toString(), records.get(i).get("timestamp").toString());
+				transactionsHistory.add(transactionHistory);
+			}
+		}
+
+		return transactionsHistory;
+	}
 }
