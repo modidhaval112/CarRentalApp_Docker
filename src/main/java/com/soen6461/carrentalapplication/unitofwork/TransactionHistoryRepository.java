@@ -2,6 +2,7 @@ package com.soen6461.carrentalapplication.unitofwork;
 
 import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
 import com.soen6461.carrentalapplication.mapper.TransactionHistoryDataMapper;
+import com.soen6461.carrentalapplication.mapper.TransactionHistoryMapper;
 import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.TransactionHistory;
 import org.slf4j.Logger;
@@ -14,14 +15,14 @@ import java.util.*;
 @Component
 public class TransactionHistoryRepository implements IUnitOfWork<TransactionHistory> {
     HashMap<String, List<TransactionHistory>> context = new HashMap<String, List<TransactionHistory>>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionHistoryDataMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionHistoryMapper.class);
 
     private Map<String, Boolean> dirtyMap = new HashMap<>();
     private LinkedList<String> deleteRecords = new LinkedList<>();
     private LinkedList<String> deletedTransactionRecords = new LinkedList<>();
 
     @Autowired
-    private TransactionHistoryDataMapper transactionHistoryDataMapper;
+    private TransactionHistoryMapper transactionHistoryDataMapper;
 
     public TransactionHistoryRepository() {
 	}
