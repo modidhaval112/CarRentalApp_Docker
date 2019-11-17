@@ -41,7 +41,7 @@ public class TransactionObserver implements Observer {
 
         Record r = (Record) o;
 
-        TransactionHistory transactionHistory = new TransactionHistory(r.transaction, r.transactionType,dtf.format(now).toString());
+        TransactionHistory transactionHistory = new TransactionHistory(r.transaction.getTransactionId(), r.transaction.getVehicleRecord().getCarType(),r.transaction.getVehicleRecord().getLpr(), r.transaction.getVehicleRecord().getLpr(), r.transaction.getClientRecord().getFirstName(),r.transaction.getStartDate(),r.transaction.getEndDate(),r.transaction.getStatus().toString(),dtf.format(now).toString());
         r.transactionHistory.add(transactionHistory);
 
 
@@ -54,7 +54,7 @@ public class TransactionObserver implements Observer {
                 r.transaction.getVehicleRecord().toString() + "\n");
 
         for (int i = 0; i < r.transactionHistory.size(); i++) {
-            System.out.println("No " + i + " " + r.transactionHistory.get(i).getTransaction().getTransactionId() + " " + r.transactionHistory.get(i).getStatus() + " " + r.transactionHistory.get(i).getTransaction().getClientRecord().getFirstName());
+            System.out.println("No " + i + " " + r.transactionHistory.get(i).getTransactionId() + " " + r.transactionHistory.get(i).getStatus() + " " + r.transactionHistory.get(i).getClientName());
         }
     }
 }

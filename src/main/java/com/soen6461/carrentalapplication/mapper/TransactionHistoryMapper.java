@@ -32,7 +32,7 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
 
 	@Override
 	public boolean insert(TransactionHistory objectToInsert) {
-		return transactionHistoryTdg.insert(objectToInsert.getTransaction().getTransactionId(), objectToInsert.getTimeStamp(), objectToInsert.getStatus());
+		return transactionHistoryTdg.insert(objectToInsert.getTransactionId(), objectToInsert.getVehicleType(), objectToInsert.getModel(), objectToInsert.getLpr(),objectToInsert.getClientName(),objectToInsert.getStartDate(),objectToInsert.getEndDate(), objectToInsert.getStatus(), objectToInsert.getTimeStamp());
 	}
 
 	@Override
@@ -63,9 +63,15 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
 				TransactionHistory transactionHistory = null;
 				try {
 					transactionHistory = new TransactionHistory(
-							tdm.findTransaction(records.get(i).get("transactionId").toString()),
+							records.get(i).get("transactionId").toString(),
+							records.get(i).get("vehicleType").toString(),
+							records.get(i).get("model").toString(),
+							records.get(i).get("lpr").toString(),
+							records.get(i).get("clientName").toString(),
+							records.get(i).get("startDate").toString(),
+							records.get(i).get("endDate").toString(),
 							records.get(i).get("status").toString(), records.get(i).get("timestamp").toString());
-				} catch (NumberFormatException | ParseException | SQLException e) {
+				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
 				transactionsHistory.add(transactionHistory);

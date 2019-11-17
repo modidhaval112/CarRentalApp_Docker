@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS transactionHistory   (
                     model VARCHAR(60),
                     lpr VARCHAR(60),
                     clientName VARCHAR(60),
-                    startDate Date,
-                    endDate Date,
+                    startDate VARCHAR (60),
+                    endDate VARCHAR (60),
                     status VARCHAR(60),
                     timestamp VARCHAR(60)
                     

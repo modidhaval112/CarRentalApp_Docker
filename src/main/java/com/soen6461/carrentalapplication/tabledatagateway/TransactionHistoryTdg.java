@@ -34,20 +34,38 @@ public class TransactionHistoryTdg {
 	 * @param status status of transaction
 	 * @return
 	 */
-	public boolean insert(String transactionId, String timeStamp,String status
+	public boolean insert(String transactionId, String vehicleType, String model, String lpr, String clientname, String startDate, String endDate, String status, String timeStamp
 			) {
-		String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".transactionHistory   ( \n" +
-				"                    transactionId VARCHAR(100) , \n" +
-				"                    status VARCHAR(60), \n" +
-				"                    timestamp VARCHAR(60)\n" +
-				"                );";
+		String sql = "CREATE TABLE IF NOT EXISTS "+ DatabaseHelper.databaseName +"`.`" + "transactionHistory" +
+				"transactionId VARCHAR(100) ,"+
+				"vehicleType VARCHAR(60),"+
+				"model VARCHAR(60),"+
+				"lpr VARCHAR(60),"+
+				"clientName VARCHAR(60),"+
+				"startDate VARCHAR (60),"+
+				"endDate VARCHAR (60),"+
+				"status VARCHAR(60),"+
+				"timestamp VARCHAR(60)"+
+		");";
 
 		String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "transactionHistory" + "`" +
 				"(`transactionId`," +
+				"`vehicleType`," +
+				"`model`," +
+				"`lpr`," +
+				"`clientName`," +
+				"`startDate`," +
+				"`endDate`," +
 				"`status`," +
 				"`timestamp`) " +
 				"VALUES " +
 				"(\"" +  transactionId + "\"," +
+				"\"" + vehicleType +"\","+
+				"\"" + model +"\","+
+				"\"" + lpr +"\","+
+				"\"" + clientname +"\","+
+				"\"" + startDate +"\","+
+				"\"" + endDate +"\","+
 				"\"" + status +"\","+
 				"\"" + timeStamp + "\");";
 

@@ -117,7 +117,7 @@ public class TransactionCatalog {
         Date day = Date.from(dayInst);
 
         for (TransactionHistory t : record.getAllTransactionHistory()) {
-            if ((t.getTransaction().getEndDateObject().compareTo(day) == -1)
+            if ((t.getEndDate().compareTo(day) == -1)
                     && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved)
                     || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
                 temp.add(t);

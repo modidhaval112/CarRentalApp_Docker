@@ -227,20 +227,20 @@ public class VehicleCatalog {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Rented);
             selectedVehicle.addTransaction(newTransaction);
             transactionRepository.registerNew(newTransaction);
-            TransactionHistory transactionHistory = new TransactionHistory(newTransaction, newTransaction.getStatus().toString(),dtf.format(now).toString());
+            TransactionHistory transactionHistory = new TransactionHistory(newTransaction.getTransactionId(), newTransaction.getVehicleRecord().getCarType(), newTransaction.getVehicleRecord().getModel(), newTransaction.getVehicleRecord().getLpr(),newTransaction.getClientRecord().getFirstName(),newTransaction.getStartDate(),newTransaction.getEndDate(),newTransaction.getStatus().toString(),dtf.format(now).toString());
             transactionHistoryRepository.registerNew(transactionHistory);
 
         } else if (status.equals("Reserved")) {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Reserved);
             selectedVehicle.addTransaction(newTransaction);
             transactionRepository.registerNew(newTransaction);
-            TransactionHistory transactionHistory = new TransactionHistory(newTransaction, newTransaction.getStatus().toString(),dtf.format(now).toString());
+            TransactionHistory transactionHistory = new TransactionHistory(newTransaction.getTransactionId(), newTransaction.getVehicleRecord().getCarType(), newTransaction.getVehicleRecord().getModel(), newTransaction.getVehicleRecord().getLpr(),newTransaction.getClientRecord().getFirstName(),newTransaction.getStartDate(),newTransaction.getEndDate(),newTransaction.getStatus().toString(),dtf.format(now).toString());
             transactionHistoryRepository.registerNew(transactionHistory);
         } else {
             Transaction newTransaction = new Transaction(1,forClient, selectedVehicle, startDate, endDate, Transaction.Status.Available);
             selectedVehicle.addTransaction(newTransaction);
             transactionRepository.registerNew(newTransaction);
-            TransactionHistory transactionHistory = new TransactionHistory(newTransaction, newTransaction.getStatus().toString(),dtf.format(now).toString());
+            TransactionHistory transactionHistory = new TransactionHistory(newTransaction.getTransactionId(), newTransaction.getVehicleRecord().getCarType(), newTransaction.getVehicleRecord().getModel(), newTransaction.getVehicleRecord().getLpr(),newTransaction.getClientRecord().getFirstName(),newTransaction.getStartDate(),newTransaction.getEndDate(),newTransaction.getStatus().toString(),dtf.format(now).toString());
             transactionHistoryRepository.registerNew(transactionHistory);
         }
     }
@@ -272,7 +272,7 @@ public class VehicleCatalog {
         if (version_db == Integer.parseInt(version)){
         	VehicleRecord selectedVehicle = this.getVehicleRecord(licensePlateRecord);
             transactionRepository.registerDirty(selectedVehicle.returnTransaction(transactionId));//TODO: Make it register Delete
-            TransactionHistory transactionHistory = new TransactionHistory(reference, "Returned",dtf.format(now).toString());
+            TransactionHistory transactionHistory = new TransactionHistory(reference.getTransactionId(),reference.getVehicleRecord().getCarType(),reference.getVehicleRecord().getModel(),reference.getVehicleRecord().getLpr(),reference.getClientRecord().getFirstName(),reference.getStartDate(),reference.getEndDate(), "Returned",dtf.format(now).toString());
             transactionHistoryRepository.registerNew(transactionHistory);
             return true;
         }
@@ -316,7 +316,7 @@ public class VehicleCatalog {
                         redirectAttributes.addFlashAttribute("warningMsg",
                                 "  Transaction can not be cancelled as vehicle is already Rented.");
                     } else {
-                        TransactionHistory transactionHistory = new TransactionHistory(reference, "Cancelled",dtf.format(now).toString());
+                        TransactionHistory transactionHistory = new TransactionHistory(reference.getTransactionId(),reference.getVehicleRecord().getCarType(),reference.getVehicleRecord().getModel(),reference.getVehicleRecord().getLpr(),reference.getClientRecord().getFirstName(),reference.getStartDate(),reference.getEndDate(), "Cancelled",dtf.format(now).toString());
                         transactionHistoryRepository.registerNew(transactionHistory);
                         transactionRepository.registerDirty(selectedVehicle.removeTransaction(transactionId));
                         redirectAttributes.addFlashAttribute("warningMsg", "  Transaction has been cancelled.");
