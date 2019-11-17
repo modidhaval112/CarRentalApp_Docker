@@ -46,6 +46,13 @@ Since this repository is using JAVA, the following guide line must be followed:
 
 ### How to use the project
 1. Open your browser to http://localhost:8080/login
-2. For clerk access, enter the following credentials username(clerk) password(clerk)
-3. For Administrator access, enter the following credentials username(admin) and password(admin)
+
+Use one of the following login
+
+| role | username | password |
+| --- | --- | --- |
+| clerk | clerk | clerk |
+| clerk | clerk1 | clerk1 |
+| administrator| admin | admin |
+| administrator| admin1 | admin1 |
 
