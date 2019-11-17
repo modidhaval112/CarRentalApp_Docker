@@ -53,9 +53,15 @@ CREATE TABLE IF NOT EXISTS transaction   (
 # "Creation table for transaction logs."
 #---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS transactionHistory   ( 
-                    transactionId VARCHAR(100) , 
-                    timestamp VARCHAR(60), 
-                    status VARCHAR(60)
+                    transactionId VARCHAR(100) ,
+                    vehicleType VARCHAR(60),
+                    model VARCHAR(60),
+                    lpr VARCHAR(60),
+                    clientName VARCHAR(60),
+                    startDate Date,
+                    endDate Date,
+                    status VARCHAR(60),
+                    timestamp VARCHAR(60)
                     
                 );
 #----------------------------------------------------------------------------------------------------------------------
