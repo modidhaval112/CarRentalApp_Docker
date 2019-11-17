@@ -24,9 +24,9 @@
 
 ## How to work on this project
 
-Current state of the build and tests of the project:
-[![Test Status](https://github.com/martin-morin/SOEN6461-SoftwareDesignMethodologies/workflows/Java%20CI/badge.svg)](https://github.com/martin-morin/SOEN6461-SoftwareDesignMethodologies/actions)
+The project is no longer build and tested using the GitHub action since the tests relies on data coming from a database.
 
+**In the same directory as the SAD and SRS screen-cast videos are available to present how to setup to run the application and some of the functionalities delivered this iteration.**
 
 ### Code Style Convention
 Since this repository is using JAVA, the following guide line must be followed:
@@ -46,6 +46,11 @@ Since this repository is using JAVA, the following guide line must be followed:
 
 ### How to use the project
 1. Open your browser to http://localhost:8080/login
-2. For clerk access, enter the following credentials username(clerk) password(clerk)
-3. For Administrator access, enter the following credentials username(admin) and password(admin)
+2. For clerk access, enter the following credentials 
+    - First Clerk : username(clerk) password(clerk)
+    - Second Clerk : username(clerk1) password(clerk1)
+3. For Administrator access, enter the following credentials 
+    - First Admin - username(admin) and password(admin)
+    - Second Admin - username(admin1) and password(admin1)
+4. If you want to add more users, please refer from ".\schema-mysql.sql", and look for 'INSERT INTO USERS' query.
 
