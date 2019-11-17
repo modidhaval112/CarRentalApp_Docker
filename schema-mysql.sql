@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS transactionHistory   (
 insert into users(username, password, role)values('admin','admin','ADMINISTRATOR');
 insert into users(username, password, role)values('admin1','admin1','ADMINISTRATOR');
 insert into users(username, password, role)values('clerk','clerk','USER');
+insert into users(username, password, role)values('clerk1','clerk1','USER');
 
 # Clients
 #----------------------------------------
