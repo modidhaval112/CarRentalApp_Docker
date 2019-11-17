@@ -52,12 +52,11 @@
 			<li class="nav-item active"><a class="nav-link"
 				href="/online-help">Online Help<span class="sr-only"></span>
 			</a></li>
-			<li class="nav-item active"><input type="text"
-				class="form-control" id="auth" name="auth" value="${auth}"
-				readonly="readonly"></li>
 
 		</ul>
-
+		<input style="width: 100px" type="text"
+				class="form-control" id="auth" name="auth" value="${auth}"
+				readonly="readonly">
 		<button
 			class=" form-inline my-2 my-lg-0 btn btn-outline-success my-2 my-sm-0"
 			id="logout" type="submit"

@@ -79,7 +79,7 @@ public class MainController {
 		ModelAndView model = new ModelAndView("onlineHelp");
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -159,7 +159,7 @@ public class MainController {
 		ModelAndView model = new ModelAndView("vehicleCatalog");
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -314,7 +314,8 @@ public class MainController {
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 		ModelAndView model = new ModelAndView("clientRegister");
 		model.addObject("clients", clients);
-
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		model.addObject("auth",auth.getName());
 		if (this.isAdministratorRole()) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -340,7 +341,7 @@ public class MainController {
 		model.addObject("vehicles", vehicles);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -442,7 +443,7 @@ public class MainController {
 		model.addAttribute("version", vr.getVersion());
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addAttribute("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addAttribute("disableButton", 0);
 		} else {
@@ -622,7 +623,7 @@ public class MainController {
 		}
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -649,7 +650,7 @@ public class MainController {
 		model.addObject("transactionsList", transactionsList);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -675,7 +676,7 @@ public class MainController {
 		model.addObject("vehicles", vehicles);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -700,7 +701,7 @@ public class MainController {
 		model.addObject("transactionsList", transactionsList);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
@@ -722,7 +723,7 @@ public class MainController {
 		model.addObject("transactionsList", transactionsList);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+		model.addObject("auth",auth.getName());
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
