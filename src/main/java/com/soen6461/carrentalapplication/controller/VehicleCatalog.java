@@ -595,7 +595,11 @@ public class VehicleCatalog {
     }
 
     public void persistData() {
-        this.vehicleRepository.commit();
         this.transactionRepository.commit();
+        this.transactionHistoryRepository.commit();
+    }
+
+    public void adminPersistData(){
+        this.vehicleRepository.commit();
     }
 }

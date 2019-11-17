@@ -72,6 +72,10 @@ public class MainController {
 	 */
 	@RequestMapping("/online-help")
 	public ModelAndView displayOnlineHelp() {
+		clientController.persistData();
+		vehicleCatalog.persistData();
+		vehicleCatalog.adminPersistData();
+
 		ModelAndView model = new ModelAndView("onlineHelp");
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -143,16 +147,13 @@ public class MainController {
 	 */
 	@RequestMapping("/vehicle-catalog")
 	public ModelAndView displayVehicleCatalog() {
-		//List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
-		
+		//Calling persistData at the beginning so that on tab change all data is saved
 		vehicleCatalog.persistData();
+		vehicleCatalog.adminPersistData();
+		clientController.persistData();
+
+
 		List<VehicleRecord> vehicles = vehicleCatalog.loadTransactions();
-		
-		//Loading all transactions from db
-//		for(VehicleRecord vehicle: vehicles){
-//			vehicle.loadTransactions();
-////			System.out.println("DB:: "+ vehicle.getVehicleTransactionList().get(0));
-//		}
 		List<ClientRecord> clients = clientController.getAllClientRecord();
 
 		ModelAndView model = new ModelAndView("vehicleCatalog");
@@ -307,6 +308,7 @@ public class MainController {
 	@RequestMapping("/client-register")
 	public ModelAndView displayClientRegister() {
 
+		vehicleCatalog.persistData();
 		clientController.persistData();
 
 		List<ClientRecord> clients = clientController.getAllClientRecord();
@@ -329,8 +331,9 @@ public class MainController {
 	 */
 	@RequestMapping("/vehicle-register")
 	public ModelAndView displayVehicleRegister() {
-		//Loading all vehicles from db
-		vehicleCatalog.persistData();
+		//Saving all data on tab change
+		vehicleCatalog.adminPersistData();
+
 		List<VehicleRecord> vehicles = vehicleCatalog.getAllVehicleRecord();
 
 		ModelAndView model = new ModelAndView("vehicleDisplay");
@@ -689,6 +692,9 @@ public class MainController {
 	 */
 	@RequestMapping("/overdue-trans-list")
 	public ModelAndView displayAllOverdueTransactions() {
+		//Calling persist data to save vehicle records on change of tab
+		vehicleCatalog.adminPersistData();
+
 		List<TransactionHistory> transactionsList = transactionCatalog.getOverDueTransactionHistory();
 		ModelAndView model = new ModelAndView("transactions");
 		model.addObject("transactionsList", transactionsList);
