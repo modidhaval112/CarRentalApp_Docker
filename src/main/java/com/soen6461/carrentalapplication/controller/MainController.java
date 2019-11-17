@@ -1,6 +1,5 @@
 package com.soen6461.carrentalapplication.controller;
 
-import com.soen6461.carrentalapplication.config.User;
 import com.soen6461.carrentalapplication.config.UserRegister;
 import com.soen6461.carrentalapplication.model.ClientRecord;
 import com.soen6461.carrentalapplication.model.Transaction;
@@ -10,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -96,27 +99,11 @@ public class MainController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String RedirectToDisplayVehicleCatalog() {
-		if (isAdministratorRole()) {
+		if (userRegister.isAdministratorRole()) {
 			return "redirect:/trans-list";
 		} else {
 			return "redirect:/vehicle-catalog";
 		}
-	}
-
-	/**
-	 * Validates if logged in user is Admin or not
-	 *
-	 * @return true or false
-	 */
-	private boolean isAdministratorRole() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		for (GrantedAuthority authority : authentication.getAuthorities()) {
-			if (authority.toString().equals("ROLE_" + User.RoleType.Administrator)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -129,14 +116,17 @@ public class MainController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, String error, String logout) {
-		if (error != null)
+		if (error != null) {
 			model.addAttribute("errorMsg", "Your username and password are invalid.");
+		}
+
 		if (logout != null) {
 			clientController.persistData();
 			vehicleCatalog.persistData();
 			transactionCatalog.persistData();
 			model.addAttribute("msg", "You have been logged out successfully.");
 		}
+
 		return "/login";
 	}
 
@@ -315,7 +305,7 @@ public class MainController {
 		ModelAndView model = new ModelAndView("clientRegister");
 		model.addObject("clients", clients);
 
-		if (this.isAdministratorRole()) {
+		if (userRegister.isAdministratorRole()) {
 			model.addObject("disableButton", 0);
 		} else {
 			model.addObject("disableButton", 1);
@@ -353,8 +343,6 @@ public class MainController {
 	/**
 	 * Method for adding new client
 	 *
-	 * @param clientRecord
-	 * @param redirectAttributes
 	 * @return redirection to client-register
 	 */
 	@RequestMapping(value = "/create-client", method = RequestMethod.POST)
@@ -389,8 +377,6 @@ public class MainController {
 	/**
 	 * Method for adding new vehicle record
 	 *
-	 * @param vehicleRecord
-	 * @param redirectAttributes
 	 * @return redirection to vehicle-register
 	 */
 	@RequestMapping(value = "/create-vehicle", method = RequestMethod.POST)
@@ -455,9 +441,6 @@ public class MainController {
 	/**
 	 * This Url is used when the update button is pressed in the Vehicle update page
 	 *
-	 * @param vehicleRecord
-	 * @param lpr
-	 * @param redirectAttributes
 	 * @return
 	 */
 	@RequestMapping(value = "/update-vehicle/{id}", method = RequestMethod.POST)
@@ -510,9 +493,6 @@ public class MainController {
 	/**
 	 * Method for updating client record
 	 *
-	 * @param clientRecord
-	 * @param driverslicense
-	 * @param redirectAttributes
 	 * @return redirection to client-register
 	 */
 	@RequestMapping(value = "/update-client/{id}", method = RequestMethod.POST)
