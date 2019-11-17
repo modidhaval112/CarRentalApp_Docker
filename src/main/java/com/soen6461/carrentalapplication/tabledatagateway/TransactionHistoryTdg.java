@@ -47,8 +47,15 @@ public class TransactionHistoryTdg {
 		java.sql.Date startDateDB = null;
 		java.sql.Date endDateDB = null;
 		try {
-			startDateDB = new java.sql.Date(DataValidationHelper.dateFormat.parse(startDate).getTime());
-	        endDateDB = new java.sql.Date(DataValidationHelper.dateFormat.parse(endDate).getTime());
+			
+			startDateDB = new java.sql.Date(DataValidationHelper.dateFormat1.parse(startDate).getTime());
+	        endDateDB = new java.sql.Date(DataValidationHelper.dateFormat1.parse(endDate).getTime());
+	        
+	        System.out.println("Start Date :" + startDate);
+			System.out.println("End Date :" + endDate);
+			System.out.println("DB Start Date :" + startDateDB);
+			System.out.println("DB End Date :" + endDateDB);
+
 
 		} catch (ParseException e2) {
 			e2.printStackTrace();

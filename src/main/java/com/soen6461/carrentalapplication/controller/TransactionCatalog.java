@@ -118,8 +118,8 @@ public class TransactionCatalog {
 
         for (TransactionHistory t : record.getAllTransactionHistory()) {
             if ((t.getEndDate().compareTo(day) == -1)
-                    && (t.getStatus().equals(Transaction.Status.Reserved)
-                    || t.getStatus().equals(Transaction.Status.Rented))) {
+                    && (t.getStatus().equals(Transaction.Status.Reserved.toString())
+                    || t.getStatus().equals(Transaction.Status.Rented.toString()))) {
                 temp.add(t);
             }
         }
@@ -141,7 +141,7 @@ public class TransactionCatalog {
         Date day = Date.from(dayInst);
         for (TransactionHistory t : record.getAllTransactionHistory()) {
             // check if end date is equal to today and check if the status is rented or reserved
-            if (t.getEndDate().compareTo(day) == 0 && (t.getStatus().equals(Transaction.Status.Reserved) || t.getStatus().equals(Transaction.Status.Rented))) {
+            if (t.getEndDate().compareTo(day) == 0 && (t.getStatus().equals(Transaction.Status.Reserved.toString()) || t.getStatus().equals(Transaction.Status.Rented.toString()))) {
                 temp.add(t);
             }
         }
@@ -165,7 +165,7 @@ public class TransactionCatalog {
 
         for (Transaction t : record.getTransactionList()) {
             // check if end date is equal to today and check if the status is rented or reserved
-            if (sdf.parse(t.getEndDate()).compareTo(d1) == 0 || t.getStatus().equals(Transaction.Status.Rented)) {
+            if (sdf.parse(t.getEndDate()).compareTo(d1) == 0 || t.getStatus().equals(Transaction.Status.Rented.toString())) {
                 temp.add(t.getVehicleRecord());
             }
         }
@@ -190,7 +190,7 @@ public class TransactionCatalog {
 
         for (TransactionHistory t : record.getAllTransactionHistory()) {
             // check if end date is equal to today and check if the status is rented or reserved
-            if (t.getEndDate().compareTo(d1) > 0 || t.getStatus().equals(Transaction.Status.Rented)) {
+            if (t.getEndDate().compareTo(d1) > 0 || t.getStatus().equals(Transaction.Status.Rented.toString())) {
                 temp.add(new VehicleRecord(1, 1, t.getLpr(), t.getVehicleType(), t.getMake(), t.getModel(), t.getYear(), t.getColor()));
             }
         }
