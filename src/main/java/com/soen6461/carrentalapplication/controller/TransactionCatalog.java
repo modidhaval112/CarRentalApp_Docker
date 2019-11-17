@@ -199,7 +199,6 @@ public class TransactionCatalog {
     }
 
     public void loadTransactionHistory(){
-        System.out.println("In find all --------------------------------------");
         Record.transactionHistory = transactionHistoryMapper.findAll();
 
     }

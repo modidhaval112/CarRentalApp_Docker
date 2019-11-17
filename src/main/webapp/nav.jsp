@@ -52,6 +52,10 @@
 			<li class="nav-item active"><a class="nav-link"
 				href="/online-help">Online Help<span class="sr-only"></span>
 			</a></li>
+			<li class="nav-item active"><input type="text"
+				class="form-control" id="auth" name="auth" value="${auth}"
+				readonly="readonly"></li>
+
 		</ul>
 
 		<button
