@@ -29,6 +29,10 @@
                     <br /> <br />
                     <H1>Admin Functionality</H1>
                     <br />
+                    <H3 style="color: crimson">Check if only a single Admin can Login</H3>
+                    <p>Steps to check admin login concurrency:</p><br>
+                    <p>1. Login as admin (username: admin, password:admin ), login will be successful</p>
+                    <p>2. Login as admin1 (username: admin1, password: admin1), Expected output: Error message saying another admin is already logged in.</p>
 
                     <H2>Transaction History Management</H2>
                     <p>From the 'Transaction History'</p>
