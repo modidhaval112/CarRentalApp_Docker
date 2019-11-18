@@ -6,36 +6,44 @@ public interface IUnitOfWork<T> {
     String MODIFY = "MODIFY";
 
     /**
-     * @return
+     * Commit the work.
+     *
+     * @return True if the operation was a success, false otherwise.
      */
     boolean commit();
 
     /**
-     * @param obj
-     * @return
+     * Register the object to be deleted.
+     *
+     * @param obj the object to register deleted
      */
     void registerDeleted(T obj);
 
     /**
-     * @param obj
-     * @return
+     * Register the object with dirty data.
+     *
+     * @param obj The object to register dirty.
      */
     void registerDirty(T obj);
 
     /**
-     * @param obj
-     * @return
+     * Register the new object.
+     *
+     * @param obj The object to register new.
      */
     void registerNew(T obj);
 
     /**
-     * @param obj
-     * @return
+     * Register clean.
+     *
+     * @param obj The object to register clean.
      */
     void registerClean(T obj);
 
     /**
-     * @return
+     * Rollback.
+     *
+     * @return True if the operation was a success, false otherwise.
      */
     boolean rollback();
 }

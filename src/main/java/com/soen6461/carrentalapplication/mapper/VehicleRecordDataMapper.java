@@ -101,7 +101,6 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
         return vehicleRecords;
     }
 
-
     /**
      * Get all vehicle records
      *
