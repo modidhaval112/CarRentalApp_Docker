@@ -65,3 +65,6 @@ Use one of the following login
 | administrator| admin | admin |
 | administrator| admin1 | admin1 |
 
+### Concurrency
+
+For Concurrency on 'Client Record' and 'Transactions' please refer to 'Online Help' section after logging in as 'Clerk'.
