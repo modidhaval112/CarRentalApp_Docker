@@ -22,6 +22,9 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
     @Autowired
     private TransactionDataMapper tdm;
 
+    /**
+     * Transaction history mapper class default constructor.
+     */
     public TransactionHistoryMapper() {
     }
 

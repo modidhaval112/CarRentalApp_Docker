@@ -328,7 +328,7 @@ public class VehicleCatalog {
             reference = transaction;
             if (transaction == null) {
                 redirectAttributes.addFlashAttribute("errorMsg",
-                        "  Transaction has been already returned or cancelled by another Admin.");
+                        "  Transaction has been already returned or cancelled by another clerk.");
                 return redirectAttributes;
             }
 

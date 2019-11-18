@@ -29,52 +29,106 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
     @Autowired
     private VehicleRecordDataMapper vehicleRecordDataMapper;
 
+    /**
+     * Default constructor.
+     */
     public VehicleRepository() {
 
     }
 
+    /**
+     * Gets the dirty map.
+     *
+     * @return The dirty map.
+     */
     public Map<String, Boolean> getDirtyMap() {
         return dirtyMap;
     }
 
+    /**
+     * Sets the dirty map.
+     *
+     * @param dirtyMap The dirty map.
+     */
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
 
+    /**
+     * Gets the delete record.
+     *
+     * @return List of deleted records.
+     */
     public LinkedList<String> getDeleteRecords() {
         return deleteRecords;
     }
 
+    /**
+     * Sets the deleted records.
+     *
+     * @param deleteRecords List of deleted records.
+     */
     public void setDeleteRecords(LinkedList<String> deleteRecords) {
         this.deleteRecords = deleteRecords;
     }
 
+    /**
+     * Gets deleted client records.
+     *
+     * @return A list of deleted client records.
+     */
     public LinkedList<String> getDeletedVehicleRecords() {
         return deletedVehicleRecords;
     }
 
+    /**
+     * Sets the deleted vehicle records.
+     *
+     * @param deletedVehicleRecords A list of deleted client records.
+     */
     public void setDeletedVehicleRecords(LinkedList<String> deletedVehicleRecords) {
         this.deletedVehicleRecords = deletedVehicleRecords;
     }
 
+    /**
+     * Register the new object.
+     *
+     * @param vehicleRecord The object to register new.
+     */
     @Override
     public void registerNew(VehicleRecord vehicleRecord) {
         LOGGER.info("Registering {} for insert in context.", vehicleRecord.getLpr());
         register(vehicleRecord, IUnitOfWork.INSERT);
     }
 
+    /**
+     * Register the object with dirty data.
+     *
+     * @param vehicleRecord The object to register dirty.
+     */
     @Override
     public void registerDirty(VehicleRecord vehicleRecord) {
         LOGGER.info("Registering {} for modify in context.", vehicleRecord.getLpr());
         register(vehicleRecord, IUnitOfWork.MODIFY);
     }
 
+    /**
+     * Register the object to be deleted.
+     *
+     * @param vehicleRecord the object to register deleted
+     */
     @Override
     public void registerDeleted(VehicleRecord vehicleRecord) {
         LOGGER.info("Registering {} for delete in context.", vehicleRecord.getLpr());
         register(vehicleRecord, IUnitOfWork.DELETE);
     }
 
+    /**
+     * Register work.
+     *
+     * @param vehicleRecord The vehicle record.
+     * @param operation     The operation.
+     */
     private void register(VehicleRecord vehicleRecord, String operation) {
         List vehiclesToOperate = context.get(operation); // Retrieve list of vehicles that are newly registered to get
         if (vehiclesToOperate == null) {
@@ -85,7 +139,9 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
     }
 
     /**
-     * All UnitOfWork operations are batched and executed together on commit only.
+     * Commit the work.
+     *
+     * @return True if the operation was a success, false otherwise.
      */
     @Override
     public boolean commit() {
@@ -108,6 +164,9 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
         return true;
     }
 
+    /**
+     * Commit insert work.
+     */
     private void commitInsert() {
         List<VehicleRecord> vehiclesToBeInserted = context.get(IUnitOfWork.INSERT);
         for (VehicleRecord vehicleRecord : vehiclesToBeInserted) {
@@ -116,6 +175,9 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
         }
     }
 
+    /**
+     * Commit modify work.
+     */
     private void commitModify() {
         List<VehicleRecord> modifiedClients = context.get(IUnitOfWork.MODIFY);
         for (VehicleRecord vehicleRecord : modifiedClients) {
@@ -126,6 +188,9 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
         this.dirtyMap = new HashMap<>();
     }
 
+    /**
+     * Commit delete work.
+     */
     private void commitDelete() {
         List<VehicleRecord> deletedClients = context.get(IUnitOfWork.DELETE);
         for (VehicleRecord vehicleRecord : deletedClients) {
@@ -136,14 +201,22 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
         this.deleteRecords = new LinkedList<>();
     }
 
-    //Todo: Implement rollback
+    /**
+     * Rollback.
+     *
+     * @return True if the operation was a success, false otherwise.
+     */
     @Override
     public boolean rollback() {
         return false;
     }
 
+    /**
+     * Register clean.
+     *
+     * @param obj The object to register clean.
+     */
     @Override
     public void registerClean(VehicleRecord obj) {
-        //Todo:Implement
     }
 }
