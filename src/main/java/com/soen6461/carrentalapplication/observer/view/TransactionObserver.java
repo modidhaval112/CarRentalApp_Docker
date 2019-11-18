@@ -1,19 +1,12 @@
 package com.soen6461.carrentalapplication.observer.view;
 
+import com.soen6461.carrentalapplication.model.Record;
+import com.soen6461.carrentalapplication.model.TransactionHistory;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 import java.util.Observer;
-
-import com.soen6461.carrentalapplication.model.Record;
-import com.soen6461.carrentalapplication.model.TransactionHistory;
-import com.soen6461.carrentalapplication.unitofwork.TransactionHistoryRepository;
-import com.soen6461.carrentalapplication.unitofwork.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
 /**
  * Class designed for implementing observer pattern
@@ -52,13 +45,5 @@ public class TransactionObserver implements Observer {
                 + "\n" + "Status: " + r.transactionType + "\n" + r.transaction.toString() + "\n"
                 + r.transaction.getClientRecord().toString() + "\n" + r.transaction.getVehicleRecord().toString()
                 + "\n");
-
-        /*
-         * for (int i = 0; i < r.transactionHistory.size(); i++) {
-         * System.out.println("No " + i + " " +
-         * r.transactionHistory.get(i).getTransactionId() + " " +
-         * r.transactionHistory.get(i).getStatus() + " " +
-         * r.transactionHistory.get(i).getClientName()); }
-         */
     }
 }
