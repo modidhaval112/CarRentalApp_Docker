@@ -69,7 +69,7 @@
                         <ol>
                     <li><b>Overdue:</b> Input the date in the newly appeared date field and click search</li>
                     <li><b>Available:</b>   Input from date and to date in newly appeared date fields and click search</li>
-                    <li><b>Due:</b> </li>
+                    <li><b>Due:</b> Input from date and to date in newly appeared date fields and show the currentlu due vehicles on particular date.  </li>
                     <li><b>Currently out vehicles: </b>Select filter and press search</li>
                     <li><b>Make, model, color: </b> Input the appropriate data as per the filter in the search bar and click search</li>
                     <li><b>Greater than, Lesser than:</b> This refers to the make year of the vehicle,<br> enter desired value (year of format 'yyyy') and click search</li>
