@@ -144,6 +144,10 @@ public class UserRegister {
             if (isAdministratorRole()) {
                 String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
                 adminQueue.add(username);
+
+                if (adminQueue.size() > 1) {
+                    SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+                }
             }
         }
     }
