@@ -44,7 +44,6 @@ public class VehicleRecordTdg {
         System.out.println(" hikariPool Maximum Pool Size : " + t.toString());
     }
 
-
     public List<Map<String, Object>> findAll() {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".vehicleRecord";
         Connection con = null;
@@ -82,7 +81,6 @@ public class VehicleRecordTdg {
      *
      * @param lpr license plate
      * @return it returns the vehicle record
-     * @throws SQLException
      */
     public Map<String, Object> findVehicle(String lpr) {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".vehicleRecord where licensePlateNumber=\"" + lpr + "\";";
@@ -114,7 +112,12 @@ public class VehicleRecordTdg {
         }
     }
 
-
+    /**
+     * Method to delete a record from the database
+     *
+     * @param licensePlateNumber Id of the record to delete from the database.
+     * @return True if the operation was a success, false otherwise.
+     */
     public boolean delete(String licensePlateNumber) {
         String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`vehicleRecord` where `licensePlateNumber`=?";
         Connection con = null;
@@ -136,8 +139,20 @@ public class VehicleRecordTdg {
         }
     }
 
-    public boolean insert(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
-                          String color) {
+    /**
+     * Insert vehicle record in database.
+     *
+     * @param id            The vehicle id.
+     * @param recordVersion The record version.
+     * @param lpr           The license plate number.
+     * @param carType       The vehicle type.
+     * @param make          The vehicle make.
+     * @param model         The vehicle model.
+     * @param year          The vehicle year.
+     * @param color         The vehicle color.
+     * @return True if the operation was a success, false otherwise.
+     */
+    public boolean insert(int id, int recordVersion, String lpr, String carType, String make, String model, int year, String color) {
         String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`.`" + "vehicleRecord" + "` (" +
                 "    `licensePlateNumber` VARCHAR(50) PRIMARY KEY," +
                 "    `id` INT," +
@@ -183,8 +198,19 @@ public class VehicleRecordTdg {
         }
     }
 
-    public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year,
-                          String color) {
+    /**
+     * Update vehicle record in database.
+     *
+     * @param recordVersion The record version.
+     * @param lpr           The license plate number.
+     * @param carType       The vehicle type.
+     * @param make          The vehicle make.
+     * @param model         The vehicle model.
+     * @param year          The vehicle year.
+     * @param color         The vehicle color.
+     * @return True if the operation was a success, false otherwise.
+     */
+    public boolean update(int id, int recordVersion, String lpr, String carType, String make, String model, int year, String color) {
         String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "vehicleRecord" + "` SET " +
                 "`id`=" + id + ", " +
                 "`version`=" + "version + 1" + ", " +

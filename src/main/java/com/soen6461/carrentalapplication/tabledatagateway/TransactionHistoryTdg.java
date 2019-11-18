@@ -29,12 +29,21 @@ public class TransactionHistoryTdg {
     Statement stmt = null;
 
     /**
-     * This method inserts transactionhistory
+     * This method inserts transaction history.
      *
-     * @param transactionId transaction id to gets inserted into table
-     * @param timeStamp     timestamp of transaction
-     * @param status        status of transaction
-     * @return
+     * @param transactionId The transaction id.
+     * @param vehicleType   The vehicle type.
+     * @param model         The vehicle model.
+     * @param lpr           the license plate number
+     * @param clientname    The client name.
+     * @param startDate     The start date.
+     * @param endDate       The end date.
+     * @param status        The status.
+     * @param timeStamp     The time stamp.
+     * @param color         The color.
+     * @param make          The make.
+     * @param year          The year.
+     * @return True if the operation was a success, false otherwise.
      */
     public boolean insert(String transactionId, String vehicleType, String model, String lpr, String clientname,
                           String startDate, String endDate, String status, String timeStamp, String color, String make, int year) {
