@@ -110,13 +110,13 @@
                     <c:forEach var="listValue" items="${transactionsList}">
                         <tr class="header">
                             <td>${listValue.timeStamp}</td>
-                            <td>${listValue.transaction.transactionId}</td>
-                            <td>${listValue.transaction.vehicleRecord.carType}</td>
-                            <td>${listValue.transaction.vehicleRecord.model}</td>
-                            <td>${listValue.transaction.vehicleRecord.lpr}</td>
-                            <td>${listValue.transaction.clientRecord.firstName}${listValue.transaction.clientRecord.lastName}</td>
-                            <td>${listValue.transaction.startDate}</td>
-                            <td>${listValue.transaction.endDate}</td>
+                            <td>${listValue.transactionId}</td>
+                            <td>${listValue.vehicleType}</td>
+                            <td>${listValue.model}</td>
+                            <td>${listValue.lpr}</td>
+                            <td>${listValue.clientName}</td>
+                            <td>${listValue.startDate}</td>
+                            <td>${listValue.endDate}</td>
                             <td>${listValue.status}</td>
                         </tr>
                     </c:forEach>

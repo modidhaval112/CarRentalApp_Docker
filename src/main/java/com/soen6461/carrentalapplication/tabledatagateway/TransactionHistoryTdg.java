@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,8 +17,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.soen6461.carrentalapplication.Helpers.DataValidationHelper;
 import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
-
 
 @Repository
 public class TransactionHistoryTdg {
@@ -29,28 +30,43 @@ public class TransactionHistoryTdg {
 
 	/**
 	 * This method inserts transactionhistory
+	 * 
 	 * @param transactionId transaction id to gets inserted into table
-	 * @param timeStamp timestamp of transaction
-	 * @param status status of transaction
+	 * @param timeStamp     timestamp of transaction
+	 * @param status        status of transaction
 	 * @return
 	 */
-	public boolean insert(String transactionId, String timeStamp,String status
-			) {
-		String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".transactionHistory   ( \n" +
-				"                    transactionId VARCHAR(100) , \n" +
-				"                    status VARCHAR(60), \n" +
-				"                    timestamp VARCHAR(60)\n" +
-				"                );";
+	public boolean insert(String transactionId, String vehicleType, String model, String lpr, String clientname,
+			String startDate, String endDate, String status, String timeStamp, String color, String make, int year) {
+		String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`." + "transactionHistory"
+				+ "(transactionId VARCHAR(100) ," + "vehicleType VARCHAR(60)," + "model VARCHAR(60),"
+				+ "lpr VARCHAR(60)," + "clientName VARCHAR(60)," + "startDate VARCHAR (60)," + "endDate VARCHAR (60),"
+				+ "status VARCHAR(60)," + "timestamp VARCHAR(60)," + "color VARCHAR(60)," + "make VARCHAR(60)," +
+				"year INT);";
+		
+		java.sql.Date startDateDB = null;
+		java.sql.Date endDateDB = null;
+		try {
+			
+			startDateDB = new java.sql.Date(DataValidationHelper.dateFormat1.parse(startDate).getTime());
+	        endDateDB = new java.sql.Date(DataValidationHelper.dateFormat1.parse(endDate).getTime());
+	        
+	        System.out.println("Start Date :" + startDate);
+			System.out.println("End Date :" + endDate);
+			System.out.println("DB Start Date :" + startDateDB);
+			System.out.println("DB End Date :" + endDateDB);
 
-		String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "transactionHistory" + "`" +
-				"(`transactionId`," +
-				"`status`," +
-				"`timestamp`) " +
-				"VALUES " +
-				"(\"" +  transactionId + "\"," +
-				"\"" + status +"\","+
-				"\"" + timeStamp + "\");";
 
+		} catch (ParseException e2) {
+			e2.printStackTrace();
+		}
+
+		String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "transactionHistory" + "`"
+				+ "(`transactionId`," + "`vehicleType`," + "`model`," + "`lpr`," + "`clientName`," + "`startDate`,"
+				+ "`endDate`," + "`status`," + "`timestamp`," + "`color`," + "`make`," + "`year`) " + "VALUES " + "(\"" + transactionId + "\"," + "\""
+				+ vehicleType + "\"," + "\"" + model + "\"," + "\"" + lpr + "\"," + "\"" + clientname + "\"," + "\""
+				+ startDateDB + "\"," + "\"" + endDateDB + "\"," + "\"" + status + "\"," + "\"" + timeStamp + "\","
+				+ "\"" + color + "\"," + "\"" + make + "\"," + "\"" + year + "\");";
 
 		try {
 			con = this.dataSource.getConnection();
@@ -72,9 +88,9 @@ public class TransactionHistoryTdg {
 		}
 	}
 
-
 	/**
 	 * Method gets all transactions based on history
+	 * 
 	 * @return returns history of transactions
 	 */
 	public List<Map<String, Object>> findAll() {
