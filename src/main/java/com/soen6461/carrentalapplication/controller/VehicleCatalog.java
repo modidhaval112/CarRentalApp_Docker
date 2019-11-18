@@ -463,7 +463,18 @@ public class VehicleCatalog {
 	 *
 	 * @param lpr license plate number
 	 */
-	public boolean deleteVehicleRecord(String lpr) {
+	public String deleteVehicleRecord(String lpr) {
+		
+		
+		VehicleRecord selectedVehicle = getVehicleRecord(lpr);
+		List<Transaction> transactionList = transactionDataMapper.findAll(selectedVehicle.getLpr());
+
+		for (int j = 0; j < transactionList.size(); j++) {
+			if (transactionList.get(j).getVehicleRecord().getLpr()
+					.equalsIgnoreCase(lpr)) {
+				return "  To delete vehicle record all the transactions under it's must be 'Returned' or 'Cancelled'.";
+			}
+		}
 		LinkedList<String> deleteRecords = vehicleRepository.getDeleteRecords();
 		LinkedList<String> deletedVehicleRecords = vehicleRepository.getDeletedVehicleRecords();
 
@@ -475,10 +486,10 @@ public class VehicleCatalog {
 			deleteRecords.add(lpr);
 			vehicleRepository.setDeleteRecords(deleteRecords);
 
-			return true;
+			return " Vehicle Record has been deleted successfully";		
 		}
 
-		return false;
+		return " Vehicle Record has been already deleted or updated by another Admin.";
 	}
 
 	/**
