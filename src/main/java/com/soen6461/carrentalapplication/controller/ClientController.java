@@ -1,6 +1,5 @@
 package com.soen6461.carrentalapplication.controller;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.soen6461.carrentalapplication.mapper.ClientRecordDataMapper;
+import com.soen6461.carrentalapplication.mapper.TransactionDataMapper;
 import com.soen6461.carrentalapplication.model.ClientRecord;
+import com.soen6461.carrentalapplication.model.Transaction;
 import com.soen6461.carrentalapplication.model.VehicleRecord;
 import com.soen6461.carrentalapplication.unitofwork.ClientRepository;
 
@@ -26,9 +27,15 @@ public class ClientController {
 
 	@Autowired
 	private ClientRecordDataMapper clientRecordDataMapper;
+	
+	@Autowired
+	private VehicleCatalog vehicleCatalog;
 
 	@Autowired
 	private ClientRepository clientRepository;
+	
+	@Autowired
+	private TransactionDataMapper transactionDataMapper;
 
 	private static List<ClientRecord> clientRecordList = new ArrayList<>();
 
@@ -38,7 +45,7 @@ public class ClientController {
 	private ClientController() {
 	}
 
-	void loadClientRecords() throws ParseException{
+	void loadClientRecords() throws ParseException {
 		this.clientRecordList = this.clientRecordDataMapper.findAll();
 	}
 
@@ -69,15 +76,15 @@ public class ClientController {
 
 	@PostMapping(value = "/get-all-client-records")
 	public List getAllClientRecord() {
-		 List<ClientRecord> copy = new ArrayList<ClientRecord>();
-	        try {
-	            copy.addAll(this.clientRecordDataMapper.findAll());
-	        } catch (NumberFormatException | ParseException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
+		List<ClientRecord> copy = new ArrayList<ClientRecord>();
+		try {
+			copy.addAll(this.clientRecordDataMapper.findAll());
+		} catch (NumberFormatException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	        return copy;
+		return copy;
 	}
 
 	/**
@@ -86,7 +93,24 @@ public class ClientController {
 	 * @param driversLicenseNumber the drivers license number to use to identify the
 	 *                             client record to remove.
 	 */
-	public boolean deleteClientRecord(String driversLicenseNumber) {
+	public String deleteClientRecord(String driversLicenseNumber) {
+
+		List<VehicleRecord> listVehicle = vehicleCatalog.getAllVehicleRecord();
+
+		for (int i = 0; i < listVehicle.size(); i++) {
+			List<Transaction> transactionList = transactionDataMapper.findAll(listVehicle.get(i).getLpr());
+			System.out.println("driverslicense : " + driversLicenseNumber);
+
+			for (int j = 0; j < transactionList.size(); j++) {
+				System.out.println("Transaction Client Record license : "
+						+ transactionList.get(j).getClientRecord().getDriversLicenseNumber());
+				if (transactionList.get(j).getClientRecord().getDriversLicenseNumber()
+						.equalsIgnoreCase(driversLicenseNumber)) {
+					return "  To delete client record all the transactions under his name must be 'Returned' or 'Cancelled'.";
+				}
+			}
+
+		}
 
 		LinkedList<String> deleteRecords = clientRepository.getDeleteRecords();
 		LinkedList<String> deletedClientRecords = clientRepository.getDeletedClientRecords();
@@ -100,12 +124,12 @@ public class ClientController {
 					deleteRecords.add(driversLicenseNumber);
 					clientRepository.setDeleteRecords(deleteRecords);
 
-					return true;
+					return " Client Record has been deleted successfully";
 				}
 			}
 		}
 
-		return false;
+		return " Clinet Record has been already deleted or updated by another Clerk.";
 	}
 
 	/**
@@ -124,7 +148,7 @@ public class ClientController {
 
 		System.out.println("Version_db : " + version_db);
 		System.out.println("Version : " + clientRecord.getVersion());
-		
+
 		if (version_db == clientRecord.getVersion()
 				&& !clientRepository.getDirtyMap().containsKey(clientRecord.getDriversLicenseNumber())) {
 
@@ -155,15 +179,15 @@ public class ClientController {
 	 */
 	private ClientRecord search(String driversLicenseNumber) {
 		ClientRecord clientRecord = null;
-		
-        try {
-        	clientRecord = this.clientRecordDataMapper.findclient(driversLicenseNumber);
-        } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
-        return clientRecord;
+		try {
+			clientRecord = this.clientRecordDataMapper.findclient(driversLicenseNumber);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return clientRecord;
 	}
 
 	public void persistData() {
