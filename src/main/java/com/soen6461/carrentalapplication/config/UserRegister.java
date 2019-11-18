@@ -11,12 +11,8 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -120,9 +116,17 @@ public class UserRegister {
         return administratorList;
     }
 
+    /**
+     * Management of the login of admin once the session is destroyed.
+     */
     @Component
     public class SessionListenerDestroy implements ApplicationListener<HttpSessionDestroyedEvent> {
 
+        /**
+         * Event called on session destroy.
+         *
+         * @param event Http Session Destroyed Event
+         */
         @Override
         public void onApplicationEvent(HttpSessionDestroyedEvent event) {
             System.out.println("Destroyed session");
@@ -134,9 +138,17 @@ public class UserRegister {
         }
     }
 
+    /**
+     * Management of the login of admin post login.
+     */
     @Component
     public class SessionListenerStart implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 
+        /**
+         * Event called once the user is authenticated.
+         *
+         * @param event Interactive Authentication Success Event
+         */
         @Override
         public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
             UserDetails user = (UserDetails) event.getAuthentication().getPrincipal();
@@ -170,5 +182,4 @@ public class UserRegister {
 
         return false;
     }
-
 }

@@ -34,21 +34,42 @@ public class ClientSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserRegister userRegister;
 
+    /**
+     * Password encoder
+     *
+     * @return no operation password encoder.
+     */
     @Bean
     public static NoOpPasswordEncoder passwordEncoder() {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 
+    /**
+     * Web security configuration.
+     *
+     * @param web web security.
+     * @throws Exception Configuration exception.
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**");
     }
 
+    /**
+     * Session registration.
+     *
+     * @return session registry.
+     */
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 
+    /**
+     * Http session event publisher.
+     *
+     * @return The servelet listener registration bean.
+     */
     @Bean
     public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
