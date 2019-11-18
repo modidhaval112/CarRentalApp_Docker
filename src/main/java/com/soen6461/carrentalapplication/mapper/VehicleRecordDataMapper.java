@@ -74,7 +74,6 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
      */
     @Override
     public VehicleRecord find(String id) {
-        // TODO: Not Implemented.
         return null;
     }
 
@@ -107,8 +106,6 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
      * Get all vehicle records
      *
      * @return True if the operation was a success, false otherwise.
-     * @throws ParseException
-     * @throws NumberFormatException
      */
     public VehicleRecord findVehicle(String lpr) throws NumberFormatException, ParseException, SQLException {
         Map<String, Object> record = vehicleRecordTdg.findVehicle(lpr);

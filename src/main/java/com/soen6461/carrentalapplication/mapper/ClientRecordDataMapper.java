@@ -85,7 +85,6 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
      */
     @Override
     public boolean save(ClientRecord objectToInsert) {
-        // TODO: Not implemented.
         return false;
     }
 
@@ -110,7 +109,6 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
 
     @Override
     public ClientRecord find(String id) {
-        // TODO Auto-generated method stub
         return null;
     }
 }
