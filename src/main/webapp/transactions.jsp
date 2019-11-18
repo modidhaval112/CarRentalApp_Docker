@@ -29,7 +29,7 @@
 <div class="container">
 
     <!-- Search box-->
-    <form method="GET" action="${contextPath}/translist-filter"
+    <form method="GET" action="#"
           class="input-group mb-3">
         <div class="input-group mb-3">
 <%--            <div class="input-group-prepend">--%>
