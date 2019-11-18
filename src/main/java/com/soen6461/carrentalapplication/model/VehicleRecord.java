@@ -22,6 +22,9 @@ public class VehicleRecord extends Record {
     private String color;
     private String lpr;
 
+    /**
+     * The vehicle record default constructor
+     */
     public VehicleRecord() {
     }
 
@@ -219,6 +222,4 @@ public class VehicleRecord extends Record {
                 " color:" + this.getColor() +
                 "}";
     }
-
-
 }

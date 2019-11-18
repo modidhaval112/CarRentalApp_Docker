@@ -29,6 +29,9 @@ public class Transaction {
         Cancelled
     }
 
+    /**
+     * Transaction class default constructor.
+     */
     public Transaction() {
     }
 
@@ -165,7 +168,6 @@ public class Transaction {
         else if (status.equalsIgnoreCase("reserved"))
             return Status.Reserved;
         return null;
-
     }
 
     /**
@@ -243,7 +245,6 @@ public class Transaction {
     private void setVersion(int version) {
         this.version = version;
     }
-
 
     public String toString() {
         return "transaction:{ VehicleKey:" + this.vehicleRecord.getLpr() +

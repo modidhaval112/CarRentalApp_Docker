@@ -31,6 +31,9 @@ public class Record extends Observable {
     public static List<TransactionHistory> transactionHistory = new ArrayList<>();
     public List<Transaction> transactionList = new ArrayList<Transaction>();
 
+    /**
+     * Record class default constructor.
+     */
     public Record() {
         to = new TransactionObserver();
         this.addObserver(to);
@@ -43,11 +46,9 @@ public class Record extends Observable {
      */
     public void addTransaction(Transaction transaction) {
         this.transactionList.add(transaction);
-        //Updating unit of work
 
         if (transaction.getStatus() == Transaction.Status.Rented) {
             setObserver("Rented", transaction);
-
         } else if (transaction.getStatus() == Transaction.Status.Reserved) {
             setObserver("Reserved", transaction);
         }
@@ -68,10 +69,11 @@ public class Record extends Observable {
             if (t.getTransactionId().equals(transactionId)) {
                 setObserver("Cancelled", t);
                 t.setStatus(Transaction.Status.Cancelled);
-                //iterator.remove();
+
                 return t;
             }
         }
+
         return null;
     }
 
@@ -89,12 +91,11 @@ public class Record extends Observable {
             if (t.getTransactionId().equals(transactionId)) {
                 setObserver("Returned", t);
                 t.setStatus(Transaction.Status.Returned);
-                //iterator.remove();
-                //Add it to unit of work
+
                 return t;
             }
-
         }
+
         return null;
     }
 
@@ -104,9 +105,9 @@ public class Record extends Observable {
      * @return The transaction list.
      */
     public List<Transaction> getTransactionList() {
+
         // To protect the main vehicle record list, only a copy is provided.
         // this avoids someone other than this class from adding or removing vehicles.
-
         List<Transaction> copy = new ArrayList<Transaction>();
         for (Transaction transaction : this.transactionList) {
             copy.add(transaction);
@@ -118,12 +119,12 @@ public class Record extends Observable {
     /**
      * Gets the list of all transactions.
      *
-     * @return
+     * @return List of transaction history.
      */
     public List<TransactionHistory> getAllTransactionHistory() {
+
         // To protect the main history list, only a copy is provided.
         // this avoids someone other than this class from adding or removing vehicles.
-
         List<TransactionHistory> copy = new ArrayList<TransactionHistory>();
         for (TransactionHistory transactionHistory : this.transactionHistory) {
             copy.add(transactionHistory);
@@ -135,16 +136,13 @@ public class Record extends Observable {
     /**
      * Sets the observer.
      *
-     * @param message
-     * @param transaction
+     * @param message The message.
+     * @param transaction The transaction.
      */
     public void setObserver(String message, Transaction transaction) {
         transactionType = message;
         this.transaction = transaction;
-
         setChanged();
         notifyObservers();
     }
-
 }
-

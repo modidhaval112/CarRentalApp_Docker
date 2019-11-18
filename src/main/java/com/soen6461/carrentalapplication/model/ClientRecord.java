@@ -18,31 +18,20 @@ public class ClientRecord {
     private String phoneNumber;
     private Date expirationDate;
 
+    /**
+     * ClientRecord class default constructor.
+     */
     public ClientRecord() {
     }
 
     /**
-     * ClientRecord class parameterised constructor
+     * ClientRecord class parameterised constructor.
      *
      * @param driversLicenseNumber the clients drivers license number.
      * @param firstName            the clients first name.
      * @param lastName             the clients last name.
      * @param phoneNumber          the clients phone number.
      * @param expirationDate       the clients drivers license expiration date.
-     */
-    /*
-     * public ClientRecord(String driversLicenseNumber, String firstName, String
-     * lastName, String phoneNumber, String expirationDate) {
-     *
-     * // The usage properties allows to add some validation in the properties to
-     * validate the entries. System.out.println("First Controller Date : " +
-     * expirationDate);
-     *
-     * this.setDriversLicenseNumber(driversLicenseNumber);
-     * this.setFirstName(firstName); this.setLastName(lastName);
-     * this.setPhoneNumber(phoneNumber); try {
-     * this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate))
-     * ; } catch (Exception e) { e.printStackTrace(); } }
      */
     public ClientRecord(String driversLicenseNumber, int version, String firstName, String lastName, String phoneNumber, String expirationDate) {
 
@@ -125,8 +114,6 @@ public class ClientRecord {
         if (DataValidationHelper.isPhoneNumberFormatValid(phoneNumber)) {
             this.phoneNumber = phoneNumber;
         }
-
-        // throw new InvalidParameterException("Phone number format not valid: " + phoneNumber);
     }
 
     /**
@@ -166,8 +153,6 @@ public class ClientRecord {
 
         if (DataValidationHelper.isDriversLicenseNumber(driversLicenseNumber)) {
             this.driversLicenseNumber = driversLicenseNumber;
-        } else {
-            // throw new InvalidParameterException("drivers license number format not valid: " + driversLicenseNumber);
         }
     }
 
