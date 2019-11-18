@@ -547,11 +547,20 @@ public class MainController {
 	public String deleteClientRecord(@PathVariable("id") String driverslicense, RedirectAttributes redirectAttributes) {
 
 		clientController.persistData();
-		if (clientController.deleteClientRecord(driverslicense)) {
-			redirectAttributes.addFlashAttribute("warningMsg", "  Client Record has been deleted.");
-		} else {
-			redirectAttributes.addFlashAttribute("errorMsg", "  Client Record has ALREADY been deleted.");
+		
+		String message = clientController.deleteClientRecord(driverslicense);
+		
+		if(message.equalsIgnoreCase("  To delete client record all the transactions under his name must be 'Returned' or 'Cancelled'.")) {
+			redirectAttributes.addFlashAttribute("errorMsg", message);
 		}
+		else if(message.equalsIgnoreCase(" Clinet Record has been already deleted or updated by another Clerk.")) {
+			redirectAttributes.addFlashAttribute("warningMsg", message);
+		}
+		else if(message.equalsIgnoreCase(" Client Record has been deleted successfully")) {
+			redirectAttributes.addFlashAttribute("successMsg", message);
+		}
+		
+
 
 		return "redirect:/client-register";
 	}
@@ -724,6 +733,7 @@ public class MainController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		model.addObject("auth",auth.getName());
+
 		if (auth.getAuthorities().iterator().next().toString().equalsIgnoreCase("ROLE_ADMINISTRATOR")) {
 			model.addObject("disableButton", 0);
 		} else {
