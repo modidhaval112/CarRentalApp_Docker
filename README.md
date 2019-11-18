@@ -46,6 +46,10 @@ Since this repository is using JAVA, the following guide line must be followed:
 2. Run the car rental application
 3. Open your browser to http://localhost:8080/login
 
+### Building and running project using mvn command line
+If maven is installed in the system run the project using command mvn spring-boot:run from the command line without any hassles.
+
+
 ### How to use the project
 1. Open your browser to http://localhost:8080/login
 2. For clerk access, enter the following credentials 
