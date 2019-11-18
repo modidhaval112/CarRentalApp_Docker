@@ -54,3 +54,12 @@ Since this repository is using JAVA, the following guide line must be followed:
     - Second Admin - username(admin1) and password(admin1)
 4. If you want to add more users, please refer from ".\schema-mysql.sql", and look for 'INSERT INTO USERS' query.
 
+Use one of the following login
+
+| role | username | password |
+| --- | --- | --- |
+| clerk | clerk | clerk |
+| clerk | clerk1 | clerk1 |
+| administrator| admin | admin |
+| administrator| admin1 | admin1 |
+

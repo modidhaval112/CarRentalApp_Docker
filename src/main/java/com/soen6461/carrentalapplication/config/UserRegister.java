@@ -1,17 +1,31 @@
 package com.soen6461.carrentalapplication.config;
 
+import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.session.HttpSessionDestroyedEvent;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
-import javax.sql.DataSource;
-
-import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Queue;
 
 /**
  * This class is responsible to control the REST services related to users.
@@ -23,7 +37,12 @@ public class UserRegister {
     @Autowired
     DataSource dataSource;
 
+    @Autowired
+    private SessionRegistry sessionRegistry;
+
     private List<User> userList = new ArrayList<User>();
+
+    private static Queue<String> adminQueue = new LinkedList<>();
 
     public void setUserRegisterObject() {
 
@@ -52,7 +71,6 @@ public class UserRegister {
             try {
                 con.close();
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -100,4 +118,55 @@ public class UserRegister {
 
         return administratorList;
     }
+
+    @Component
+    public class SessionListenerDestroy implements ApplicationListener<HttpSessionDestroyedEvent> {
+
+        @Override
+        public void onApplicationEvent(HttpSessionDestroyedEvent event) {
+            System.out.println("Destroyed session");
+
+            if (isAdministratorRole()) {
+                String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+                adminQueue.remove(username);
+            }
+        }
+    }
+
+    @Component
+    public class SessionListenerStart implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
+
+        @Override
+        public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
+            UserDetails user = (UserDetails) event.getAuthentication().getPrincipal();
+            System.out.println("LOGIN name: " + user.getUsername());
+
+            if (isAdministratorRole()) {
+                String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+
+                if (adminQueue.size() == 0) {
+                    adminQueue.add(username);
+                } else {
+                    SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+                }
+            }
+        }
+    }
+
+    /**
+     * Validates if logged in user is Admin or not
+     *
+     * @return true or false
+     */
+    public boolean isAdministratorRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            if (authority.toString().equals("ROLE_" + User.RoleType.Administrator)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
