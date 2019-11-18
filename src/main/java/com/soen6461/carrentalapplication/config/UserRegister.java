@@ -42,7 +42,7 @@ public class UserRegister {
 
     private List<User> userList = new ArrayList<User>();
 
-    private Queue<String> adminQueue = new LinkedList<>();
+    private static Queue<String> adminQueue = new LinkedList<>();
 
     public void setUserRegisterObject() {
 
@@ -143,9 +143,10 @@ public class UserRegister {
 
             if (isAdministratorRole()) {
                 String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-                adminQueue.add(username);
 
-                if (adminQueue.size() > 1) {
+                if (adminQueue.size() == 0) {
+                    adminQueue.add(username);
+                } else {
                     SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
                 }
             }
