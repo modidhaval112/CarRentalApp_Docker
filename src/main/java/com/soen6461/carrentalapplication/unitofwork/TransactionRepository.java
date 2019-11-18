@@ -23,12 +23,12 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
     private Map<String, Boolean> dirtyMap = new HashMap<>();
     private LinkedList<String> deleteRecords = new LinkedList<>();
     private LinkedList<String> deletedTransactionRecords = new LinkedList<>();
-    
+
     @Autowired
     private TransactionDataMapper transactionDataMapper;
 
-    public  TransactionRepository() {
-	}
+    public TransactionRepository() {
+    }
 
     public Map<String, Boolean> getDirtyMap() {
         return dirtyMap;
@@ -37,51 +37,50 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
-    
+
     public LinkedList<String> getDeleteRecords() {
-		return deleteRecords;
-	}
-    
+        return deleteRecords;
+    }
+
     public void setDeleteRecords(LinkedList<String> deleteRecords) {
-		this.deleteRecords = deleteRecords;
-	}
-	
-	public LinkedList<String> getDeletedTransactionRecords() {
-		return deletedTransactionRecords;
-	}
+        this.deleteRecords = deleteRecords;
+    }
 
-	public void setDeletedTransactionRecords(LinkedList<String> deletedTransactionRecords) {
-		this.deletedTransactionRecords = deletedTransactionRecords;
-	}
-	
-	
+    public LinkedList<String> getDeletedTransactionRecords() {
+        return deletedTransactionRecords;
+    }
 
-	 @Override
-	    public void registerNew(Transaction transaction) {
-	        LOGGER.info("Registering {} for insert in context.", transaction.getTransactionId());
-	        register(transaction, IUnitOfWork.INSERT);
-	    }
+    public void setDeletedTransactionRecords(LinkedList<String> deletedTransactionRecords) {
+        this.deletedTransactionRecords = deletedTransactionRecords;
+    }
 
-	    @Override
-	    public void registerDirty(Transaction transaction) {
-	        LOGGER.info("Registering {} for modify in context.", transaction.getTransactionId());
-	        register(transaction, IUnitOfWork.MODIFY);
-	    }
 
-	    @Override
-	    public void registerDeleted(Transaction transaction) {
-	        LOGGER.info("Registering {} for delete in context.", transaction.getTransactionId());
-	        register(transaction, IUnitOfWork.DELETE);
-	    }
+    @Override
+    public void registerNew(Transaction transaction) {
+        LOGGER.info("Registering {} for insert in context.", transaction.getTransactionId());
+        register(transaction, IUnitOfWork.INSERT);
+    }
 
-	    private void register(Transaction transaction, String operation) {
-	        List transactionsToOperate = context.get(operation); // Retrieve list of vehicles that are newly registered to get
-	        if (transactionsToOperate == null) {
-	        	transactionsToOperate = new ArrayList<>();
-	        }
-	        transactionsToOperate.add(transaction);
-	        context.put(operation, transactionsToOperate); // Old list is replaced with new list
-	    }
+    @Override
+    public void registerDirty(Transaction transaction) {
+        LOGGER.info("Registering {} for modify in context.", transaction.getTransactionId());
+        register(transaction, IUnitOfWork.MODIFY);
+    }
+
+    @Override
+    public void registerDeleted(Transaction transaction) {
+        LOGGER.info("Registering {} for delete in context.", transaction.getTransactionId());
+        register(transaction, IUnitOfWork.DELETE);
+    }
+
+    private void register(Transaction transaction, String operation) {
+        List transactionsToOperate = context.get(operation); // Retrieve list of vehicles that are newly registered to get
+        if (transactionsToOperate == null) {
+            transactionsToOperate = new ArrayList<>();
+        }
+        transactionsToOperate.add(transaction);
+        context.put(operation, transactionsToOperate); // Old list is replaced with new list
+    }
 
     /**
      * All UnitOfWork operations are batched and executed together on commit only.
@@ -135,19 +134,17 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
         this.deleteRecords = new LinkedList<>();
     }
 
-	@Override
-	public void registerClean(Transaction obj) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void registerClean(Transaction obj) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public boolean rollback() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    }
 
-	
+    @Override
+    public boolean rollback() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 
 }

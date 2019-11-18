@@ -54,7 +54,7 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
      * Get all client records
      *
      * @return The complete list of clients.
-     * @throws ParseException Can throw exception if an error occur when parsing an element from the database.
+     * @throws ParseException        Can throw exception if an error occur when parsing an element from the database.
      * @throws NumberFormatException Can throw exception if an error occur when parsing a numeric element from the database.
      */
     @Override
@@ -62,7 +62,7 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
         List<ClientRecord> clientRecords = new ArrayList<>();
         List<Map<String, Object>> records = clientRecordTdg.findAll();
 
-        if(records != null) {
+        if (records != null) {
             for (int i = 0; i < records.size(); i++) {
                 ClientRecord clientRecord = new ClientRecord(
                         records.get(i).get("driversLicenseNumber").toString(),
@@ -96,7 +96,7 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
      * @return The object mapping to the given id.
      */
     public ClientRecord findclient(String id) {
-    	Map<String, Object> record = clientRecordTdg.findclient(id);
+        Map<String, Object> record = clientRecordTdg.findclient(id);
 
         ClientRecord clientRecord = new ClientRecord(record.get("driversLicenseNumber").toString(),
                 Integer.parseInt(record.get("version").toString()),
@@ -108,9 +108,9 @@ public class ClientRecordDataMapper implements IDataMapper<ClientRecord> {
         return clientRecord;
     }
 
-	@Override
-	public ClientRecord find(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ClientRecord find(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

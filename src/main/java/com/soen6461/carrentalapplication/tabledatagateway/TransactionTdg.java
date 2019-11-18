@@ -23,7 +23,6 @@ public class TransactionTdg {
 
     @Autowired
     DataSource dataSource;
-    //	DatabaseConnection dc= DatabaseConnection.getInstance();
     Connection con;
     Statement stmt = null;
 
@@ -62,8 +61,8 @@ public class TransactionTdg {
                 "`licensePlateNumber`," +
                 "`driversLicenseNumber`) " +
                 "VALUES " +
-                "(\"" +  transactionId + "\"," +
-                "\"" + recordVersion +"\","+
+                "(\"" + transactionId + "\"," +
+                "\"" + recordVersion + "\"," +
                 "\"" + status + "\"," +
                 "\"" + new java.sql.Date(startDate.getTime()) + "\"," +
                 "\"" + new java.sql.Date(endDate.getTime()) + "\"," +
@@ -93,10 +92,10 @@ public class TransactionTdg {
 
     public boolean update(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
                           String driversLicenseNumber) {
-    	
+
         java.sql.Date startDateDB = new java.sql.Date(startDate.getTime());
         java.sql.Date endDateDB = new java.sql.Date(startDate.getTime());
-        
+
         String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "transaction" + "` SET " +
                 "`version`=" + "version + 1" + ", " +
                 "`transactionId`=\"" + transactionId + "\", " +
@@ -207,7 +206,8 @@ public class TransactionTdg {
             }
         }
     }
-    public Map<String, Object> findTransaction(String transactionid)  {
+
+    public Map<String, Object> findTransaction(String transactionid) {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=\"" + transactionid + "\";";
         try {
             con = this.dataSource.getConnection();
@@ -235,7 +235,7 @@ public class TransactionTdg {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-    }
+        }
     }
 
 }

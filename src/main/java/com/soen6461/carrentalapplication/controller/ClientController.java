@@ -25,169 +25,169 @@ import com.soen6461.carrentalapplication.unitofwork.ClientRepository;
 @Component
 public class ClientController {
 
-	@Autowired
-	private ClientRecordDataMapper clientRecordDataMapper;
-	
-	@Autowired
-	private VehicleCatalog vehicleCatalog;
+    @Autowired
+    private ClientRecordDataMapper clientRecordDataMapper;
 
-	@Autowired
-	private ClientRepository clientRepository;
-	
-	@Autowired
-	private TransactionDataMapper transactionDataMapper;
+    @Autowired
+    private VehicleCatalog vehicleCatalog;
 
-	private static List<ClientRecord> clientRecordList = new ArrayList<>();
+    @Autowired
+    private ClientRepository clientRepository;
 
-	/**
-	 * ClientRController class constructor.
-	 */
-	private ClientController() {
-	}
+    @Autowired
+    private TransactionDataMapper transactionDataMapper;
 
-	void loadClientRecords() throws ParseException {
-		this.clientRecordList = this.clientRecordDataMapper.findAll();
-	}
+    private static List<ClientRecord> clientRecordList = new ArrayList<>();
 
-	@PostMapping(value = "/search")
-	public ClientRecord searchClient(@RequestParam("dl") String dl) {
-		return this.search(dl);
-	}
+    /**
+     * ClientRController class constructor.
+     */
+    private ClientController() {
+    }
 
-	/**
-	 * Add a new client record. //TODO: Protect this method against unauthorised
-	 * access from administrator.
-	 *
-	 * @param clientRecord The client record to add.
-	 */
-	public void addClientRecord(ClientRecord clientRecord) {
+    void loadClientRecords() throws ParseException {
+        this.clientRecordList = this.clientRecordDataMapper.findAll();
+    }
 
-		for (ClientRecord existingClientRecord : this.clientRecordList) {
-			if (clientRecord.getDriversLicenseNumber() == existingClientRecord.getDriversLicenseNumber()) {
-				// throw new Exception("There is already a client with drivers license: " +
-				// clientRecord.getDriversLicenseNumber() + " in the registry.");
-				return;
-			}
-		}
+    @PostMapping(value = "/search")
+    public ClientRecord searchClient(@RequestParam("dl") String dl) {
+        return this.search(dl);
+    }
 
-		clientRecordList.add(clientRecord);
-		clientRepository.registerNew(clientRecord);
-	}
+    /**
+     * Add a new client record. //TODO: Protect this method against unauthorised
+     * access from administrator.
+     *
+     * @param clientRecord The client record to add.
+     */
+    public void addClientRecord(ClientRecord clientRecord) {
 
-	@PostMapping(value = "/get-all-client-records")
-	public List getAllClientRecord() {
-		List<ClientRecord> copy = new ArrayList<ClientRecord>();
-		try {
-			copy.addAll(this.clientRecordDataMapper.findAll());
-		} catch (NumberFormatException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        for (ClientRecord existingClientRecord : this.clientRecordList) {
+            if (clientRecord.getDriversLicenseNumber() == existingClientRecord.getDriversLicenseNumber()) {
+                // throw new Exception("There is already a client with drivers license: " +
+                // clientRecord.getDriversLicenseNumber() + " in the registry.");
+                return;
+            }
+        }
 
-		return copy;
-	}
+        clientRecordList.add(clientRecord);
+        clientRepository.registerNew(clientRecord);
+    }
 
-	/**
-	 * Delete a client record.
-	 *
-	 * @param driversLicenseNumber the drivers license number to use to identify the
-	 *                             client record to remove.
-	 */
-	public String deleteClientRecord(String driversLicenseNumber) {
+    @PostMapping(value = "/get-all-client-records")
+    public List getAllClientRecord() {
+        List<ClientRecord> copy = new ArrayList<ClientRecord>();
+        try {
+            copy.addAll(this.clientRecordDataMapper.findAll());
+        } catch (NumberFormatException | ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		List<VehicleRecord> listVehicle = vehicleCatalog.getAllVehicleRecord();
+        return copy;
+    }
 
-		for (int i = 0; i < listVehicle.size(); i++) {
-			List<Transaction> transactionList = transactionDataMapper.findAll(listVehicle.get(i).getLpr());
-			System.out.println("driverslicense : " + driversLicenseNumber);
+    /**
+     * Delete a client record.
+     *
+     * @param driversLicenseNumber the drivers license number to use to identify the
+     *                             client record to remove.
+     */
+    public String deleteClientRecord(String driversLicenseNumber) {
 
-			for (int j = 0; j < transactionList.size(); j++) {
-				System.out.println("Transaction Client Record license : "
-						+ transactionList.get(j).getClientRecord().getDriversLicenseNumber());
-				if (transactionList.get(j).getClientRecord().getDriversLicenseNumber()
-						.equalsIgnoreCase(driversLicenseNumber)) {
-					return "  To delete client record all the transactions under his name must be 'Returned' or 'Cancelled'.";
-				}
-			}
+        List<VehicleRecord> listVehicle = vehicleCatalog.getAllVehicleRecord();
 
-		}
+        for (int i = 0; i < listVehicle.size(); i++) {
+            List<Transaction> transactionList = transactionDataMapper.findAll(listVehicle.get(i).getLpr());
+            System.out.println("driverslicense : " + driversLicenseNumber);
 
-		LinkedList<String> deleteRecords = clientRepository.getDeleteRecords();
-		LinkedList<String> deletedClientRecords = clientRepository.getDeletedClientRecords();
+            for (int j = 0; j < transactionList.size(); j++) {
+                System.out.println("Transaction Client Record license : "
+                        + transactionList.get(j).getClientRecord().getDriversLicenseNumber());
+                if (transactionList.get(j).getClientRecord().getDriversLicenseNumber()
+                        .equalsIgnoreCase(driversLicenseNumber)) {
+                    return "  To delete client record all the transactions under his name must be 'Returned' or 'Cancelled'.";
+                }
+            }
 
-		if (!deleteRecords.contains(driversLicenseNumber) && !deletedClientRecords.contains(driversLicenseNumber)) {
-			for (int i = 0; i < clientRecordList.size(); i++) {
-				if (clientRecordList.get(i).getDriversLicenseNumber().equalsIgnoreCase(driversLicenseNumber)) {
-					clientRepository.registerDeleted(clientRecordList.get(i));
-					clientRecordList.remove(clientRecordList.get(i));
+        }
 
-					deleteRecords.add(driversLicenseNumber);
-					clientRepository.setDeleteRecords(deleteRecords);
+        LinkedList<String> deleteRecords = clientRepository.getDeleteRecords();
+        LinkedList<String> deletedClientRecords = clientRepository.getDeletedClientRecords();
 
-					return " Client Record has been deleted successfully";
-				}
-			}
-		}
+        if (!deleteRecords.contains(driversLicenseNumber) && !deletedClientRecords.contains(driversLicenseNumber)) {
+            for (int i = 0; i < clientRecordList.size(); i++) {
+                if (clientRecordList.get(i).getDriversLicenseNumber().equalsIgnoreCase(driversLicenseNumber)) {
+                    clientRepository.registerDeleted(clientRecordList.get(i));
+                    clientRecordList.remove(clientRecordList.get(i));
 
-		return " Clinet Record has been already deleted or updated by another Clerk.";
-	}
+                    deleteRecords.add(driversLicenseNumber);
+                    clientRepository.setDeleteRecords(deleteRecords);
 
-	/**
-	 * Update a given client record.
-	 *
-	 * @param clientRecord the updated client record.
-	 */
-	public boolean updateClientRecord(ClientRecord clientRecord, String driversLicense) {
+                    return " Client Record has been deleted successfully";
+                }
+            }
+        }
 
-		int version_db = 0;
-		try {
-			version_db = this.clientRecordDataMapper.findclient(driversLicense).getVersion();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        return " Clinet Record has been already deleted or updated by another Clerk.";
+    }
 
-		if (version_db == clientRecord.getVersion()
-				&& !clientRepository.getDirtyMap().containsKey(clientRecord.getDriversLicenseNumber())) {
+    /**
+     * Update a given client record.
+     *
+     * @param clientRecord the updated client record.
+     */
+    public boolean updateClientRecord(ClientRecord clientRecord, String driversLicense) {
 
-			for (int i = 0; i < clientRecordList.size(); i++) {
-				if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicense)) {
-					clientRecordList.set(i, clientRecord);
-					clientRepository.registerDirty(clientRecord);
-				}
-			}
+        int version_db = 0;
+        try {
+            version_db = this.clientRecordDataMapper.findclient(driversLicense).getVersion();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-			Map<String, Boolean> dirtyMap = clientRepository.getDirtyMap();
-			dirtyMap.put(clientRecord.getDriversLicenseNumber(), false);
-			clientRepository.setDirtyMap(dirtyMap);
-			return true;
+        if (version_db == clientRecord.getVersion()
+                && !clientRepository.getDirtyMap().containsKey(clientRecord.getDriversLicenseNumber())) {
 
-		}
+            for (int i = 0; i < clientRecordList.size(); i++) {
+                if (clientRecordList.get(i).getDriversLicenseNumber().equals(driversLicense)) {
+                    clientRecordList.set(i, clientRecord);
+                    clientRepository.registerDirty(clientRecord);
+                }
+            }
 
-		return false;
+            Map<String, Boolean> dirtyMap = clientRepository.getDirtyMap();
+            dirtyMap.put(clientRecord.getDriversLicenseNumber(), false);
+            clientRepository.setDirtyMap(dirtyMap);
+            return true;
 
-	}
+        }
 
-	/**
-	 * Searching a client record.
-	 *
-	 * @param driversLicenseNumber The drivers license number to use to find a
-	 *                             client.
-	 * @return Returns the client found.
-	 */
-	private ClientRecord search(String driversLicenseNumber) {
-		ClientRecord clientRecord = null;
+        return false;
 
-		try {
-			clientRecord = this.clientRecordDataMapper.findclient(driversLicenseNumber);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    }
 
-		return clientRecord;
-	}
+    /**
+     * Searching a client record.
+     *
+     * @param driversLicenseNumber The drivers license number to use to find a
+     *                             client.
+     * @return Returns the client found.
+     */
+    private ClientRecord search(String driversLicenseNumber) {
+        ClientRecord clientRecord = null;
 
-	public void persistData() {
-		this.clientRepository.commit();
-	}
+        try {
+            clientRecord = this.clientRecordDataMapper.findclient(driversLicenseNumber);
+        } catch (NumberFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return clientRecord;
+    }
+
+    public void persistData() {
+        this.clientRepository.commit();
+    }
 }

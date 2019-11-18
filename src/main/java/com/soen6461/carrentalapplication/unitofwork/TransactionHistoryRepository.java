@@ -24,7 +24,7 @@ public class TransactionHistoryRepository implements IUnitOfWork<TransactionHist
     private TransactionHistoryMapper transactionHistoryDataMapper;
 
     public TransactionHistoryRepository() {
-	}
+    }
 
     public Map<String, Boolean> getDirtyMap() {
         return dirtyMap;
@@ -33,50 +33,49 @@ public class TransactionHistoryRepository implements IUnitOfWork<TransactionHist
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
-    
+
     public LinkedList<String> getDeleteRecords() {
-		return deleteRecords;
-	}
-    
+        return deleteRecords;
+    }
+
     public void setDeleteRecords(LinkedList<String> deleteRecords) {
-		this.deleteRecords = deleteRecords;
-	}
-	
-	public LinkedList<String> getDeletedTransactionRecords () {
-		return deletedTransactionRecords;
-	}
+        this.deleteRecords = deleteRecords;
+    }
 
-	public void setDeletedTransactionRecords (LinkedList<String> deletedTransactionRecords) {
-		this.deletedTransactionRecords = deletedTransactionRecords;
-	}
-	
-	
+    public LinkedList<String> getDeletedTransactionRecords() {
+        return deletedTransactionRecords;
+    }
 
-	 @Override
-	    public void registerNew(TransactionHistory transactionHistory) {
-//	        LOGGER.info("Registering {} for insert in context.", transaction.getTransactionId());
-	        register(transactionHistory, IUnitOfWork.INSERT);
-	    }
-
-	    @Override
-	    public void registerDirty(TransactionHistory transactionHistory) {
-
-	    }
+    public void setDeletedTransactionRecords(LinkedList<String> deletedTransactionRecords) {
+        this.deletedTransactionRecords = deletedTransactionRecords;
+    }
 
 
     @Override
-	    public void registerDeleted(TransactionHistory transactionHistory) {
+    public void registerNew(TransactionHistory transactionHistory) {
+//	        LOGGER.info("Registering {} for insert in context.", transaction.getTransactionId());
+        register(transactionHistory, IUnitOfWork.INSERT);
+    }
 
-	    }
+    @Override
+    public void registerDirty(TransactionHistory transactionHistory) {
 
-	    private void register(TransactionHistory transactionHistory, String operation) {
-	        List transactionsToOperate = context.get(operation); // Retrieve list of vehicles that are newly registered to get
-	        if (transactionsToOperate == null) {
-	        	transactionsToOperate = new ArrayList<>();
-	        }
-	        transactionsToOperate.add(transactionHistory);
-	        context.put(operation, transactionsToOperate); // Old list is replaced with new list
-	    }
+    }
+
+
+    @Override
+    public void registerDeleted(TransactionHistory transactionHistory) {
+
+    }
+
+    private void register(TransactionHistory transactionHistory, String operation) {
+        List transactionsToOperate = context.get(operation); // Retrieve list of vehicles that are newly registered to get
+        if (transactionsToOperate == null) {
+            transactionsToOperate = new ArrayList<>();
+        }
+        transactionsToOperate.add(transactionHistory);
+        context.put(operation, transactionsToOperate); // Old list is replaced with new list
+    }
 
     /**
      * All UnitOfWork operations are batched and executed together on commit only.
@@ -118,19 +117,17 @@ public class TransactionHistoryRepository implements IUnitOfWork<TransactionHist
 
     }
 
-	@Override
-	public void registerClean(TransactionHistory obj) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void registerClean(TransactionHistory obj) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public boolean rollback() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    }
 
-	
+    @Override
+    public boolean rollback() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 
 }

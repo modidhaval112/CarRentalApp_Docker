@@ -23,7 +23,7 @@ import com.soen6461.carrentalapplication.Helpers.DatabaseHelper;
 public class ClientRecordTdg {
     @Autowired
     DataSource dataSource;
-    
+
     Statement stmt = null;
 
     /**
@@ -114,7 +114,7 @@ public class ClientRecordTdg {
     public boolean update(String firstName, String lastName, String phoneNumber, Date expirationDate, String driversLicense, int version) {
 
         java.sql.Date dateDB = new java.sql.Date(expirationDate.getTime());
-    	
+
         String sql = " UPDATE  `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "` SET " +
                 "`driversLicenseNumber`=\"" + driversLicense + "\", " +
                 "`version`=" + "version + 1" + ", " +
@@ -152,31 +152,31 @@ public class ClientRecordTdg {
      * @return True if the client record insert succeeded, false otherwise.
      */
     public boolean insert(String firstName, String lastName, String phoneNumber, Date expirationDate, String driversLicense, int version) {
-    	
+
         Connection con = null;
 
         try {
-        String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "` (" +
-                "    `driversLicenseNumber` VARCHAR(50) PRIMARY KEY," +
-                "    `version` INT," +
-                "    `firstname` VARCHAR(60)," +
-                "    `lastname` VARCHAR(50)," +
-                "    `phoneNumber` VARCHAR(50)," +
-                "    `expirationDate` Date" +
-                ");";
-        
-        java.sql.Date dateDB = new java.sql.Date(expirationDate.getTime());
+            String sql = "CREATE TABLE IF NOT EXISTS `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "` (" +
+                    "    `driversLicenseNumber` VARCHAR(50) PRIMARY KEY," +
+                    "    `version` INT," +
+                    "    `firstname` VARCHAR(60)," +
+                    "    `lastname` VARCHAR(50)," +
+                    "    `phoneNumber` VARCHAR(50)," +
+                    "    `expirationDate` Date" +
+                    ");";
 
-        String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "`" +
-                "(`driversLicenseNumber`, `version`, `firstname`, `lastname`, `phoneNumber`, `expirationDate`) " +
-                "VALUES (" +
-                "\"" + driversLicense + "\", " +
-                version + ", " +
-                "\"" + firstName + "\", " +
-                "\"" + lastName + "\", " +
-                "\"" + phoneNumber + "\", " +
-                "\"" + dateDB + "\" " +
-                ");";
+            java.sql.Date dateDB = new java.sql.Date(expirationDate.getTime());
+
+            String sqlRecord = "INSERT INTO `" + DatabaseHelper.databaseName + "`.`" + "clientRecord" + "`" +
+                    "(`driversLicenseNumber`, `version`, `firstname`, `lastname`, `phoneNumber`, `expirationDate`) " +
+                    "VALUES (" +
+                    "\"" + driversLicense + "\", " +
+                    version + ", " +
+                    "\"" + firstName + "\", " +
+                    "\"" + lastName + "\", " +
+                    "\"" + phoneNumber + "\", " +
+                    "\"" + dateDB + "\" " +
+                    ");";
 
             con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();

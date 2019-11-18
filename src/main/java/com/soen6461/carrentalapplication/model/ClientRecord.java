@@ -30,21 +30,20 @@ public class ClientRecord {
      * @param phoneNumber          the clients phone number.
      * @param expirationDate       the clients drivers license expiration date.
      */
-	/*
-	 * public ClientRecord(String driversLicenseNumber, String firstName, String
-	 * lastName, String phoneNumber, String expirationDate) {
-	 * 
-	 * // The usage properties allows to add some validation in the properties to
-	 * validate the entries. System.out.println("First Controller Date : " +
-	 * expirationDate);
-	 * 
-	 * this.setDriversLicenseNumber(driversLicenseNumber);
-	 * this.setFirstName(firstName); this.setLastName(lastName);
-	 * this.setPhoneNumber(phoneNumber); try {
-	 * this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate))
-	 * ; } catch (Exception e) { e.printStackTrace(); } }
-	 */
-
+    /*
+     * public ClientRecord(String driversLicenseNumber, String firstName, String
+     * lastName, String phoneNumber, String expirationDate) {
+     *
+     * // The usage properties allows to add some validation in the properties to
+     * validate the entries. System.out.println("First Controller Date : " +
+     * expirationDate);
+     *
+     * this.setDriversLicenseNumber(driversLicenseNumber);
+     * this.setFirstName(firstName); this.setLastName(lastName);
+     * this.setPhoneNumber(phoneNumber); try {
+     * this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate))
+     * ; } catch (Exception e) { e.printStackTrace(); } }
+     */
     public ClientRecord(String driversLicenseNumber, int version, String firstName, String lastName, String phoneNumber, String expirationDate) {
 
         this.version = version;
@@ -54,10 +53,10 @@ public class ClientRecord {
         this.setLastName(lastName);
         this.setPhoneNumber(phoneNumber);
         try {
-			this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+            this.setExpirationDate(DataValidationHelper.dateFormat.parse(expirationDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -180,7 +179,7 @@ public class ClientRecord {
     public int getVersion() {
         return version;
     }
-    
+
     /**
      * Sets the version number.
      *

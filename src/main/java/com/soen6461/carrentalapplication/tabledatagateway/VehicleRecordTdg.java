@@ -26,8 +26,7 @@ import com.zaxxer.hikari.pool.HikariPool;
 public class VehicleRecordTdg {
     @Autowired
     DataSource dataSource;
-    //	DatabaseConnection dc= DatabaseConnection.getInstance();
-    //  Connection con;
+
     Statement stmt = null;
 
     public void checkHikari() {

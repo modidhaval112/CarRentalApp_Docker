@@ -31,7 +31,7 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
 
     public ClientRepository() {
     }
-    
+
     public Map<String, Boolean> getDirtyMap() {
         return dirtyMap;
     }
@@ -39,24 +39,24 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
-    
+
     public LinkedList<String> getDeleteRecords() {
-		return deleteRecords;
-	}
+        return deleteRecords;
+    }
 
-	public void setDeleteRecords(LinkedList<String> deleteRecords) {
-		this.deleteRecords = deleteRecords;
-	}
-	
+    public void setDeleteRecords(LinkedList<String> deleteRecords) {
+        this.deleteRecords = deleteRecords;
+    }
+
     public LinkedList<String> getDeletedClientRecords() {
-		return deletedClientRecords;
-	}
+        return deletedClientRecords;
+    }
 
-	public void setDeletedClientRecords(LinkedList<String> deletedClientRecords) {
-		this.deletedClientRecords = deletedClientRecords;
-	}
+    public void setDeletedClientRecords(LinkedList<String> deletedClientRecords) {
+        this.deletedClientRecords = deletedClientRecords;
+    }
 
-	@Override
+    @Override
     public void registerNew(ClientRecord clientRecord) {
         LOGGER.info("Registering {} for insert in context.", clientRecord.getFirstName());
         register(clientRecord, IUnitOfWork.INSERT);
@@ -121,7 +121,7 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
             LOGGER.info("Modifying {} to database.", clientRecord.getFirstName());
             clientRecordDataMapper.update(clientRecord);
         }
-        
+
         this.dirtyMap = new HashMap<>();
     }
 
@@ -142,6 +142,5 @@ public class ClientRepository implements IUnitOfWork<ClientRecord> {
 
     @Override
     public void registerClean(ClientRecord obj) {
-        //Todo:Implement
     }
 }

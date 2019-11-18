@@ -13,7 +13,7 @@ import com.soen6461.carrentalapplication.model.VehicleRecord;
 import com.soen6461.carrentalapplication.tabledatagateway.VehicleRecordTdg;
 
 @Component
-public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord>{
+public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord> {
 
     @Autowired
     private VehicleRecordTdg vehicleRecordTdg;
@@ -88,7 +88,7 @@ public class VehicleRecordDataMapper implements IDataMapper<VehicleRecord>{
         List<VehicleRecord> vehicleRecords = new ArrayList<>();
         List<Map<String, Object>> records = vehicleRecordTdg.findAll();
 
-        if(records != null) {
+        if (records != null) {
             for (int i = 0; i < records.size(); i++) {
                 VehicleRecord vehicleRecord = new VehicleRecord(Integer.parseInt(records.get(i).get("id").toString()),
                         Integer.parseInt(records.get(i).get("version").toString()), records.get(i).get("licensePlateNumber").toString(),

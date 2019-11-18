@@ -31,14 +31,10 @@ public class Record extends Observable {
     public static List<TransactionHistory> transactionHistory = new ArrayList<>();
     public List<Transaction> transactionList = new ArrayList<Transaction>();
 
-
-
     public Record() {
-        to= new TransactionObserver();
+        to = new TransactionObserver();
         this.addObserver(to);
     }
-
-
 
     /**
      * Adds a given transaction.
@@ -73,7 +69,7 @@ public class Record extends Observable {
                 setObserver("Cancelled", t);
                 t.setStatus(Transaction.Status.Cancelled);
                 //iterator.remove();
-               return t;
+                return t;
             }
         }
         return null;
@@ -84,7 +80,7 @@ public class Record extends Observable {
      *
      * @param transactionId The transaction to remove.
      */
-   public Transaction returnTransaction(String transactionId) {
+    public Transaction returnTransaction(String transactionId) {
 
         Iterator<Transaction> iterator = this.transactionList.iterator();
 
@@ -102,12 +98,12 @@ public class Record extends Observable {
         return null;
     }
 
-	/**
-	 * Gets the transaction list.
-	 *
-	 * @return The transaction list.
-	 */
-	public List<Transaction> getTransactionList() {
+    /**
+     * Gets the transaction list.
+     *
+     * @return The transaction list.
+     */
+    public List<Transaction> getTransactionList() {
         // To protect the main vehicle record list, only a copy is provided.
         // this avoids someone other than this class from adding or removing vehicles.
 
@@ -119,12 +115,12 @@ public class Record extends Observable {
         return copy;
     }
 
-	/**
-	 * Gets the list of all transactions.
-	 *
-	 * @return
-	 */
-	public List<TransactionHistory> getAllTransactionHistory() {
+    /**
+     * Gets the list of all transactions.
+     *
+     * @return
+     */
+    public List<TransactionHistory> getAllTransactionHistory() {
         // To protect the main history list, only a copy is provided.
         // this avoids someone other than this class from adding or removing vehicles.
 
@@ -136,13 +132,13 @@ public class Record extends Observable {
         return copy;
     }
 
-	/**
-	 * Sets the observer.
-	 *
-	 * @param message
-	 * @param transaction
-	 */
-	public void setObserver(String message, Transaction transaction) {
+    /**
+     * Sets the observer.
+     *
+     * @param message
+     * @param transaction
+     */
+    public void setObserver(String message, Transaction transaction) {
         transactionType = message;
         this.transaction = transaction;
 

@@ -19,11 +19,6 @@ public class VehicleRecordDataMapperTests {
     public void CRUDTest() throws SQLException {
         VehicleRecordTdg vtdg = new VehicleRecordTdg();
 
-        // Set db connection
-        // TODO: This will be removed.
-        //// Connection connection = vrdm.getConnection();
-        //// Assert.notNull(connection);
-
         // Clear the test data.
         //Assert.isTrue(vtdg.clearTestingData(), "Clearing testing data.");
 

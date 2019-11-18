@@ -198,12 +198,12 @@ public class TransactionCatalog {
         return temp;
     }
 
-    public void loadTransactionHistory(){
+    public void loadTransactionHistory() {
         Record.transactionHistory = transactionHistoryMapper.findAll();
 
     }
 
-    public  void persistData(){
+    public void persistData() {
         transactionHistoryRepository.commit();
     }
 

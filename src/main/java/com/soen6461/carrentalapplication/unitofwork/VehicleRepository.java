@@ -40,22 +40,22 @@ public class VehicleRepository implements IUnitOfWork<VehicleRecord> {
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
-    
+
     public LinkedList<String> getDeleteRecords() {
-		return deleteRecords;
-	}
+        return deleteRecords;
+    }
 
-	public void setDeleteRecords(LinkedList<String> deleteRecords) {
-		this.deleteRecords = deleteRecords;
-	}
-	
-	public LinkedList<String> getDeletedVehicleRecords() {
-		return deletedVehicleRecords;
-	}
+    public void setDeleteRecords(LinkedList<String> deleteRecords) {
+        this.deleteRecords = deleteRecords;
+    }
 
-	public void setDeletedVehicleRecords(LinkedList<String> deletedVehicleRecords) {
-		this.deletedVehicleRecords = deletedVehicleRecords;
-	}
+    public LinkedList<String> getDeletedVehicleRecords() {
+        return deletedVehicleRecords;
+    }
+
+    public void setDeletedVehicleRecords(LinkedList<String> deletedVehicleRecords) {
+        this.deletedVehicleRecords = deletedVehicleRecords;
+    }
 
     @Override
     public void registerNew(VehicleRecord vehicleRecord) {

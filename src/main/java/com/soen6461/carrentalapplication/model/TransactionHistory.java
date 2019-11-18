@@ -49,11 +49,11 @@ public class TransactionHistory {
         this.lpr = lpr;
         this.clientName = clientName;
         try {
-			this.setStartDate(DataValidationHelper.dateFormat.parse(startDate));
-			this.setEndDate(DataValidationHelper.dateFormat.parse(endDate));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            this.setStartDate(DataValidationHelper.dateFormat.parse(startDate));
+            this.setEndDate(DataValidationHelper.dateFormat.parse(endDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.status = status;
         this.timeStamp = timeStamp;
         this.color = color;
@@ -89,32 +89,32 @@ public class TransactionHistory {
         return timeStamp;
     }
 
-	public String getColor() {
-		return color;
-	}
+    public String getColor() {
+        return color;
+    }
 
-	public String getMake() {
-		return make;
-	}
+    public String getMake() {
+        return make;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	private void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    private void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	private void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    private void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public int getYear() {
-		return year;
-	}
-	
+    public int getYear() {
+        return year;
+    }
+
 }
