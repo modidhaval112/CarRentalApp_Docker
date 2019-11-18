@@ -53,9 +53,12 @@ public class TransactionObserver implements Observer {
 				+ r.transaction.getClientRecord().toString() + "\n" + r.transaction.getVehicleRecord().toString()
 				+ "\n");
 
-		for (int i = 0; i < r.transactionHistory.size(); i++) {
-			System.out.println("No " + i + " " + r.transactionHistory.get(i).getTransactionId() + " "
-					+ r.transactionHistory.get(i).getStatus() + " " + r.transactionHistory.get(i).getClientName());
-		}
+		/*
+		 * for (int i = 0; i < r.transactionHistory.size(); i++) {
+		 * System.out.println("No " + i + " " +
+		 * r.transactionHistory.get(i).getTransactionId() + " " +
+		 * r.transactionHistory.get(i).getStatus() + " " +
+		 * r.transactionHistory.get(i).getClientName()); }
+		 */
 	}
 }
