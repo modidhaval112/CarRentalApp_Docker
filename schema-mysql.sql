@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
 # "Creation of tables for the vehicles."
 # ---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS vehicleRecord   ( 
-                    licensePlateNumber VARCHAR(50) PRIMARY KEY, 
+                    licensePlateNumber VARCHAR(100) PRIMARY KEY, 
                     id INT, 
                     version INT, 
                     carType VARCHAR(60), 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS clientRecord   (
 # "Creation table for transaction."
 #---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS transaction   ( 
-                    transactionId VARCHAR(50) PRIMARY KEY, 
+                    transactionId VARCHAR(100) PRIMARY KEY, 
                     version INT, 
                     status VARCHAR(50), 
                     startDate Date ,
@@ -58,10 +58,13 @@ CREATE TABLE IF NOT EXISTS transactionHistory   (
                     model VARCHAR(60),
                     lpr VARCHAR(60),
                     clientName VARCHAR(60),
-                    startDate Date,
-                    endDate Date,
+                    startDate VARCHAR (60),
+                    endDate VARCHAR (60),
                     status VARCHAR(60),
-                    timestamp VARCHAR(60)
+                    timestamp VARCHAR(60),
+                    color VARCHAR(60),
+                    make VARCHAR(60),
+                    year INT 
                     
                 );
 #----------------------------------------------------------------------------------------------------------------------

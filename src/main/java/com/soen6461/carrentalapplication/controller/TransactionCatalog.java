@@ -61,19 +61,19 @@ public class TransactionCatalog {
         System.out.println(filter + " " + value);
         if (filter.equals("vehicle-model")) {
             for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
-                if (record.getAllTransactionHistory().get(i).getTransaction().getVehicleRecord().getMake().equalsIgnoreCase(value)) {
+                if (record.getAllTransactionHistory().get(i).getMake().equalsIgnoreCase(value)) {
                     temp.add(record.getAllTransactionHistory().get(i));
                 }
             }
         } else if (filter.equals("car-type")) {
             for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
-                if (record.getAllTransactionHistory().get(i).getTransaction().getVehicleRecord().getCarType().equals(value)) {
+                if (record.getAllTransactionHistory().get(i).getVehicleType().equals(value)) {
                     temp.add(record.getAllTransactionHistory().get(i));
                 }
             }
         } else if (filter.equals("car-color")) {
             for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
-                if (record.getAllTransactionHistory().get(i).getTransaction().getVehicleRecord().getColor().equalsIgnoreCase(value)) {
+                if (record.getAllTransactionHistory().get(i).getColor().equalsIgnoreCase(value)) {
                     temp.add(record.getAllTransactionHistory().get(i));
                 }
             }
@@ -82,8 +82,8 @@ public class TransactionCatalog {
             for (int i = 0; i < record.getAllTransactionHistory().size(); i++) {
 
                 for (TransactionHistory t : record.getAllTransactionHistory()) {
-                    String firstLast = t.getTransaction().getClientRecord().getFirstName().toLowerCase() + " " + t.getTransaction().getClientRecord().getLastName().toLowerCase();
-                    if (t.getTransaction().getClientRecord().getFirstName().toLowerCase().contains(value) || t.getTransaction().getClientRecord().getLastName().toLowerCase().contains(value) || firstLast.contains(value)) {
+                    String firstLast = t.getClientName().toLowerCase();
+                    if (firstLast.contains(value)) {
                         temp.add(t);
                     }
                 }
@@ -117,9 +117,9 @@ public class TransactionCatalog {
         Date day = Date.from(dayInst);
 
         for (TransactionHistory t : record.getAllTransactionHistory()) {
-            if ((t.getTransaction().getEndDateObject().compareTo(day) == -1)
-                    && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved)
-                    || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
+            if ((t.getEndDate().compareTo(day) == -1)
+                    && (t.getStatus().equals(Transaction.Status.Reserved.toString())
+                    || t.getStatus().equals(Transaction.Status.Rented.toString()))) {
                 temp.add(t);
             }
         }
@@ -141,7 +141,7 @@ public class TransactionCatalog {
         Date day = Date.from(dayInst);
         for (TransactionHistory t : record.getAllTransactionHistory()) {
             // check if end date is equal to today and check if the status is rented or reserved
-            if (t.getTransaction().getEndDateObject().compareTo(day) == 0 && (t.getTransaction().getStatus().equals(Transaction.Status.Reserved) || t.getTransaction().getStatus().equals(Transaction.Status.Rented))) {
+            if (t.getEndDate().compareTo(day) == 0 && (t.getStatus().equals(Transaction.Status.Reserved.toString()) || t.getStatus().equals(Transaction.Status.Rented.toString()))) {
                 temp.add(t);
             }
         }
@@ -165,7 +165,7 @@ public class TransactionCatalog {
 
         for (Transaction t : record.getTransactionList()) {
             // check if end date is equal to today and check if the status is rented or reserved
-            if (sdf.parse(t.getEndDate()).compareTo(d1) == 0 || t.getStatus().equals(Transaction.Status.Rented)) {
+            if (sdf.parse(t.getEndDate()).compareTo(d1) == 0 || t.getStatus().equals(Transaction.Status.Rented.toString())) {
                 temp.add(t.getVehicleRecord());
             }
         }
@@ -190,8 +190,8 @@ public class TransactionCatalog {
 
         for (TransactionHistory t : record.getAllTransactionHistory()) {
             // check if end date is equal to today and check if the status is rented or reserved
-            if (sdf.parse(t.getTransaction().getEndDate()).compareTo(d1) > 0 || t.getTransaction().getStatus().equals(Transaction.Status.Rented)) {
-                temp.add(t.getTransaction().getVehicleRecord());
+            if (t.getEndDate().compareTo(d1) > 0 || t.getStatus().equals(Transaction.Status.Rented.toString())) {
+                temp.add(new VehicleRecord(1, 1, t.getLpr(), t.getVehicleType(), t.getMake(), t.getModel(), t.getYear(), t.getColor()));
             }
         }
 
