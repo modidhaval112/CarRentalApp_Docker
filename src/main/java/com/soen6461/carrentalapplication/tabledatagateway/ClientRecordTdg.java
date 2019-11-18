@@ -143,12 +143,14 @@ public class ClientRecordTdg {
     }
 
     /**
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
-     * @param expirationDate
-     * @param driversLicense
-     * @param version
+     * Insert a new record in the database to persist its data.
+     *
+     * @param firstName      The client first name.
+     * @param lastName       The client last name.
+     * @param phoneNumber    The client phone number.
+     * @param expirationDate The drivers license expiration date.
+     * @param driversLicense The drivers license.
+     * @param version        The record version.
      * @return True if the client record insert succeeded, false otherwise.
      */
     public boolean insert(String firstName, String lastName, String phoneNumber, Date expirationDate, String driversLicense, int version) {
@@ -197,8 +199,10 @@ public class ClientRecordTdg {
     }
 
     /**
-     * @param driversLicense
-     * @return True if the client record deletion succeeded, false otherwise.
+     * Method to delete a record from the database
+     *
+     * @param driversLicense Id of the record to delete from the database.
+     * @return True if the operation was a success, false otherwise.
      */
     public boolean delete(String driversLicense) {
         String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`clientRecord` where `driversLicenseNumber`=?";

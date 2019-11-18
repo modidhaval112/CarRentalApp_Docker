@@ -23,51 +23,100 @@ public class TransactionHistoryRepository implements IUnitOfWork<TransactionHist
     @Autowired
     private TransactionHistoryMapper transactionHistoryDataMapper;
 
+    /**
+     * Default constructor.
+     */
     public TransactionHistoryRepository() {
     }
 
+    /**
+     * Gets the dirty map.
+     *
+     * @return The dirty map.
+     */
     public Map<String, Boolean> getDirtyMap() {
         return dirtyMap;
     }
 
+    /**
+     * Sets the dirty map.
+     *
+     * @param dirtyMap The dirty map.
+     */
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
 
+    /**
+     * Gets the delete record.
+     *
+     * @return List of deleted records.
+     */
     public LinkedList<String> getDeleteRecords() {
         return deleteRecords;
     }
 
+    /**
+     * Sets the deleted records.
+     *
+     * @param deleteRecords List of deleted records.
+     */
     public void setDeleteRecords(LinkedList<String> deleteRecords) {
         this.deleteRecords = deleteRecords;
     }
 
+    /**
+     * Gets deleted client records.
+     *
+     * @return A list of deleted client records.
+     */
     public LinkedList<String> getDeletedTransactionRecords() {
         return deletedTransactionRecords;
     }
 
+    /**
+     * Sets the deleted client records.
+     *
+     * @param deletedTransactionRecords A list of deleted client records.
+     */
     public void setDeletedTransactionRecords(LinkedList<String> deletedTransactionRecords) {
         this.deletedTransactionRecords = deletedTransactionRecords;
     }
 
-
+    /**
+     * Register the new object.
+     *
+     * @param transactionHistory The object to register new.
+     */
     @Override
     public void registerNew(TransactionHistory transactionHistory) {
-//	        LOGGER.info("Registering {} for insert in context.", transaction.getTransactionId());
         register(transactionHistory, IUnitOfWork.INSERT);
     }
 
+    /**
+     * Register the object with dirty data.
+     *
+     * @param transactionHistory The object to register dirty.
+     */
     @Override
     public void registerDirty(TransactionHistory transactionHistory) {
-
     }
 
-
+    /**
+     * Register the object to be deleted.
+     *
+     * @param transactionHistory the object to register deleted
+     */
     @Override
     public void registerDeleted(TransactionHistory transactionHistory) {
-
     }
 
+    /**
+     * Register work.
+     *
+     * @param transactionHistory The transaction history.
+     * @param operation          The operation.
+     */
     private void register(TransactionHistory transactionHistory, String operation) {
         List transactionsToOperate = context.get(operation); // Retrieve list of vehicles that are newly registered to get
         if (transactionsToOperate == null) {
@@ -78,7 +127,9 @@ public class TransactionHistoryRepository implements IUnitOfWork<TransactionHist
     }
 
     /**
-     * All UnitOfWork operations are batched and executed together on commit only.
+     * Commit the work.
+     *
+     * @return True if the operation was a success, false otherwise.
      */
     @Override
     public boolean commit() {
@@ -101,33 +152,44 @@ public class TransactionHistoryRepository implements IUnitOfWork<TransactionHist
         return true;
     }
 
+    /**
+     * Commit insert work.
+     */
     private void commitInsert() {
         List<TransactionHistory> transactionsToBeInserted = context.get(IUnitOfWork.INSERT);
         for (TransactionHistory transactionHistoryRecord : transactionsToBeInserted) {
-//            LOGGER.info("Saving {} to database.", transactionHistoryRecord.getTransactionId());
             transactionHistoryDataMapper.insert(transactionHistoryRecord);
         }
     }
 
+    /**
+     * Commit modify work.
+     */
     private void commitModify() {
-
     }
 
+    /**
+     * Commit delete work.
+     */
     private void commitDelete() {
-
     }
 
+    /**
+     * Register clean.
+     *
+     * @param obj The object to register clean.
+     */
     @Override
     public void registerClean(TransactionHistory obj) {
-        // TODO Auto-generated method stub
-
     }
 
+    /**
+     * Rollback.
+     *
+     * @return True if the operation was a success, false otherwise.
+     */
     @Override
     public boolean rollback() {
-        // TODO Auto-generated method stub
         return false;
     }
-
-
 }

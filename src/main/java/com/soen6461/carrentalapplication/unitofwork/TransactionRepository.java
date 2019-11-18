@@ -27,25 +27,53 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
     @Autowired
     private TransactionDataMapper transactionDataMapper;
 
+    /**
+     * Default constructor.
+     */
     public TransactionRepository() {
     }
 
+    /**
+     * Gets the dirty map.
+     *
+     * @return The dirty map.
+     */
     public Map<String, Boolean> getDirtyMap() {
         return dirtyMap;
     }
 
+    /**
+     * Sets the dirty map.
+     *
+     * @param dirtyMap The dirty map.
+     */
     public void setDirtyMap(Map<String, Boolean> dirtyMap) {
         this.dirtyMap = dirtyMap;
     }
 
+    /**
+     * Gets the delete record.
+     *
+     * @return List of deleted records.
+     */
     public LinkedList<String> getDeleteRecords() {
         return deleteRecords;
     }
 
+    /**
+     * Sets the deleted records.
+     *
+     * @param deleteRecords List of deleted records.
+     */
     public void setDeleteRecords(LinkedList<String> deleteRecords) {
         this.deleteRecords = deleteRecords;
     }
 
+    /**
+     * Gets deleted transaction records.
+     *
+     * @return A list of deleted client records.
+     */
     public LinkedList<String> getDeletedTransactionRecords() {
         return deletedTransactionRecords;
     }
@@ -54,25 +82,45 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
         this.deletedTransactionRecords = deletedTransactionRecords;
     }
 
-
+    /**
+     * Register the new object.
+     *
+     * @param transaction The object to register new.
+     */
     @Override
     public void registerNew(Transaction transaction) {
         LOGGER.info("Registering {} for insert in context.", transaction.getTransactionId());
         register(transaction, IUnitOfWork.INSERT);
     }
 
+    /**
+     * Register the object with dirty data.
+     *
+     * @param transaction The object to register dirty.
+     */
     @Override
     public void registerDirty(Transaction transaction) {
         LOGGER.info("Registering {} for modify in context.", transaction.getTransactionId());
         register(transaction, IUnitOfWork.MODIFY);
     }
 
+    /**
+     * Register the object to be deleted.
+     *
+     * @param transaction the object to register deleted
+     */
     @Override
     public void registerDeleted(Transaction transaction) {
         LOGGER.info("Registering {} for delete in context.", transaction.getTransactionId());
         register(transaction, IUnitOfWork.DELETE);
     }
 
+    /**
+     * Register work.
+     *
+     * @param transaction The transaction.
+     * @param operation   The operation.
+     */
     private void register(Transaction transaction, String operation) {
         List transactionsToOperate = context.get(operation); // Retrieve list of vehicles that are newly registered to get
         if (transactionsToOperate == null) {
@@ -83,7 +131,9 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
     }
 
     /**
-     * All UnitOfWork operations are batched and executed together on commit only.
+     * Commit the work.
+     *
+     * @return True if the operation was a success, false otherwise.
      */
     @Override
     public boolean commit() {
@@ -106,6 +156,9 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
         return true;
     }
 
+    /**
+     * Commit insert work.
+     */
     private void commitInsert() {
         List<Transaction> transactionsToBeInserted = context.get(IUnitOfWork.INSERT);
         for (Transaction transactionRecord : transactionsToBeInserted) {
@@ -114,6 +167,9 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
         }
     }
 
+    /**
+     * Commit modify work.
+     */
     private void commitModify() {
         List<Transaction> modifiedTransactions = context.get(IUnitOfWork.MODIFY);
         for (Transaction transactionRecord : modifiedTransactions) {
@@ -124,6 +180,9 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
         this.dirtyMap = new HashMap<>();
     }
 
+    /**
+     * Commit delete work.
+     */
     private void commitDelete() {
         List<Transaction> deletedTransactions = context.get(IUnitOfWork.DELETE);
         for (Transaction transactionRecord : deletedTransactions) {
@@ -136,15 +195,15 @@ public class TransactionRepository implements IUnitOfWork<Transaction> {
 
     @Override
     public void registerClean(Transaction obj) {
-        // TODO Auto-generated method stub
-
     }
 
+    /**
+     * Rollback.
+     *
+     * @return True if the operation was a success, false otherwise.
+     */
     @Override
     public boolean rollback() {
-        // TODO Auto-generated method stub
         return false;
     }
-
-
 }

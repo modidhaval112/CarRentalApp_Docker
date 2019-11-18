@@ -34,10 +34,9 @@ public class TransactionTdg {
      * @param endDate              endDate of transaction
      * @param licensePlateNumber   licensePlateNumber of vehicle
      * @param driversLicenseNumber driversLicenseNumber of client
-     * @return
+     * @return True if the operation was a success, false otherwise.
      */
-    public boolean insert(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
-                          String driversLicenseNumber) {
+    public boolean insert(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber, String driversLicenseNumber) {
         String sql = "CREATE TABLE IF NOT EXISTS " + DatabaseHelper.databaseName + ".  transaction   ( \n" +
                 "                    transactionId VARCHAR(100) PRIMARY KEY, \n" +
                 "                    version INT, \n" +
@@ -90,8 +89,17 @@ public class TransactionTdg {
         }
     }
 
-    public boolean update(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber,
-                          String driversLicenseNumber) {
+    /**
+     * @param recordVersion        Version.
+     * @param transactionId        Transaction id.
+     * @param status               Transaction status.
+     * @param startDate            Transaction start date.
+     * @param endDate              Transaction end date.
+     * @param licensePlateNumber   The license plate number.
+     * @param driversLicenseNumber The drivers license plate number.
+     * @return True if the operation was a success, false otherwise.
+     */
+    public boolean update(int recordVersion, String transactionId, String status, Date startDate, Date endDate, String licensePlateNumber, String driversLicenseNumber) {
 
         java.sql.Date startDateDB = new java.sql.Date(startDate.getTime());
         java.sql.Date endDateDB = new java.sql.Date(startDate.getTime());
@@ -122,6 +130,12 @@ public class TransactionTdg {
         }
     }
 
+    /**
+     * Method to delete a record from the database
+     *
+     * @param transactionId Id of the record to delete from the database.
+     * @return True if the operation was a success, false otherwise.
+     */
     public boolean delete(String transactionId) {
         String statement = "DELETE FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=?";
         try {
@@ -142,6 +156,11 @@ public class TransactionTdg {
         }
     }
 
+    /**
+     * Find all transaction.
+     *
+     * @return A list representation of transactions.
+     */
     public List<Map<String, Object>> findAll() {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction";
         try {
@@ -174,6 +193,12 @@ public class TransactionTdg {
         }
     }
 
+    /**
+     * Find all transaction.
+     *
+     * @param lpr The license plate number.
+     * @return A list representation of transactions.
+     */
     public List<Map<String, Object>> findAll(String lpr) {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction" + " WHERE licensePlateNumber='" + lpr + "'";
         try {
@@ -207,6 +232,12 @@ public class TransactionTdg {
         }
     }
 
+    /**
+     * Find the transaction.
+     *
+     * @param transactionid The transaction id.
+     * @return A representation of the transaction.
+     */
     public Map<String, Object> findTransaction(String transactionid) {
         String sql = "SELECT * FROM " + DatabaseHelper.databaseName + ".transaction where transactionId=\"" + transactionid + "\";";
         try {
@@ -237,5 +268,4 @@ public class TransactionTdg {
             }
         }
     }
-
 }

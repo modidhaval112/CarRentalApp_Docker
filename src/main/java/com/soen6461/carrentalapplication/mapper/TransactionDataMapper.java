@@ -1,29 +1,26 @@
 package com.soen6461.carrentalapplication.mapper;
 
+import com.soen6461.carrentalapplication.model.Transaction;
+import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.soen6461.carrentalapplication.tabledatagateway.ITableGatewayMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-
-import com.soen6461.carrentalapplication.model.Transaction;
-import com.soen6461.carrentalapplication.model.VehicleRecord;
-import com.soen6461.carrentalapplication.tabledatagateway.TransactionTdg;
-
 @Component
 public class TransactionDataMapper implements IDataMapper<Transaction> {
     @Autowired
     private TransactionTdg transactionTdg;
+
     @Autowired
     VehicleRecordDataMapper vrdm;
+
     @Autowired
     ClientRecordDataMapper crdm;
-
 
     /**
      * Transaction record insert mapper
@@ -40,7 +37,7 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
     /**
      * Delete the Transaction record.
      *
-     * @param string The transaction id to delete.
+     * @param id The transaction id to delete.
      * @return True if the operation was a success, false otherwise.
      */
     @Override
@@ -51,30 +48,18 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
     /**
      * Method to update an object data in the database.
      *
-     * @param id                Id of the object to map.
      * @param transactionRecord Object to update.
+     * @return True if the operation was a success, false otherwise.
      */
     @Override
     public boolean update(Transaction transactionRecord) {
         return transactionTdg.delete(transactionRecord.getTransactionId());
-
-        //changed for foreign key constraints
-        /*
-         * return transactionTdg.update(transactionRecord.getVersion(),
-         * transactionRecord.getTransactionId(),
-         * transactionRecord.getStatus().toString(),
-         * transactionRecord.getStartDateObject(), transactionRecord.getEndDateObject(),
-         * transactionRecord.getVehicleRecord().getLpr(),
-         * transactionRecord.getClientRecord().getDriversLicenseNumber());
-         */
     }
-
 
     /**
      * Get all Transaction records.
      *
      * @return True if the operation was a success, false otherwise.
-     * @throws ParseException
      */
     public List findAll() {
         List<Transaction> transactions = new ArrayList<>();
@@ -95,6 +80,12 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
         return transactions;
     }
 
+    /**
+     * Find all transactions related to a vehicle license plate number.
+     *
+     * @param lpr A vehicle license plate number.
+     * @return A list of transactions.
+     */
     public List findAll(String lpr) {
         try {
             List<Transaction> transactions = new ArrayList<>();
@@ -120,20 +111,33 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
         }
     }
 
+    /**
+     * Save the transaction.
+     *
+     * @param objectToSave Object to save in the database.
+     * @return True if the transaction is saved, false otherwise.
+     */
     @Override
     public boolean save(Transaction objectToSave) {
-        // TODO Auto-generated method stub
         return false;
     }
 
-    public Transaction findTransaction(String transactionid) throws NumberFormatException, ParseException, SQLException {
+    /**
+     * Find transaction
+     *
+     * @param transactionId The id of the transaction.
+     * @return The transaction.
+     * @throws NumberFormatException Number formatting exceptions.
+     * @throws ParseException        Parsing exceptions.
+     * @throws SQLException          Exception related to sql.
+     */
+    public Transaction findTransaction(String transactionId) throws NumberFormatException, ParseException, SQLException {
 
-        Map<String, Object> record = transactionTdg.findTransaction(transactionid);
+        Map<String, Object> record = transactionTdg.findTransaction(transactionId);
 
         if (record == null || record.isEmpty()) {
             return null;
         }
-
 
         Transaction transaction = new Transaction(record.get("transactionId").toString(), Integer.parseInt(record.get("version").toString()),
                 crdm.findclient(record.get("driversLicenseNumber").toString()),
@@ -141,16 +145,18 @@ public class TransactionDataMapper implements IDataMapper<Transaction> {
                 record.get("startDate").toString(),
                 record.get("endDate").toString(),
                 Transaction.getStatus((record.get("status").toString())));
-        return transaction;
 
+        return transaction;
     }
 
+    /**
+     * Find transaction.
+     *
+     * @param id The id of the object to retrieve from the database.
+     * @return The transaction matching the id.
+     */
     @Override
     public Transaction find(String id) {
-        // TODO Auto-generated method stub
         return null;
     }
-
-
 }
-

@@ -1,6 +1,7 @@
 package com.soen6461.carrentalapplication.mapper;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +18,33 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
 
     @Autowired
     private TransactionHistoryTdg transactionHistoryTdg;
+
     @Autowired
     private TransactionDataMapper tdm;
 
+    /**
+     * Transaction history mapper class default constructor.
+     */
     public TransactionHistoryMapper() {
     }
 
+    /**
+     * Save the data in the database to persist it.
+     *
+     * @param objectToSave Object to save in the database.
+     * @return True if the operation was a success, false otherwise.
+     */
     @Override
     public boolean save(TransactionHistory objectToSave) {
-        // TODO Auto-generated method stub
         return false;
     }
 
+    /**
+     * Insert an object in the database to persist it.
+     *
+     * @param objectToInsert The object record to insert in the database.
+     * @return True if the operation was a success, false otherwise.
+     */
     @Override
     public boolean insert(TransactionHistory objectToInsert) {
 
@@ -42,24 +58,44 @@ public class TransactionHistoryMapper implements IDataMapper<TransactionHistory>
                 objectToInsert.getYear());
     }
 
+    /**
+     * Update an object in the database to persist it.
+     *
+     * @param objectToUpdate The object record to update in the database.
+     * @return True if the operation was a success, false otherwise.
+     */
     @Override
     public boolean update(TransactionHistory objectToUpdate) {
-        // TODO Auto-generated method stub
         return false;
     }
 
+    /**
+     * Method to delete a record from the database
+     *
+     * @param id Id of the record to delete from the database.
+     * @return True if the operation was a success, false otherwise.
+     */
     @Override
     public boolean delete(String id) {
-        // TODO Auto-generated method stub
         return false;
     }
 
+    /**
+     * Method to retrieve an object from the database.
+     *
+     * @param id The id of the object to retrieve from the database.
+     * @return The object mapping to the given id.
+     */
     @Override
     public TransactionHistory find(String id) {
-        // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * Get all object records from the database.
+     *
+     * @return The list of objects from the database.
+     */
     @Override
     public List<TransactionHistory> findAll() {
         List<TransactionHistory> transactionsHistory = new ArrayList<>();
