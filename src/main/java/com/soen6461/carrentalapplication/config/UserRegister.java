@@ -42,7 +42,8 @@ public class UserRegister {
 
     private List<User> userList = new ArrayList<User>();
 
-    private static Queue<String> adminQueue = new LinkedList<>();
+    public static Queue<String> adminQueue = new LinkedList<>();
+    public boolean exitOtherAdmin;
 
     public void setUserRegisterObject() {
 
@@ -147,6 +148,7 @@ public class UserRegister {
                 if (adminQueue.size() == 0) {
                     adminQueue.add(username);
                 } else {
+                    exitOtherAdmin = true;
                     SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
                 }
             }

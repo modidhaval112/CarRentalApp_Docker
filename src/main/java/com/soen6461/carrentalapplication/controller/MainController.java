@@ -127,6 +127,12 @@ public class MainController {
 			model.addAttribute("msg", "You have been logged out successfully.");
 		}
 
+		if (logout == null && userRegister.exitOtherAdmin)
+		{
+			model.addAttribute("errorMsg", "There is already an admin in the system, please try again later.");
+			userRegister.exitOtherAdmin = false;
+		}
+
 		return "/login";
 	}
 
