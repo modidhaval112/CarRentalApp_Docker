@@ -28,6 +28,8 @@ The project is no longer build and tested using the GitHub action since the test
 
 **In the same directory as the SAD and SRS screen-cast videos are available to present how to setup to run the application and some of the functionalities delivered this iteration.**
 
+**The instructions to check concurrency functionalities is available in the online help when the application is executed**
+
 ### Code Style Convention
 Since this repository is using JAVA, the following guide line must be followed:
 
