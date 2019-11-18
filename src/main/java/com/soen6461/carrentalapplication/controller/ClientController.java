@@ -146,9 +146,6 @@ public class ClientController {
 			e.printStackTrace();
 		}
 
-		System.out.println("Version_db : " + version_db);
-		System.out.println("Version : " + clientRecord.getVersion());
-
 		if (version_db == clientRecord.getVersion()
 				&& !clientRepository.getDirtyMap().containsKey(clientRecord.getDriversLicenseNumber())) {
 

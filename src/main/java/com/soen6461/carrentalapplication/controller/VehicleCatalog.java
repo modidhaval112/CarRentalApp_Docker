@@ -507,8 +507,6 @@ public class VehicleCatalog {
 			e.printStackTrace();
 		}
 
-		System.out.println("Version_db : " + version_db);
-		System.out.println("Version : " + vehicleRecord.getVersion());
 		if (version_db == vehicleRecord.getVersion()
 				&& !vehicleRepository.getDirtyMap().containsKey(vehicleRecord.getLpr())) {
 
