@@ -112,6 +112,23 @@
                         button.</p>
                     <p>Update the client details by clicking on the edit button.</p>
                     <br />
+<%--                    <blockquote class="blockquote">--%>
+                    <fieldset class="border" >
+                        <div class="well well-lg">
+                    <H3 style="color: crimson">Client Record concurrency: Optimistic Offline Lock</H3>
+                        <p>Steps to check Concurrency:</p><br>
+                        <p>1. Login as clerk (username: clerk, password:clerk)  in <b>chrome browser </b></p>
+                        <p>2. Login as clerk1 (username: clerk1, password:clerk1) in <b>another browser (ex: Firefox or Edge or internet explorer)</b></p>
+                        <p>3. Go to client register page</p>
+                        <p>4. Click on edit on the same client record in both clerk and clerk1 session
+                            Excepted action: they will be allowed access to the record</p>
+                        <p>5. Modify the record in both the sessions</p>
+                        <p>6. Click save on clerk session. The record will be saved</p>
+                        <p>7. Click save on clerk1 session. The record will not be saved.
+                            <div class="warning">Error message saying the record has been updated please go back and retrieve the new version of the record will be displayed.</div> </p>
+<%--                    </blockquote>--%>
+                        </div>
+                    </fieldset>
 
                     <H2>Vehicle Catalog</H2>
                     <H3>Navigating the vehicle catalog</H3>
