@@ -11,8 +11,12 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -122,7 +126,7 @@ public class UserRegister {
         public void onApplicationEvent(HttpSessionDestroyedEvent event) {
             System.out.println("Destroyed session");
 
-            if(isAdministratorRole()) {
+            if (isAdministratorRole()) {
                 String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
                 adminQueue.remove(username);
             }
@@ -135,9 +139,9 @@ public class UserRegister {
         @Override
         public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
             UserDetails user = (UserDetails) event.getAuthentication().getPrincipal();
-            System.out.println("LOGIN name: "+user.getUsername());
+            System.out.println("LOGIN name: " + user.getUsername());
 
-            if(isAdministratorRole()) {
+            if (isAdministratorRole()) {
                 String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
                 adminQueue.add(username);
             }
