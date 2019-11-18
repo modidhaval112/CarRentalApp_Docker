@@ -117,7 +117,7 @@ public class VehicleRecordTdg {
 
 
     public boolean delete(String licensePlateNumber) {
-        String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`vehicleRecord` where `licensePlateNumber `=?";
+        String statement = "DELETE FROM `" + DatabaseHelper.databaseName + "`.`vehicleRecord` where `licensePlateNumber`=?";
         Connection con = null;
         try {
             con = this.dataSource.getConnection();

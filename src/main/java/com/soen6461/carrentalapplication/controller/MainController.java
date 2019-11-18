@@ -251,7 +251,7 @@ public class MainController {
 			redirectAttributes.addFlashAttribute("successMsg", "  Car has been returned.");
 		} else {
 			redirectAttributes.addFlashAttribute("errorMsg",
-					"  This transaction has already been returned or cancelled by another Admin");
+					"  This transaction has already been returned or cancelled by another Clerk");
 		}
 		
 		return "redirect:/vehicle-catalog";
@@ -563,24 +563,19 @@ public class MainController {
 	public String deleteVehicleRecord(@PathVariable("id") String lpr, RedirectAttributes redirectAttributes) {
 
 		vehicleCatalog.persistData();
+		
+		String message = vehicleCatalog.deleteVehicleRecord(lpr);
 
-		VehicleRecord selectedVehicle = vehicleCatalog.getVehicleRecord(lpr);
-		List<Transaction> transactionList = selectedVehicle.getVehicleTransactionList();
-
-		for (int i = 0; i < transactionList.size(); i++) {
-			if (transactionList.get(i).getStatus().equals(Transaction.Status.Rented)
-					|| (transactionList.get(i).getStatus().equals(Transaction.Status.Reserved))) {
-				redirectAttributes.addFlashAttribute("errorMsg",
-						"  To delete vehicle record all the transactions status must be 'Returned' or 'Cancelled'.");
-				return "redirect:/vehicle-register";
-			}
+		if(message.equalsIgnoreCase("  To delete vehicle record all the transactions under it's must be 'Returned' or 'Cancelled'.")) {
+			redirectAttributes.addFlashAttribute("errorMsg", message);
 		}
-
-		if (vehicleCatalog.deleteVehicleRecord(lpr)) {
-			redirectAttributes.addFlashAttribute("warningMsg", "  Vehicle Record has been deleted.");
-		} else {
-			redirectAttributes.addFlashAttribute("errorMsg", "  Vehicle Record has already been deleted.");
+		else if(message.equalsIgnoreCase(" Vehicle Record has been already deleted or updated by another Admin.")) {
+			redirectAttributes.addFlashAttribute("errorMsg", message);
 		}
+		else if(message.equalsIgnoreCase(" Vehicle Record has been deleted successfully")) {
+			redirectAttributes.addFlashAttribute("warningMsg", message);
+		}
+		
 
 		return "redirect:/vehicle-register";
 	}

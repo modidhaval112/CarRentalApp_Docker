@@ -29,7 +29,7 @@
 <div class="container">
 
     <!-- Search box-->
-    <form method="GET" action="${contextPath}/translist-filter"
+    <form method="GET" action="#"
           class="input-group mb-3">
         <div class="input-group mb-3">
 <%--            <div class="input-group-prepend">--%>
@@ -83,9 +83,9 @@
     <div class="btn-group" role="group">
         <a class=" btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/trans-list"
            style="width:200px" >All</a>
-        <a class="btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/overdue-trans-list"
-           style="width:200px">Over Due</a>
-        <a class="btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/due-today-trans-list" style="width:200px">Due Today</a>
+<%--        <a class="btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/overdue-trans-list"--%>
+<%--           style="width:200px">Over Due</a>--%>
+<%--        <a class="btn btn-outline-secondary btn-sm active" href="${pageContext.request.contextPath }/due-today-trans-list" style="width:200px">Due Today</a>--%>
     </div>
     <%--		</div>--%>
 
