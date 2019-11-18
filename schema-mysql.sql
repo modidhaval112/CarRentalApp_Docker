@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS clientRecord   (
 # "Creation table for transaction."
 #---------------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS transaction   ( 
-                    transactionId VARCHAR(50) PRIMARY KEY, 
+                    transactionId VARCHAR(100) PRIMARY KEY, 
                     version INT, 
                     status VARCHAR(50), 
                     startDate Date ,
@@ -61,7 +61,10 @@ CREATE TABLE IF NOT EXISTS transactionHistory   (
                     startDate Date,
                     endDate Date,
                     status VARCHAR(60),
-                    timestamp VARCHAR(60)
+                    timestamp VARCHAR(60),
+                    color VARCHAR(60),
+                    make VARCHAR(60),
+                    year INT
                     
                 );
 #----------------------------------------------------------------------------------------------------------------------
