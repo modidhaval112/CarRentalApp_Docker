@@ -41,9 +41,25 @@
 
 			document.getElementById('fromDate2' + lpr.replace('status2', '')).readOnly = true;
 			let current_datetime = new Date();
+
+			let dateValue = current_datetime.getDate();
+
+			console.log("dateValue : " + dateValue);
+			console.log("dateValue.length : " + dateValue.toString().length);
+			
+			if(dateValue.toString().length == "1"){
+				console.log("inside");
+				var a = 0;
+				dateValue = "" + a + dateValue;
+				console.log("Single digit date : " + dateValue);
+			}
+			
 			let formatted_date = current_datetime.getFullYear() + "-"
 					+ (current_datetime.getMonth() + 1) + "-"
-					+ current_datetime.getDate();
+					+ dateValue;
+
+
+			
 			console.log(formatted_date);
 			document.getElementById('fromDate2' + lpr.replace('status2', '')).value = formatted_date;
 		} else {
